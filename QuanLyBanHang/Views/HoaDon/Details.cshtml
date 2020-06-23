@@ -1,0 +1,90 @@
+﻿@model QuanLyBanHang.Models.HoaDon
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>HoaDon</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.PhuongThucThanhToan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhuongThucThanhToan)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SoNha)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SoNha)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Quan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Quan)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TongTienThanhToan)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TongTienThanhToan)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.GhiChu)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.GhiChu)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TrangThai)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TrangThai)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ThoiGianChoXuLy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ThoiGianChoXuLy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.ThoiGianDaXuLy)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.ThoiGianDaXuLy)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.KhachHang)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.KhachHang.KhachHangId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NhanVien)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NhanVien.NhanVienId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.PhiShip)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.PhiShip.PhiShipId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.HoaDonId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

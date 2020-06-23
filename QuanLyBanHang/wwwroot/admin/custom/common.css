@@ -1,0 +1,101 @@
+
+/* <========== style common ==========>*/
+ a:hover, a:active, a:visited, a:focus {
+    text-decoration: none;
+}
+li{
+	list-style-type: none;
+}
+/* <========== End style common ==========>*/
+
+/* <========== Header style ==========>*/
+header{
+	background-color: #2B3142;
+}
+
+header h2{
+	margin:15px 0;
+	margin-left: 60px;
+	float: left;
+	color: #4AFFFF;
+	font-family: Myriad Pro;
+}
+
+.login {
+	display: inline;
+	color: #fff;
+}
+
+.fa-user {
+	color: #4AFFFF;
+	width: 21px;
+	height: 21px;
+	text-align: center;
+	font-size: 18px;
+    border: 2px solid;
+    border-radius: 50%;
+    -moz-border-radius: 50%;
+    -webkit-border-radius: 50%;
+    --border-radius: 50%;
+}
+
+.logout {
+	display: inline;
+	color: #FFFFFF;
+	margin-left: 15px;
+	font-size: 18px;
+}
+.login_logout {
+	float: right;
+	margin: 20px 30px 17px 0;
+}
+/* <========== End header style ==========>*/
+.menu {
+	background-color: #2B3142;
+	height: 800px;
+	box-sizing: border-box;
+}
+.content {
+	height: 800px;
+	padding: 0px;
+}
+
+
+/* <========== Menu style ==========>*/
+.menu {
+	padding: 0px;
+}
+.menu-usesmanagement li a i { 
+	font-size: 14px !important;
+}
+
+.list-group {
+	border: none;
+}
+.list-group ul {
+	padding-left: 0px;
+}
+.list-group ul li a i { 
+	font-size: 18px;
+}
+.list-group ul li a { 
+	color: white;
+	padding: 15px 0px 15px 40px;
+	background-color: #2B3142 !important;
+	border: none;
+}
+
+.child {
+	padding-left: 75px !important;
+}
+
+.list-group ul li a:hover {
+	background-color: #272C3C !important;
+	color: #4AFFFF;
+}
+.list-group ul li a:focus {
+	background-color: #272C3C !important;
+	color: #4AFFFF;
+}
+
+/* <========== End Menu style ==========>*/

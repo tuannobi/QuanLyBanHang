@@ -1,0 +1,111 @@
+﻿@model IEnumerable<QuanLyBanHang.Models.HoaDon>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+    <link rel="stylesheet" href="~/admin/css/khachhang.css" />
+}
+
+<div class="background-popup">
+
+
+</div>
+<div class="container">
+    <div class="header-content">
+        <h2>Danh sách hóa đơn</h2>
+        <div class="header-event">
+            <a class="add-user btn" id="print-bill">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                In trang
+            </a>
+            <a class="add-user btn" id="bill">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Hóa đơn chờ xử lý
+            </a>
+        </div>
+    </div>
+    <div class="content-content">
+        <table class="table table-hover tm-table-small ">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="checkall" /></th>
+                    <th scope="col">Mã hóa đơn</th>
+                    <th scope="col">Nhân viên tạo</th>
+                    <th scope="col">Khách hàng</th>
+                    <th scope="col">Địa chỉ</th>                    
+                    <th scope="col">Tổng tiền</th>
+                    <th scope="col">Phí ship</th>
+                    <th scope="col">Tổng tiền thanh toán</th>
+                    <th scope="col">Phương thức thanh toán</th>
+                    <th scope="col">Trạng thái</th>
+                    <th scope="col">Ghi chú</th>
+                   
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                <tr>
+                    <td scope="row"><input type="checkbox" class="tick" name="listcustom" value="@item.HoaDonId" /></td>
+                    <td>
+                        @item.HoaDonId
+                    </td>
+                    <td>
+                        @item.NhanVien.HoTen
+                    </td>
+                    <td>
+                        @item.KhachHang.HoTen
+                    </td>
+                    <td>
+                        @item.SoNha @item.Quan
+                    </td>                    
+                    <td>
+                        @item.TongTien
+                    </td>
+                    <td>
+                        @item.PhiShip.ChiPhi
+                    </td>
+                    <td>
+                        @item.TongTienThanhToan
+                    </td>
+                    <td>
+                        @item.PhuongThucThanhToan
+                    </td>
+                    <td>
+                        @item.TrangThai
+                    </td>
+                    <td>
+                        @item.GhiChu
+                    </td>
+                   
+                    <td>
+                        <div>
+                            <a onclick="Update(@item.HoaDonId)" class="btn tm-product-delete-link" id="update-staff"><i class="fas fa-edit tm-product-delete-icon"></i></a>
+                            <a onclick="Delete(@item.HoaDonId)" class="tm-product-delete-link" id="delete-staff"><i class="far fa-trash-alt tm-product-delete-icon"></i></a>
+                            <a onclick="Detail(@item.HoaDonId)" class="btn tm-product-delete-link" id="detail-staff"><i class="fas fa-eye tm-product-delete-icon"></i></a>
+                        </div>
+                    </td>
+                </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <br />
+    <br />
+    <!-- table container -->
+
+</div>
+
+
+@section Scripts{
+    <script src="~/admin/js/khachhang.js"></script>
+
+}

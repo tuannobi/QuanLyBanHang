@@ -1,0 +1,48 @@
+﻿@model QuanLyBanHang.Models.ChiTietHoaDon
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>ChiTietHoaDon</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.SoLuong)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SoLuong)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TienKhuyenMai)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TienKhuyenMai)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.TongTien)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.TongTien)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.HoaDon)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.HoaDon.HoaDonId)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.SanPham)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.SanPham.SanPhamId)
+        </dd>
+    </dl>
+</div>
+<div>
+    @Html.ActionLink("Edit", "Edit", new { /* id = Model.PrimaryKey */ }) |
+    <a asp-action="Index">Back to List</a>
+</div>

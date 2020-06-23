@@ -1,0 +1,104 @@
+﻿.background-popup {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+.error {
+    color: red;
+}
+
+#formthem {
+    background-color: white;
+    color: black;
+}
+
+#popup-them-header {
+    font-weight: bold;
+    background-color: #495057;
+    padding-top: 10px;
+    padding-bottom: 10px;
+    padding-left: 40px;
+    padding-right: 80px;
+    margin-bottom: 15px;
+}
+
+#popup-body-button {
+    margin-right: 20px;
+}
+
+.background-popup-delete {
+    height: 100%;
+    width: 100%;
+    background-color: rgba(0, 0, 0, .5);
+    display: none;
+    position: fixed;
+    z-index: 1;
+    top: 0;
+    left: 0;
+    bottom: 0;
+    right: 0;
+}
+
+#form-delete {
+    background-color: white;
+    padding: 20px;
+    border: 1px solid;
+    border-radius: 25px;
+    color: black;
+}
+
+#button-form-delete {
+    display: flex;
+    justify-content: center;
+    margin-top: 10px;
+}
+
+
+#tablediv {
+    background-color: #FFFFFF;
+    width: 100%;
+}
+
+.form-control {
+    background-color: #ced4da;
+    color: #545b62;
+}
+
+.form-group label {
+    color: #495057;
+    margin-bottom: 0px;
+}
+
+.custom-select {
+    background-color: #ced4da;
+    color: #545b62;
+}
+
+#formsua {
+    background-color: white;
+    color: black;
+}
+
+#formchitiet {
+    background-color: white;
+    color: black;
+}
+
+.search {
+    margin-top: 3px;
+    margin-bottom: 5px;
+}
+
+#search {
+    background-color: #272F44;
+    color: white;
+    border-radius: 8px;
+}

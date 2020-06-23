@@ -1,0 +1,91 @@
+﻿@model QuanLyBanHang.Models.NhanVien
+
+@{
+    ViewData["Title"] = "Edit";
+    Layout = "";
+}
+
+
+
+<form id="formsua" asp-action="Edit" method="POST">
+    <div id="popup-them-header" class="font-weight-bold" style="color:white">Sửa nhân viên</div>
+    <div id="popup-them-body">
+        <div class="col-6 d-inline-block" id="div-trai">
+            <div class="form-group row">
+                <label for="them_ho" class="col-5 col-form-label font-weight-bold">Mã nhân viên</label>
+                <div class="col-sm-7">
+                    <input type="text" readonly class="form-control" asp-for="NhanVienId" value="@ViewBag.NhanVien.NhanVienId" aria-describedby="emailHelp">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="them_ho" class="col-5 col-form-label font-weight-bold">Họ và tên</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" asp-for="HoTen" value="@ViewBag.NhanVien.HoTen" aria-describedby="emailHelp">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label for="them_ngaysinh" class="col-5 col-form-label font-weight-bold">Ngày sinh</label>
+                <div class="col-sm-7">
+                    
+                    <input type="datetime-local" class="form-control" asp-for="NgaySinh" value="@ViewBag.NgaySinh" aria-describedby="emailHelp">
+                  
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="them_email" class="col-5 col-form-label font-weight-bold">Email</label>
+                <div class="col-sm-7">
+                    <input type="email" class="form-control" asp-for="Email" value="@ViewBag.NhanVien.Email" aria-describedby="emailHelp">
+                </div>
+            </div>
+
+            <div class="form-group row">
+                <label class="col-5 font-weight-bold" for="them_sdt">Số điện thoại</label>
+                <div class="col-sm-7">
+                    <input type="tel" class="form-control" asp-for="Sdt" value="@ViewBag.NhanVien.Sdt" aria-describedby="emailHelp">
+                </div>
+            </div>
+           <br />
+        </div>
+
+        <div class="col-6 float-right" id="div-phai">
+            <div class="form-group row">
+                <label for="them_diachi" class="col-4 col-form-label font-weight-bold">Địa chỉ</label>
+                <div class="col-sm-7">
+                    <input type="text" class="form-control" asp-for="DiaChi" value="@ViewBag.NhanVien.DiaChi" aria-describedby="emailHelp">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 font-weight-bold" for="them_loaisanpham">Tên đăng nhập</label>
+                <div class="col-7">
+                    <input type="text" readonly class="form-control" asp-for="TaiKhoan.Username" value="@ViewBag.TaiKhoan.Username" aria-describedby="emailHelp">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-4 font-weight-bold" for="them_loaisanpham">Mật khẩu</label>
+                <div class="col-7">
+                    <input type="password" class="form-control" asp-for="TaiKhoan.Password" value="@ViewBag.TaiKhoan.Password" aria-describedby="emailHelp">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for="them_diachi" class="col-4 col-form-label font-weight-bold">Ngày tạo</label>
+                <div class="col-sm-7">
+                    <input type="datetime" readonly class="form-control" asp-for="TaiKhoan.NgayTao" value="@ViewBag.TaiKhoan.NgayTao" aria-describedby="emailHelp">
+                </div>
+            </div>
+
+
+        </div>
+
+    </div>
+
+    <div id="popup-body-button" class="float-right  mb-3 mt-2">
+        <button type="submit" class="btn btn-success" value="Edit">Lưu</button>
+        <button type="button" class="btn btn-danger" id="cancel-button">Hủy bỏ</button>
+    </div>
+
+</form>
+
+
+
+

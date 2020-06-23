@@ -1,0 +1,254 @@
+﻿
+@{
+    ViewData["Title"] = "LayoutClient";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+
+    <title>@ViewData["Title"] - FoodOrderingWebApp</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="~/client/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/client/css/bootstrap-theme.min.css">
+    <link rel="stylesheet" type="text/css" href="~/client/css/css/header.css">
+    <link rel="stylesheet" type="text/css" href="~/client/css/css/footer.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    @RenderSection("links", required: false)
+</head>
+<body>
+    <!--Header ============================================= -->
+    <header id="header" class="">
+        <div class="header-wrap">
+            <div class="container">
+                <div id="logo">
+                    <h1>
+                        <a href="/HomePage" title="">
+                            <img src="~/client/images/icon/logo.png" alt="">
+                        </a>
+                    </h1>
+                </div>
+                <div class="navbar-default" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">SẢN PHẨM <b class="caret"></b></a>
+                            <ul class="dropdown-menu category">
+                                <li><a href="#" itemprop="111">Sản phẩm nổi bật</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" itemprop="111">Sản phẩm mới</a></li>
+                                <li class="divider"></li>
+                                <li><a href="#" itemprop="Sản phẩm khuyến mãi">Sản phẩm khuyến mãi</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">TRANG ĐIỂM <b class="caret"></b></a>
+                            <ul class="dropdown-menu category">
+                                <li><a href="" itemprop="1">Tất cả</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=9" itemprop="4">Son môi</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=10" itemprop="5">Trang điểm mắt</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=11" itemprop="6">Trang điểm mặt</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">CHĂM SÓC DA <b class="caret"></b></a>
+                            <ul class="dropdown-menu category">
+                                <li><a href="" itemprop="2">Tất cả</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=12" itemprop="7">Mặt nạ</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=13" itemprop="8">Xịt khoáng</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=14" itemprop="9">Kem chống nắng</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown">NƯỚC HOA <b class="caret"></b></a>
+                            <ul class="dropdown-menu category">
+                                <li><a href="" itemprop="3">Tất cả</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=15" itemprop="10">Nước hoa nữ</a></li>
+                                <li class="divider"></li>
+                                <li><a href="/Category?id=16" itemprop="11">Nước hoa nam</a></li>
+                            </ul>
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown">TẠP CHÍ <b class="caret"></b></a>
+                            <ul class="dropdown-menu">
+                                <li><a href="/TapChi/LamDep" itemprop="">Làm đẹp</a></li>
+                                <li class="divider"></li>
+                                <li><a href="" itemprop="">Sống khỏe</a></li>
+                                <li class="divider"></li>
+                                <li><a href="" itemprop="">Girl</a></li>
+                                <li class="divider"></li>
+                                <li><a href="" itemprop="">Tuổi teen</a></li>
+                            </ul>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <div class="navbar-default" role="navigation">
+                    <ul class="nav navbar-nav">
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="~/client/images/icon/search.png" alt="" style="width: 22px"></a>
+                            <input type='text' class='dropdown-menu' id='search' style="width: 300px">
+                        </li>
+                        <li>
+                            <a href="#" class="dropdown-toggle" data-toggle="dropdown"><img src="~/client/images/icon/user.png" alt="" style="width: 17px"></a>
+                            @if (ViewBag.username == null)
+                            {
+                                <ul class="dropdown-menu not-session">
+                                    <li><a href="/Login">Đăng nhập</a></li>
+                                    <li class="divider"></li>
+                                    <li><a href="/Register">Đăng ký</a></li>
+                                </ul>
+
+                            }
+                            else
+                            {
+                                <ul class="dropdown-menu have-session">
+                                    <li><a href="/Logout">Đăng xuất</a></li>
+                                </ul>
+                            }
+                        </li>
+                        <li class="cart">
+                            <a href="" class="dropdown-toggle" data-toggle="dropdown"><img src="~/client/images/icon/shop-cart-icon.png" alt="" style="width: 22px"></a>
+                            @if (ViewBag.soLuong != 0)
+                            {
+                                <span class="top_cart_qty">@ViewBag.soLuong</span>
+                            }
+                        </li>
+                        @if (ViewBag.username != null)
+                        {
+                            <li>
+                                Xin chào @ViewBag.username
+                            </li>
+                        }
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </header>
+    <div class="clear"></div>
+    <div class="line"></div>
+    <!--Header ============================================= -->
+    @RenderBody()
+
+    <footer id="footer" class="dark">
+        <div class="container">
+            <div class="style1">
+                <div class="row">
+                    <div class="prefoorerone">
+                        <a href="#" title="">
+                            <img src="~/client/images/icon/footer_logo.png" alt="">
+                        </a>
+                        <p>Mua hàng trực tuyến mang lại sự tiện lợi, lựa chọn đa dạng hơn và các dịch vụ tốt hơn cho người tiêu dùng. The Beauty được triển khai với mong muốn trở thành trung tâm mua sắm trực tuyến số 1 tại Việt Nam</p>
+                    </div>
+                    <div class="prefoorerone">
+                        <div class="">
+                            <h4>Liên hệ</h4>
+                            <p>Kênh mua sắm trực tuyến giá tốt hàng đầu Việt Nam. Nơi bạn yên tâm mua sắm hàng chính hãng, giá tốt nhất. Miễn phí giao hàng toàn quốc</p>
+                            <address>
+                                <p>
+                                    <img alt="address" src="~/client/images/icon/Maps-icon.png">
+                                    <i class="fa "></i>
+                                    <span>Ký túc xá Khu B ĐH QG TP HCM</span>
+                                </p>
+                                <p>
+                                    <img alt="phone" src="~/client/images/icon/Phone-icon.png">
+                                    <a style="color: white;">0942419862</a>
+                                </p>
+                                <p>
+                                    <img alt="email" src="~/client/images/icon/Places-mail-message-icon.png">
+                                    <a style="color: white;">ngochuyen2025@gmail.com</a>
+                                </p>
+                            </address>
+                        </div>
+                    </div>
+                    <div class="prefoorerone">
+                        <div class="">
+                            <h4 class="">Giới thiệu</h4>
+                            <ul class="widget_content" style="display: block;">
+                                <li><a href="shopbeauty.php">Tất cả sản phẩm</a></li>
+                                <li><a href="category.php?id=1&sortby=default&loc=all&locgia=all&search=all">Trang điểm</a></li>
+                                <li><a href="category.php?id=2&sortby=default&loc=all&locgia=all&search=all">Chăm sóc da</a></li>
+                                <li><a href="category.php?id=3&sortby=default&loc=all&locgia=all&search=all">Nước hoa</a></li>
+                                <li><a href="tapchi-thoitrang.php">Tạp chí</a></li>
+                                <li><a href="tapchi-thoitrang.php">Blog</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="prefoorerone">
+                        <div class="widget widget_links clearfix">
+                            <h4 class="widget_trigger">Hướng dẫn</h4>
+                            <ul class="widget_content">
+                                <li><a href="cau-hoi-thuong-gap.php">Câu hỏi thường gặp</a></li>
+                                <li><a href="chinh-sach-doi-tra.php">Chính sách đổi trả</a></li>
+                                <li><a href="huong-dan-bao-quan.php">Hướng dẫn bảo quản</a></li>
+                                <li><a href="huong-dan-thanh-toan.php">Hướng dẫn thanh toán</a></li>
+                                <li><a href="huong-dan-bao-quan.php">Hướng dẫn mua hàng</a></li>
+                                <li><a href="chinh-sach-giao-hang.php">Chính sách giao hàng</a></li>
+                            </ul>
+                        </div>
+                    </div>
+                    <div class="prefoorerone">
+                        <div class="certification">
+                            <h4>Chứng nhận</h4>
+                            <img src="~/client/images/payment_img.png" alt="">
+                            <a href="#" title="">
+                                <img src="~/client/images/register_img.png" alt="">
+                            </a>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="copyright">
+            <div class="container">
+                <center><p>Copyright 2019-Trường đại học Công nghệ thông tin</p></center>
+            </div>
+        </div>
+    </footer>
+
+
+    <!--jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="~/client/js/bootstrap.min.js"></script>
+    <script type="text/javascript">
+        var count = "<?php echo $count; ?>";
+        if (count == 0) {
+            $(".top_cart_qty").hide();
+        }
+        $(document).ready(function () {
+            /*$(".category li a").click(function () {
+                var id_menu = $(this).attr("itemprop");
+                var sort = "default";
+                var loc = 'all';
+                var locgia = 'all';
+                $(this).attr('href', 'category.php?id=' + id_menu + '&sortby=' + sort + '&loc=' + loc + '&locgia=' + locgia + '&search=' + 'all');
+            });*/
+
+            $(".cart").click(function () {
+                window.location.replace("/GioHang/Details");
+            });
+
+            /*$('#search').on('change', function () {
+                var nd = $(this).val();
+                var sort = 'default';
+                var loc = 'all';
+                var locgia = 'all';
+                window.location.replace('category.php?id=all&sortby=' + sort + '&loc=' + loc + '&locgia=' + locgia + '&search=' + nd);
+            });*/
+        });
+    </script>
+    @RenderSection("scripts", required: false)
+</body>
+</html>

@@ -1,0 +1,107 @@
+﻿@model IEnumerable<QuanLyBanHang.Models.TaiKhoan_NhanVien_KhachHang_Admin_VaiTro>
+
+@{
+    ViewData["Title"] = "GetAdmin";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+    <link rel="stylesheet" href="~/admin/css/admin.css" />
+}
+<div class="background-popup">
+
+
+</div>
+<div class="container">
+    <div class="header-content">
+        <h2>Danh sách tài khoản</h2>
+
+        <div class="header-event">
+           
+
+            <!-- 1. Đoạn cần thêm -->
+            @using (Html.BeginForm("GetAdmin", "TaiKhoan", FormMethod.Get))
+            {
+                <p class="search">
+                    Title: @Html.TextBox("SearchString")  <input type="submit" value="Tìm kiếm" id="search"/>
+                </p>
+            }
+           @* <input type="text" id="SearchString" name="SearchString" class="col-sm-7" />
+            <input type="submit" value="SearchString" />
+            <a class="add-user btn" id="add-custom" asp-action="GetAdmin" Value="SearchString">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Tìm kiếm
+            </a>*@
+            <a class="add-user btn" id="add-admin">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Thêm tài khoản
+            </a>
+
+        </div>
+    </div>
+    <div class="content-content">
+        <table class="table table-hover tm-table-small ">
+            <thead>
+                <tr>
+                    <th scope="col"><input type="checkbox" id="checkall" /></th>
+                    <th scope="col">Mã tài khoản</th>
+                    <th scope="col">Họ và tên</th>
+                    <th scope="col">Tên đăng nhập</th>
+                    <th scope="col">Mật khẩu</th>
+                    <th scope="col">Ngày tạo</th>
+                    <th scope="col">Vai trò</th>
+                    <th scope="col">Chức năng</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <td scope="row"><input type="checkbox" class="tick" name="listadmin" value="@item.admin.Adminid" /></td>
+                        <td>
+                            @item.taiKhoan.TaiKhoanId
+                        </td>
+                        <td>
+                            @item.admin.HoTen
+                        </td>
+                        <td>
+                            @item.taiKhoan.Username
+                        </td>
+                        <td>
+                            @item.taiKhoan.Password
+                        </td>
+                        <td>
+                            @item.taiKhoan.NgayTao
+                        </td>
+                        <td>
+                            @item.vaiTro.MoTa
+                        </td>
+                        <td>
+                            <div>
+                                <a onclick="Update(@item.admin.Adminid)" class="btn tm-product-delete-link" id="update-staff"><i class="fas fa-edit tm-product-delete-icon"></i></a>
+                                <a onclick="Delete(@item.admin.Adminid)" class="tm-product-delete-link" id="delete-staff"><i class="far fa-trash-alt tm-product-delete-icon"></i></a>
+                                <a onclick="Detail(@item.admin.Adminid)" class="btn tm-product-delete-link" id="detail-staff"><i class="fas fa-eye tm-product-delete-icon"></i></a>
+                            </div>
+                        </td>
+
+                    </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+
+
+    <br />
+    <br />
+    <!-- table container -->
+
+</div>
+
+
+@section Scripts{
+    <script src="~/admin/js/admin.js"></script>
+
+}
