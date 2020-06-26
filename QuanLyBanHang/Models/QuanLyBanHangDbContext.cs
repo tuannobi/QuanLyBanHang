@@ -32,6 +32,7 @@ namespace QuanLyBanHang.Models
         public virtual DbSet<SanPham> SanPham { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<VaiTro> VaiTro { get; set; }
+        public virtual DbSet<ThongTinHoaDon> ThongTinHoaDon { get; set; }
         public object HttpContext { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -39,7 +40,7 @@ namespace QuanLyBanHang.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;port=3306;database=quanlybanhang;user=root;password=123456");
+                optionsBuilder.UseMySql("server=localhost;port=3306;database=quanlybanhang;user=root;password=");
             }
         }
 

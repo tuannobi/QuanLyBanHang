@@ -1,0 +1,68 @@
+﻿@model QuanLyBanHang.Models.SanPham
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_adduser.css" />
+}
+
+<div class="container">
+    <div class="header-content">
+        <h2>Thêm sản phẩm</h2>
+    </div>
+    <div class="content-content">
+        <form id="addproduct" asp-action="Create" enctype="multipart/form-data" method="post">
+            <label asp-for="TenSanPham">Tên sản phẩm</label>
+            <input type="text" id="name" required="" asp-for="TenSanPham">
+
+            <label asp-for="GiaBanLe">Giá</label>
+            <input asp-for="GiaBanLe" type="text" id="gia" required="">
+
+            <label asp-for="Kho">Số lượng</label>
+            <input asp-for="Kho" type="text" id="soluong" required="">
+
+            <label asp-for="ThuongHieu">Thương hiệu</label>
+            <input asp-for="ThuongHieu" type="text" id="thuonghieu" required="">
+
+            <label asp-for="TrangThai">Trạng thái</label>
+            <input asp-for="TrangThai" type="text" required="">
+
+            <label>Loại sản phẩm</label>
+            <select style="width:200px" asp-for="PhanLoaiId" asp-items="ViewBag.PhanLoaiId">
+                <option value="">Chọn loại sản phẩm</option>
+            </select>
+            <br>
+
+            <label asp-for="MoTa">Mô tả</label>
+            <input asp-for="MoTa" type="text" id="mota" required="">
+            <label>Link sản phẩm</label>
+            <input type="file" id="uploadFile" name="files" multiple="multiple">
+
+            <br>
+            <label>Ảnh sản phẩm</label>
+            <div id="image_preview"></div>
+
+            <div class="clearfix"></div>
+            <div class="row add_cancel" style="text-align: right;">
+                <input type="submit" value="Add" id="btnadd">
+                <button class="btncancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function (e) {
+            $("#uploadFile").change(function () {
+                $('#image_preview').html("");
+                var total_file = document.getElementById("uploadFile").files.length;
+                for (var i = 0; i < total_file; i++) {
+                    $('#image_preview').append("<img src='" + URL.createObjectURL(event.target.files[i]) + "'>");
+                }
+            });
+        });
+    </script>
+}
+
