@@ -61,37 +61,37 @@
                         @foreach (var item in ViewBag.productList)
                         {
                             /*Định dạng theo tiền việt nam*/
-                        var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
-                        decimal giaBanLe = (decimal)item.GiaBanLe;
+
+                            int giaBanLe = (int)item.GiaBanLe;
+                            System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
+                            nfi.CurrencyPositivePattern = 1;
+
+                            var index = item.HinhAnh.IndexOf(',');
+                            string hinhanh;
+                            if (index != -1) hinhanh = item.HinhAnh.Substring(0, index);
+                            else hinhanh = item.HinhAnh;
                             <div class="product_single col-xs-6 col-md-3">
                                 <div class="product product_one clearfix ">
                                     <div class="product-image">
                                         <a href="/ChiTietSanPham?id=@item.SanPhamId">
-                                            <img src="~/client/images/product/@item.HinhAnh" alt="">
+                                            <img src="~/client/images/product/@hinhanh" alt="">
                                         </a>
                                         <div class="quick_action clearfix">
                                             <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>
                                             <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                         </div>
-                                        @*<?php
-                                        if($sale != 0)
-                                        {
-                                        ?>*@
                                         <div class="sale-flash">-<?=$sale?>%</div>
-                                        @*<?php
-                                        }
-                                        ?>*@
                                     </div>
                                     <div class="product-desc">
                                         <div class="product-title">
                                             <h3>
-                                                <a href="" itemprop="" title="@item.TenSanPham">
+                                                <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="@item.TenSanPham">
                                                     <p>@item.TenSanPham</p>
                                                 </a>
                                             </h3>
                                         </div>
                                         <div class="product-price">
-                                            <ins>@String.Format(info, "{0:c}", giaBanLe);</ins>
+                                            <ins>@string.Format(nfi, "{0:C0}", giaBanLe)</ins>
                                         </div>
                                     </div>
                                 </div>

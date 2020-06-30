@@ -6,23 +6,18 @@
 }
 @section Links{
     <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
-    <link rel="stylesheet" href="~/admin/css/khachhang.css" />
-
 }
 <div class="container">
-    
     <div class="header-content">
         <h2>Danh sách sản phẩm</h2>
-        <div class="header-event">
-            <a class="add-user btn" href="/SanPham/Create">
-                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-                Thêm sản phẩm
-            </a>
-            <a class="add-user btn" onclick="DeleteSelected()">
-                <i class="fa fa-minus"></i>&nbsp;
-                Xóa sản phẩm
-            </a>
-        </div>
+        <a class="add-user" onclick="DeleteSelected()">
+            <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+            Xóa sản phẩm
+        </a>
+        <a class="add-user" href="/SanPham/Create">
+            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+            Thêm sản phẩm
+        </a>
     </div>
     <div class="content-content vertical-menu">
         <table>
@@ -48,7 +43,7 @@
                     <th><input type="checkbox" class="tick" name="listproduct" value="@item.SanPhamId" /></th>
                     <td style="text-align: center;">@item.SanPhamId</td>
                     <td>@item.TenSanPham</td>
-                    <td style="text-align: center;"><img src="/client/images/@hinhanh"></td>
+                    <td style="text-align: center;"><img src="/client/images/product/@hinhanh"></td>
                     <td>@item.ThuongHieu</td>
                     <td style="text-align: center;">@item.GiaBanLe</td>
                     <td style="text-align: center;">@item.Kho</td>

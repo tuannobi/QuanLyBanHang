@@ -107,6 +107,7 @@ namespace QuanLyBanHang.Controllers
                 hoaDon.ChiTietHoaDon = chiTietHoaDons;
                 context.Add(hoaDon);
                 context.SaveChanges();
+                HttpContext.Session.Remove("gioHangSession");
             }
             return Redirect("/Homepage");
         }

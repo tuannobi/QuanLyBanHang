@@ -34,7 +34,7 @@ namespace QuanLyBanHang.Controllers
         private void PopulateCategoryDropDownList(object selectedCategory = null)
         {
             var CategoryQuery = from d in _context.PhanLoai
-                                where d.NhomLoai != null
+                                where d.NhomLoai != null && d.NhomLoai > 1 && d.NhomLoai < 5
                                 orderby d.PhanLoaiId
                                 select d;
             ViewBag.PhanLoaiId = new SelectList(CategoryQuery.AsNoTracking(), "PhanLoaiId", "Loai", selectedCategory);
@@ -53,7 +53,7 @@ namespace QuanLyBanHang.Controllers
             var hinhanh = "";
             foreach (var photo in files)
             {
-                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/client/images", photo.FileName);
+                var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/client/images/product", photo.FileName);
                 var stream = new FileStream(path, FileMode.Create);
                 await photo.CopyToAsync(stream);
                 hinhanh = hinhanh + photo.FileName + ",";
@@ -88,7 +88,7 @@ namespace QuanLyBanHang.Controllers
             {
                 foreach (var photo in files)
                 {
-                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/client/images", photo.FileName);
+                    var path = Path.Combine(Directory.GetCurrentDirectory(), "wwwroot/client/images/product", photo.FileName);
                     var stream = new FileStream(path, FileMode.Create);
                     await photo.CopyToAsync(stream);
                     hinhanh = hinhanh + photo.FileName + ",";   

@@ -21,40 +21,68 @@ namespace QuanLyBanHang.Controllers
         // GET: HoaDon
         public IActionResult Index()
         {
-            List<PhiShip> phiship = _context.PhiShip.ToList();
-            List<KhachHang> khachhang = _context.KhachHang.ToList();
-            List<HoaDon> hoadon = _context.HoaDon.ToList();
-            var thongtinhoadon = (from hd in hoadon
-                                  join kh in khachhang on hd.KhachHangId equals kh.KhachHangId
-                                  join ship in phiship on hd.PhiShipId equals ship.PhiShipId
-                                  where hd.TrangThai == "Chờ xử lí"
+            var thongtinhoadon = (from hd in _context.HoaDon
+                                 join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
+                                 join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
+                                 where hd.TrangThai == "Chờ xử lý"
+                                 select new ThongTinHoaDon
+                                  {
+                                      HoaDon = hd,
+                                      PhiShip = ship,
+                                      KhachHang = kh
+                                  });
+            return View(thongtinhoadon);
+        }
+
+        public IActionResult Index1()
+        {
+            var thongtinhoadon = (from hd in _context.HoaDon
+                                  join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
+                                  join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
+                                  where hd.TrangThai == "Đã xử lý"
                                   select new ThongTinHoaDon
                                   {
                                       HoaDon = hd,
                                       PhiShip = ship,
                                       KhachHang = kh
                                   });
-
-
             return View(thongtinhoadon);
         }
 
-        public async Task<IActionResult> Edit(int id)
+        public async Task<IActionResult> Details(int id)
         {
-
-            var nhaCungCap = await _context.NhaCungCap.FirstOrDefaultAsync(m => m.NhaCungCapId == id);
-            return View(nhaCungCap);
+            var thongtinsanpham = (from sp in _context.SanPham
+                                  join cthd in _context.ChiTietHoaDon on sp.SanPhamId equals cthd.SanPhamId
+                                  where cthd.HoaDonId == id
+                                  select new ThongTinHoaDon
+                                  {
+                                      SanPham = sp,
+                                      ChiTietHoaDon = cthd
+                                  });
+            var thongtinhoadon = (from hd in _context.HoaDon
+                                  join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
+                                  join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
+                                  where hd.HoaDonId == id
+                                  select new ThongTinHoaDon
+                                  {
+                                      HoaDon = hd,
+                                      PhiShip = ship,
+                                      KhachHang = kh
+                                  });
+            ViewBag.TTHD = thongtinhoadon;
+            ViewBag.TTSP = thongtinsanpham;
+            return View();
         }
 
         [HttpPost]
-        public string Duyet(int id)
+        public ActionResult Duyet(int id)
         {
             var hd = _context.HoaDon.Find(id);
-            hd.TrangThai = "Đã xử lí";
+            hd.TrangThai = "Đã xử lý";
+            hd.ThoiGianDaXuLy = DateTime.Now;
             _context.Update(hd);
             _context.SaveChanges();
-            string message = "Đã duyệt hóa đơn thành công";
-            return message;
+            return Json("Hóa đơn này đã duyệt thành công");
         }
 
         [HttpPost]
@@ -63,7 +91,8 @@ namespace QuanLyBanHang.Controllers
             foreach (int id in selected)
             {
                 var hd = _context.HoaDon.Find(id);
-                hd.TrangThai = "Đã xử lí";
+                hd.TrangThai = "Đã xử lý";
+                hd.ThoiGianDaXuLy = DateTime.Now;
                 _context.Update(hd);
             }
             _context.SaveChanges();

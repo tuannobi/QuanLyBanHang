@@ -25,6 +25,7 @@ namespace QuanLyBanHang.Controllers
             {
                 List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
                 soLuong = chiTietHoaDons.Count();
+                ViewBag.chiTietHoaDons = chiTietHoaDons;
             }
             var sanPham = context.SanPham.Where(sp => sp.SanPhamId == id).FirstOrDefault();
             ViewBag.sanPham = sanPham;
