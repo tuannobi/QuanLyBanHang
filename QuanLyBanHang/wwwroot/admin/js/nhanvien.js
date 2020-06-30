@@ -1,10 +1,13 @@
-﻿//Update
+﻿
+
+//Update
 function Update(ID) {
     $('.background-popup').show();
     $('.background-popup').addClass('d-flex align-items-center justify-content-center');
     $('.background-popup').load("/NhanVien/Edit/" + ID)
 
 }
+//In
 
 //delete
 function Delete(ID) {
@@ -82,7 +85,7 @@ $(document).ready(function() {
     })
 
 
-
+   
     //Delete
     $(function() {
         $('#checkall').change(function() {
@@ -115,7 +118,7 @@ $(document).ready(function() {
                 success: function(result) {
                     alert(result);
                     window.location.reload();
-                    //window.location.href("/SanPham");
+                   
                 },
                 error: function(errormessage) {
                     alert(errormessage.responseText);

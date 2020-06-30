@@ -2,12 +2,12 @@
     ViewData["Title"] = "Layout_Admin.cshtml";
 }
 @*<?php
-session_start();
-if (!isset($_SESSION['username'])) {
-   header('Location: ../login.php');
-  }
+    session_start();
+    if (!isset($_SESSION['username'])) {
+       header('Location: ../login.php');
+      }
 
-?>*@
+    ?>*@
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -18,10 +18,10 @@ if (!isset($_SESSION['username'])) {
     <title>Quản lý bán hàng</title>
 
     <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-theme.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-theme.min.css">
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    
+
     <link rel="stylesheet" type="text/css" href="~/admin/custom/common.css">
     @RenderSection("Links", required: false)
     <style type="text/css" media="screen">
@@ -31,12 +31,85 @@ if (!isset($_SESSION['username'])) {
             overflow-y: auto;
         }
 
-       
+        th {
+            text-align: center;
+        }
+
+        td img {
+            max-width: 54px;
+            height: auto;
+        }
+
+        th:nth-child(2), td:nth-child(2) {
+            width: 20%;
+        }
+
+        th:nth-child(3), td:nth-child(3) {
+            width: 5%;
+        }
+
+        td img:hover {
+            max-width: 100px;
+            height: auto;
+        }
+
+        .showdialog:hover {
+            cursor: pointer;
+        }
+
+        .mydialog {
+            width: 90%;
+            height: 600px;
+            border: 1px dotted black;
+            overflow-y: auto;
+        }
+
+        .dialog_image img {
+            width: 90%;
+            height: auto;
+        }
+
+        .title {
+            padding-top: 15px;
+            font-size: 16px;
+        }
+
+        .span1 {
+            font-weight: 600;
+            margin-right: 5px;
+        }
+
+        .red {
+            color: red;
+        }
+
+
+        /*dialog*/
+        .info_shop p {
+            margin: 0px;
+        }
+
+        .col-md-1 {
+        }
+
+        .cthd-row {
+            border: solid 1px grey;
+        }
+
+        .a {
+            border-right: solid 1px grey;
+            height: 40px;
+            text-align: center;
+        }
+
+        .cthd {
+            padding: 0 10px;
+        }
     </style>
 </head>
 <body>
     <header class="container-fluid">
-        <div class="row top-bar">
+        <div class="row">
             <h2>Trang chủ</h2>
             <div class="row login_logout">
                 <a class="login" title="Account" href="#">
@@ -58,9 +131,8 @@ if (!isset($_SESSION['username'])) {
                         <li>
                             <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý tài khoản</a>
                             <ul class="menu-usesmanagement">
-                                <li><a class="list-group-item users child" asp-controller="TaiKhoan" asp-action="GetNhanVien"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Nhân viên</a>
-                                <li><a class="list-group-item roles child" asp-controller="TaiKhoan" asp-action="GetKhachHang"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
-                                <li><a class="list-group-item roles child" asp-controller="TaiKhoan" asp-action="GetAdmin"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Admin </a>
+                                <li><a class="list-group-item users child" asp-controller="TaiKhoan" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Admin và nhân viên</a>
+                                <li><a class="list-group-item roles child" href="listadmin.php"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
                             </ul>
                         </li>
                         <li>
@@ -73,8 +145,15 @@ if (!isset($_SESSION['username'])) {
                         <li>
                             <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý sản phẩm</a>
                             <ul class="menu-usesmanagement">
-                                <li><a class="list-group-item users child" href="listproducts.php?product=allproduct"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách sản phẩm</a>
+                                <li><a class="list-group-item users child" asp-controller="SanPham" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách sản phẩm</a>
                                 <li><a class="list-group-item roles child" href="listproducts.php?product=empty"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Các sản phẩm đã hết</a>
+                            </ul>
+                        </li>
+                        <li>
+                            <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý hóa đơn</a>
+                            <ul class="menu-usesmanagement">
+                                <li><a class="list-group-item users child" asp-controller="HoaDon" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách hóa đơn chưa xử lí</a>
+                                <li><a class="list-group-item users child" asp-controller="HoaDon" asp-action="Index1"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách hóa đơn đã xử lí</a>
                             </ul>
                         </li>
                         <li>
@@ -88,8 +167,7 @@ if (!isset($_SESSION['username'])) {
                         <li>
                             <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý chung</a>
                             <ul class="menu-usesmanagement">
-                                <li><a class="list-group-item users child" href="list_ncc.php"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách nhà cung cấp</a>
-                                <li><a class="list-group-item users child" asp-controller="HoaDon" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách hóa đơn</a>
+                                <li><a class="list-group-item users child" asp-controller="NhaCungCap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách nhà cung cấp</a>
                                 <li><a class="list-group-item users child" href="list_phieuchi.php"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách phiếu chi</a>
                             </ul>
                         </li>
@@ -103,11 +181,7 @@ if (!isset($_SESSION['username'])) {
     </div>
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-    <script src="https://kit.fontawesome.com/77db2eba55.js" crossorigin="anonymous"></script>
     <script src="~/admin/js/bootstrap.min.js"></script>
     @RenderSection("Scripts", required: false)
-
-
-
 </body>
 </html>

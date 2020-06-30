@@ -90,7 +90,7 @@
         <div class="container clearfix">
             <ol class="breadcrumb col-md-6 col-sm-6">
                 <li>
-                    <a href="shopbeauty.php" title="Trang chủ">Trang chủ</a>
+                    <a href="/Homepage/Index" title="Trang chủ">Trang chủ</a>
                 </li>
 
                 <li class="active">
@@ -117,14 +117,13 @@
                             </tr>
                         </thead>
                         <tbody>
-                            <h1>Hiển thị card item</h1>
                             @if (ViewBag.message == null)
                             {
                                 @foreach (ChiTietHoaDon item in Model)
                                 {
                                     /*Định dạng theo tiền việt nam*/
-                                    decimal tienKhuyenMai = (decimal)item.TienKhuyenMai;
-                                    decimal tongTien = (decimal)item.TongTien;
+                                    int tienKhuyenMai = (int)item.TienKhuyenMai;
+                                    int tongTien = (int)item.TongTien;
                                     <tr class="cart_item">
                                         <td class="cart-product-remove">
                                             <a itemprop="" class="remove" title="Bỏ sản phẩm này"><i class="fa fa-trash"></i></a>
@@ -135,8 +134,12 @@
                                         {
                                             @if (sp.SanPhamId == item.SanPhamId)
                                             {
+                                                var index = sp.HinhAnh.IndexOf(',');
+                                                string hinhanh;
+                                                if (index != -1) hinhanh = sp.HinhAnh.Substring(0, index);
+                                                else hinhanh = sp.HinhAnh;
                                                 <td class="cart-product-thumbnail">
-                                                    <a href="" itemprop=""><img src="~/client/images/product/@sp.HinhAnh" alt="@sp.TenSanPham"></a>
+                                                    <a href="" itemprop=""><img src="~/client/images/product/@hinhanh" alt=""></a>
                                                 </td>
                                             }
                                         }
@@ -155,9 +158,9 @@
                                         {
                                             @if (sp.SanPhamId == item.SanPhamId)
                                             {
-                                                decimal giaBanLe = (decimal)sp.GiaBanLe;
+                                                int giaBanLe = (int)sp.GiaBanLe;
                                                 <td class="cart-product-price">
-                                                    <span class="amount">@String.Format(info, "{0:c}", giaBanLe)</span>
+                                                    <span class="amount">@String.Format(info, "{0:C0}", giaBanLe)</span>
                                                 </td>
                                             }
                                         }
@@ -169,11 +172,11 @@
                                         </td>
 
                                         <td class="cart-product-price">
-                                            <span class="amount">@String.Format(info, "{0:c}", tienKhuyenMai)</span>
+                                            <span class="amount">@String.Format(info, "{0:C0}", tienKhuyenMai)</span>
                                         </td>
 
                                         <td class="cart-product-subtotal">
-                                            <span class="amount">@String.Format(info, "{0:c}", tongTien)</span>
+                                            <span class="amount">@String.Format(info, "{0:C0}", tongTien)</span>
                                         </td>
                                     </tr>
                                 }
@@ -182,14 +185,15 @@
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
                                 <td>&nbsp;</td>
+                                <td>&nbsp;</td>
                                 <td><h4>Tổng tiền </h4></td>
                                 <td>
                                     @{
-                                        decimal tongTienThanhToan = (decimal)ViewBag.tongTienThanhToan;
+                                        int tongTienThanhToan = (int)ViewBag.tongTienThanhToan;
                                     }
                                     <span class="amount color lead">
                                         <strong>
-                                            @String.Format(info, "{0:c}", tongTienThanhToan)
+                                            @String.Format(info, "{0:C0}", tongTienThanhToan)
                                         </strong>
                                     </span>
                                 </td>
@@ -201,7 +205,7 @@
                 </div>
                 <div class="row clearfix">
                     <div class="col-xs-12 col-sm-6">
-                        <a style="display: block; line-height: 45px; font-size: 16px;" href="shopbeauty.php">
+                        <a style="display: block; line-height: 45px; font-size: 16px;" href="/Homepage/Index">
                             <i class="fa fa-reply"></i>
                             Tiếp tục mua hàng
                         </a>
@@ -242,7 +246,6 @@
                         "id_remove": id_remove
                     },
                     success: function (result) {
-                        alert(result);
                         window.location.replace("cart.php");
                     }
                 });

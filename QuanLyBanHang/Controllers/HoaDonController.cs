@@ -19,153 +19,86 @@ namespace QuanLyBanHang.Controllers
         }
 
         // GET: HoaDon
-        public async Task<IActionResult> Index()
+        public IActionResult Index()
         {
-            var quanLyBanHangDbContext = _context.HoaDon.Include(h => h.KhachHang).Include(h => h.NhanVien).Include(h => h.PhiShip);
-            return View(await quanLyBanHangDbContext.ToListAsync());
+            var thongtinhoadon = (from hd in _context.HoaDon
+                                 join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
+                                 join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
+                                 where hd.TrangThai == "Chờ xử lý"
+                                 select new ThongTinHoaDon
+                                  {
+                                      HoaDon = hd,
+                                      PhiShip = ship,
+                                      KhachHang = kh
+                                  });
+            return View(thongtinhoadon);
         }
 
-        // GET: HoaDon/Details/5
-        public async Task<IActionResult> Details(int? id)
+        public IActionResult Index1()
         {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var hoaDon = await _context.HoaDon
-                .Include(h => h.KhachHang)
-                .Include(h => h.NhanVien)
-                .Include(h => h.PhiShip)
-                .FirstOrDefaultAsync(m => m.HoaDonId == id);
-            if (hoaDon == null)
-            {
-                return NotFound();
-            }
-
-            return View(hoaDon);
+            var thongtinhoadon = (from hd in _context.HoaDon
+                                  join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
+                                  join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
+                                  where hd.TrangThai == "Đã xử lý"
+                                  select new ThongTinHoaDon
+                                  {
+                                      HoaDon = hd,
+                                      PhiShip = ship,
+                                      KhachHang = kh
+                                  });
+            return View(thongtinhoadon);
         }
 
-        // GET: HoaDon/Create
-        public IActionResult Create()
+        public async Task<IActionResult> Details(int id)
         {
-            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId");
-            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId");
-            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId");
+            var thongtinsanpham = (from sp in _context.SanPham
+                                  join cthd in _context.ChiTietHoaDon on sp.SanPhamId equals cthd.SanPhamId
+                                  where cthd.HoaDonId == id
+                                  select new ThongTinHoaDon
+                                  {
+                                      SanPham = sp,
+                                      ChiTietHoaDon = cthd
+                                  });
+            var thongtinhoadon = (from hd in _context.HoaDon
+                                  join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
+                                  join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
+                                  where hd.HoaDonId == id
+                                  select new ThongTinHoaDon
+                                  {
+                                      HoaDon = hd,
+                                      PhiShip = ship,
+                                      KhachHang = kh
+                                  });
+            ViewBag.TTHD = thongtinhoadon;
+            ViewBag.TTSP = thongtinsanpham;
             return View();
         }
 
-        // POST: HoaDon/Create
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Create([Bind("HoaDonId,PhuongThucThanhToan,SoNha,Quan,PhiShipId,KhachHangId,NhanVienId,TongTien,TongTienThanhToan,GhiChu,TrangThai,ThoiGianChoXuLy,ThoiGianDaXuLy")] HoaDon hoaDon)
+        public ActionResult Duyet(int id)
         {
-            if (ModelState.IsValid)
-            {
-                _context.Add(hoaDon);
-                await _context.SaveChangesAsync();
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId", hoaDon.KhachHangId);
-            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId", hoaDon.NhanVienId);
-            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId", hoaDon.PhiShipId);
-            return View(hoaDon);
+            var hd = _context.HoaDon.Find(id);
+            hd.TrangThai = "Đã xử lý";
+            hd.ThoiGianDaXuLy = DateTime.Now;
+            _context.Update(hd);
+            _context.SaveChanges();
+            return Json("Hóa đơn này đã duyệt thành công");
         }
 
-        // GET: HoaDon/Edit/5
-        public async Task<IActionResult> Edit(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var hoaDon = await _context.HoaDon.FindAsync(id);
-            if (hoaDon == null)
-            {
-                return NotFound();
-            }
-            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId", hoaDon.KhachHangId);
-            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId", hoaDon.NhanVienId);
-            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId", hoaDon.PhiShipId);
-            return View(hoaDon);
-        }
-
-        // POST: HoaDon/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Edit(int id, [Bind("HoaDonId,PhuongThucThanhToan,SoNha,Quan,PhiShipId,KhachHangId,NhanVienId,TongTien,TongTienThanhToan,GhiChu,TrangThai,ThoiGianChoXuLy,ThoiGianDaXuLy")] HoaDon hoaDon)
+        public ActionResult DuyetSelected(int[] selected)
         {
-            if (id != hoaDon.HoaDonId)
+            foreach (int id in selected)
             {
-                return NotFound();
+                var hd = _context.HoaDon.Find(id);
+                hd.TrangThai = "Đã xử lý";
+                hd.ThoiGianDaXuLy = DateTime.Now;
+                _context.Update(hd);
             }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    _context.Update(hoaDon);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!HoaDonExists(hoaDon.HoaDonId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(Index));
-            }
-            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId", hoaDon.KhachHangId);
-            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId", hoaDon.NhanVienId);
-            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId", hoaDon.PhiShipId);
-            return View(hoaDon);
-        }
-
-        // GET: HoaDon/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var hoaDon = await _context.HoaDon
-                .Include(h => h.KhachHang)
-                .Include(h => h.NhanVien)
-                .Include(h => h.PhiShip)
-                .FirstOrDefaultAsync(m => m.HoaDonId == id);
-            if (hoaDon == null)
-            {
-                return NotFound();
-            }
-
-            return View(hoaDon);
-        }
-
-        // POST: HoaDon/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var hoaDon = await _context.HoaDon.FindAsync(id);
-            _context.HoaDon.Remove(hoaDon);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
-
-        private bool HoaDonExists(int id)
-        {
-            return _context.HoaDon.Any(e => e.HoaDonId == id);
+            _context.SaveChanges();
+            return Json("Tất cả những hóa đơn được chọn đã duyệt thành công");
         }
     }
+
+  
 }
