@@ -42,7 +42,7 @@ namespace QuanLyBanHang.Controllers
         [HttpPost]
         public IActionResult Index([Bind("Username,Password,VaiTroId")] TaiKhoan taiKhoan)
         {
-            var tk = _context.TaiKhoan.Where(t => t.Username == taiKhoan.Username && t.Password == taiKhoan.Password && t.VaiTroId==1).FirstOrDefault();
+            var tk = _context.TaiKhoan.Where(t => t.Username == taiKhoan.Username && t.Password == taiKhoan.Password && t.VaiTroId==3).FirstOrDefault();
             Console.WriteLine("Ma tai khoan vua dang nhap la: " +tk.TaiKhoanId);
             if (tk != null)
             {
