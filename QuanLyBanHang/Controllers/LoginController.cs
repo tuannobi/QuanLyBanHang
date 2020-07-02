@@ -43,7 +43,6 @@ namespace QuanLyBanHang.Controllers
         public IActionResult Index([Bind("Username,Password,VaiTroId")] TaiKhoan taiKhoan)
         {
             var tk = _context.TaiKhoan.Where(t => t.Username == taiKhoan.Username && t.Password == taiKhoan.Password && t.VaiTroId==3).FirstOrDefault();
-            Console.WriteLine("Ma tai khoan vua dang nhap la: " +tk.TaiKhoanId);
             if (tk != null)
             {
                 HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
