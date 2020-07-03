@@ -22,33 +22,9 @@
                     <div class="row info">
                         <p class="col-xs-8"></p>
                         <div class="text-right col-xs-4">
-                            @*<p>Sắp xếp theo: </p>
-                                <?php
-                                $sort = $_GET['sortby'];
-                                $menu =$_GET['id'];
-                                $loc2 = $_GET['loc'];
-                                $loc3 = $_GET['locgia'];
-                                $loc1 = $_GET['search'];
-                                switch ($sort) {
-                                case 'price-asc':
-                                $option = "Giá tăng dần";
-                                break;
-                                case 'price-desc':
-                                $option = "Giá giảm dần";
-                                break;
-                                case 'name-asc':
-                                $option = "Từ A-Z";
-                                break;
-                                case 'name-desc':
-                                $option = "Từ Z-A";
-                                break;
-                                default:
-                                $option = "Mặc định";
-                                break;
-                                }
-                                ?>*@
+                            <p>Sắp xếp theo: </p>
                             <select class="form-control sort" id='sapxep'>
-                                <option value="" selected disabled hidden><?=$option?></option>
+                                <option value="" selected disabled hidden>Select</option>
                                 <option value="default-0">Mặc định</option>
                                 <option value="price-asc">Giá tăng dần</option>
                                 <option value="price-desc">Giá giảm dần</option>
@@ -118,24 +94,15 @@
                                 <a href="" data-toggle="collapse"><h4 class="group_1">THƯƠNG HIỆU<i class="fa-angle-down fa"></i></h4></a>
                                 <ul id="filter_group_1" class="panel-collapse collapse in filter_list">
 
-                                    @*<?php
-                                        $sql = "SELECT DISTINCT brand FROM product";
-                                        $result = mysqli_query($conn,$sql);
-                                        while( $r = mysqli_fetch_array($result) )
-                                        {
-                                        $brand = $r["brand"];
-                                        ?>*@
                                     <li class="product-filter-item product-filter-item--check-box ">
-                                        <a href="">
-                                            <label>
-                                                <input type="checkbox" <?php if ($loc2 == $brand) echo "checked"?> value="<?=$brand?>">
-                                                @*<?=$brand?>*@
-                                            </label>
-                                        </a>
+                                        @foreach (var i in ViewBag.ThuongHieuList)
+                                        {
+                                        <div>
+                                            <label for="@i">@i</label>
+                                            <input type="checkbox" value="@i" name="ThuongHieuCheckbox" />
+                                        </div>
+                                        }
                                     </li>
-                                    <?php
-                                    }
-                                    ?>
 
                                 </ul>
                             </div>
@@ -145,7 +112,7 @@
                                 <ul id="filter_group_3" class="panel-collapse collapse in filter_list">
                                     <li class="product-filter-item product-filter-item--check-box">
                                         <a href="">
-                                            <label>
+                                            <label class="MucGia">
                                                 <input type="radio" name="price-filter" value=1>
                                                 Dưới 100.000₫
                                             </label>
@@ -153,7 +120,7 @@
                                     </li>
                                     <li class="product-filter-item product-filter-item--check-box">
                                         <a href="">
-                                            <label>
+                                            <label class="MucGia">
                                                 <input type="radio" name="price-filter" value=2>
                                                 100.000₫ - 300.000₫
                                             </label>
@@ -161,7 +128,7 @@
                                     </li>
                                     <li class="product-filter-item product-filter-item--check-box">
                                         <a href="">
-                                            <label>
+                                            <label class="MucGia">
                                                 <input type="radio" name="price-filter" value=3>
                                                 300.000₫ - 500.000₫
                                             </label>
@@ -169,15 +136,15 @@
                                     </li>
                                     <li class="product-filter-item product-filter-item--check-box">
                                         <a href="">
-                                            <label>
+                                            <label class="MucGia">
                                                 <input type="radio" name="price-filter" value=4>
-                                                500.000₫-1000.000₫
+                                                500.000₫-1.000.000₫
                                             </label>
                                         </a>
                                     </li>
                                     <li class="product-filter-item product-filter-item--check-box">
                                         <a href="">
-                                            <label>
+                                            <label class="MucGia">
                                                 <input type="radio" name="price-filter" value=5>
                                                 Trên 1.000.000₫
                                             </label>
@@ -214,6 +181,147 @@
         var id_menu = "<?php echo $menu; ?>";
         var sortby1 = "<?php echo $sort; ?>";
         $(document).ready(function () {
+            //Xử lý khi click vào chọn thương hiệu
+            $('input[name="ThuongHieuCheckbox"]').on('change', function () {
+                $('input:checkbox[name=ThuongHieuCheckbox]:checked').each(function() 
+                {
+                    ThuongHieu=$(this).val()
+                });
+                $.ajax({
+                url: "/Category/FilterThuongHieu",
+                type: 'get',
+                    data: {
+                        "ThuongHieu": ThuongHieu
+                },
+                    success: function (result) {
+                        $('#product-display-content').empty()
+                        for (var i = 0; i < result.length; i++) {
+                                $('#product-display-content').append('\
+                                <div class="product_single col-xs-6 col-md-3">\
+                                    <div class="product product_one clearfix ">\
+                                        <div class="product-image">\
+                                            <a href="/ChiTietSanPham?id='+result[i]["sanPhamId"]+'">\
+                                                <img src="/client/images/product/'+result[i]["hinhAnh"]+'" alt="">\
+                                            </a>\
+                                            <div class="quick_action clearfix">\
+                                                <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>\
+                                                <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>\
+                                            </div>\
+                                            <div class="sale-flash">-<?=$sale?>%</div>\
+                                        </div>\
+                                        <div class="product-desc">\
+                                            <div class="product-title">\
+                                                <h3>\
+                                                    <a href="/ChiTietSanPham?id='+result[i]["sanPhamId"]+'" itemprop="" title="'+result[i]["tenSanPham"]+'">\
+                                                        <p>'+result[i]["tenSanPham"]+'</p>\
+                                                    </a>\
+                                                </h3>\
+                                            </div>\
+                                            <div class="product-price">\
+                                                <ins>'+new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(result[i]["giaBanLe"])+'</ins>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </div>');
+                        }
+                        
+                }
+                });
+
+            })
+
+            //Lọc theo sắp xếp
+            $('#sapxep').on('change', function () {
+                LoaiSapXep=$(this).val()
+                $.ajax({
+                url: "/Category/FilterThuTu",
+                type: 'get',
+                    data: {
+                        "SapXep": LoaiSapXep
+                },
+                    success: function (result) {
+                        $('#product-display-content').empty()
+                        for (var i = 0; i < result.length; i++) {
+                                $('#product-display-content').append('\
+                                <div class="product_single col-xs-6 col-md-3">\
+                                    <div class="product product_one clearfix ">\
+                                        <div class="product-image">\
+                                            <a href="/ChiTietSanPham?id='+result[i]["sanPhamId"]+'">\
+                                                <img src="/client/images/product/'+result[i]["hinhAnh"]+'" alt="">\
+                                            </a>\
+                                            <div class="quick_action clearfix">\
+                                                <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>\
+                                                <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>\
+                                            </div>\
+                                            <div class="sale-flash">-<?=$sale?>%</div>\
+                                        </div>\
+                                        <div class="product-desc">\
+                                            <div class="product-title">\
+                                                <h3>\
+                                                    <a href="/ChiTietSanPham?id='+result[i]["sanPhamId"]+'" itemprop="" title="'+result[i]["tenSanPham"]+'">\
+                                                        <p>'+result[i]["tenSanPham"]+'</p>\
+                                                    </a>\
+                                                </h3>\
+                                            </div>\
+                                            <div class="product-price">\
+                                                <ins>'+new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(result[i]["giaBanLe"])+'</ins>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </div>');
+                        }
+                        
+                }
+                });
+
+            })
+
+            //Lọc theo giá
+            $('.MucGia').on('click', function () {
+                MucGia = parseInt($(this).children().val())
+                $.ajax({
+                url: "/Category/FilterPrice",
+                type: 'get',
+                    data: {
+                        "MucGia": MucGia
+                },
+                    success: function (result) {
+                        $('#product-display-content').empty()
+                        for (var i = 0; i < result.length; i++) {
+                                $('#product-display-content').append('\
+                                <div class="product_single col-xs-6 col-md-3">\
+                                    <div class="product product_one clearfix ">\
+                                        <div class="product-image">\
+                                            <a href="/ChiTietSanPham?id='+result[i]["sanPhamId"]+'">\
+                                                <img src="/client/images/product/'+result[i]["hinhAnh"]+'" alt="">\
+                                            </a>\
+                                            <div class="quick_action clearfix">\
+                                                <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>\
+                                                <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>\
+                                            </div>\
+                                            <div class="sale-flash">-<?=$sale?>%</div>\
+                                        </div>\
+                                        <div class="product-desc">\
+                                            <div class="product-title">\
+                                                <h3>\
+                                                    <a href="/ChiTietSanPham?id='+result[i]["sanPhamId"]+'" itemprop="" title="'+result[i]["tenSanPham"]+'">\
+                                                        <p>'+result[i]["tenSanPham"]+'</p>\
+                                                    </a>\
+                                                </h3>\
+                                            </div>\
+                                            <div class="product-price">\
+                                                <ins>'+new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(result[i]["giaBanLe"])+'</ins>\
+                                            </div>\
+                                        </div>\
+                                    </div>\
+                                </div>');
+                        }
+                        
+                }
+                });
+
+            })
+
             var priceFilter = 0;
             var brandsList = [];
             var orderFilter = 0;
