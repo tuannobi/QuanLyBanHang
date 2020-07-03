@@ -49,16 +49,20 @@ namespace QuanLyBanHang.Controllers
             return View(thongtinhoadon);
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             var thongtinsanpham = (from sp in _context.SanPham
-                                  join cthd in _context.ChiTietHoaDon on sp.SanPhamId equals cthd.SanPhamId
-                                  where cthd.HoaDonId == id
-                                  select new ThongTinHoaDon
-                                  {
-                                      SanPham = sp,
-                                      ChiTietHoaDon = cthd
-                                  });
+                                   join cthd in _context.ChiTietHoaDon on sp.SanPhamId equals cthd.SanPhamId
+                                   where cthd.HoaDonId == id
+                                   select new ThongTinHoaDon
+                                   {
+                                       SanPham = sp,
+                                       ChiTietHoaDon = cthd
+                                   });
+            foreach (var item in thongtinsanpham)
+            {
+                Console.WriteLine(item.SanPham.SanPhamId);
+            }
             var thongtinhoadon = (from hd in _context.HoaDon
                                   join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
                                   join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
