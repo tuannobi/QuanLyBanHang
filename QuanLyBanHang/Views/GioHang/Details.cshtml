@@ -42,88 +42,87 @@
                             <tbody>
                                 @if (ViewBag.message == null)
                                 {
-                                    @foreach (ChiTietHoaDon item in Model)
+                                    /*Định dạng theo tiền việt nam*/
+                                    int tienKhuyenMai = (int)item.TienKhuyenMai;
+                                    int tongTien = (int)item.TongTien;
+                            <tr class="cart_item">
+                                <input type="hidden" class="SanPhamId" value="@item.SanPhamId" />
+                                <td class="cart-product-remove">
+                                    <a asp-action="Delete" asp-route-id="@item.SanPhamId" itemprop="" class="remove" title="Bỏ sản phẩm này"><i class="fa fa-trash"></i></a>
+                                </td>
+                                @foreach (var sp in ViewBag.sanPhamList)
+                                {
+                                    @if (sp.SanPhamId == item.SanPhamId)
                                     {
-                                        /*Định dạng theo tiền việt nam*/
-                                        int tienKhuyenMai = (int)item.TienKhuyenMai;
-                                        int tongTien = (int)item.TongTien;
-                                        <tr class="cart_item">
-                                            <td class="cart-product-remove">
-                                                <a itemprop="" class="remove" title="Bỏ sản phẩm này"><i class="fa fa-trash"></i></a>
-                                            </td>
-
-
-                                            @foreach (var sp in ViewBag.sanPhamList)
-                                            {
-                                                @if (sp.SanPhamId == item.SanPhamId)
-                                                {
-                                                    var index = sp.HinhAnh.IndexOf(',');
-                                                    string hinhanh;
-                                                    if (index != -1) hinhanh = sp.HinhAnh.Substring(0, index);
-                                                    else hinhanh = sp.HinhAnh;
-                                                    <td class="cart-product-thumbnail">
-                                                        <a href="" itemprop=""><img src="~/client/images/product/@hinhanh" alt=""></a>
-                                                    </td>
-                                                }
-                                            }
-
-                                            @foreach (var sp in ViewBag.sanPhamList)
-                                            {
-                                                @if (sp.SanPhamId == item.SanPhamId)
-                                                {
-                                                    <td class="cart-product-name">
-                                                        <a href="" itemprop="">@sp.TenSanPham</a>
-                                                    </td>
-                                                }
-                                            }
-
-                                            @foreach (var sp in ViewBag.sanPhamList)
-                                            {
-                                                @if (sp.SanPhamId == item.SanPhamId)
-                                                {
-                                                    int giaBanLe = (int)sp.GiaBanLe;
-                                                    <td class="cart-product-price">
-                                                        <span class="amount">@String.Format(info, "{0:C0}", giaBanLe)</span>
-                                                    </td>
-                                                }
-                                            }
-
-                                            <td class="cart-product-quantity">
-                                                <div class="quantity clearfix">
-                                                    <input type='number' value='@item.SoLuong' class='sl' name="" style="padding-left: 10px; width: 50px">
-                                                </div>
-                                            </td>
-
-                                            <td class="cart-product-price">
-                                                <span class="amount">@String.Format(info, "{0:C0}", tienKhuyenMai)</span>
-                                            </td>
-
-                                            <td class="cart-product-subtotal">
-                                                <span class="amount">@String.Format(info, "{0:C0}", tongTien)</span>
-                                            </td>
-                                        </tr>
-                                    }
-                                    <tr style="text-align:center;">
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td>&nbsp;</td>
-                                        <td><h4>Tổng tiền </h4></td>
-                                        <td>
-                                            @{
-                                                int tongTienThanhToan = (int)ViewBag.tongTienThanhToan;
-                                            }
-                                            <span class="amount color lead">
-                                                <strong>
-                                                    @String.Format(info, "{0:C0}", tongTienThanhToan)
-                                                </strong>
-                                            </span>
+                                        var index = sp.HinhAnh.IndexOf(',');
+                                        string hinhanh;
+                                        if (index != -1) hinhanh = sp.HinhAnh.Substring(0, index);
+                                        else hinhanh = sp.HinhAnh;
+                                        <td class="cart-product-thumbnail">
+                                            <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop=""><img src="~/client/images/product/@hinhanh" alt=""></a>
                                         </td>
-                                    </tr>
+                                    }
                                 }
-                            </tbody>
-                        </table>
+
+                                @foreach (var sp in ViewBag.sanPhamList)
+                                {
+                                    @if (sp.SanPhamId == item.SanPhamId)
+                                    {
+                                        <td class="cart-product-name">
+                                            <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="">@sp.TenSanPham</a>
+                                        </td>
+                                    }
+                                }
+
+                                @foreach (var sp in ViewBag.sanPhamList)
+                                {
+                                    @if (sp.SanPhamId == item.SanPhamId)
+                                    {
+                                        int giaBanLe = (int)sp.GiaBanLe;
+                                        <td class="cart-product-price">
+                                            <span class="DonGia">@String.Format(info, "{0:C0}", giaBanLe)</span>
+                                        </td>
+                                    }
+                                }
+
+                                <td class="cart-product-quantity">
+                                    <div class="quantity clearfix">
+                                        <input type='number' value='@item.SoLuong' class='sl' name="" style="padding-left: 10px; width: 50px">
+                                    </div>
+                                </td>
+
+                                <td class="cart-product-price">
+                                    <span class="sale">@String.Format(info, "{0:C0}", tienKhuyenMai)</span>
+                                </td>
+
+                                <td class="cart-product-subtotal">
+                                    <span class="amount">@String.Format(info, "{0:C0}", tongTien)</span>
+                                </td>
+                            </tr>
+                                }
+
+                            <tr style="text-align:center;">
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td>&nbsp;</td>
+                                <td><h4>Tổng tiền </h4></td>
+                                <td>
+                                    @{
+                                        int tongTienThanhToan = (int)ViewBag.tongTienThanhToan;
+                                    }
+                                    <span class="amount color lead">
+                                        <strong id="TongTienChuaShip">
+                                            @String.Format(info, "{0:C0}", tongTienThanhToan)
+                                        </strong>
+                                    </span>
+                                </td>
+                            </tr>
+                            }
+                        </tbody>
+                    </table>
+
 
                     </div>
                     <div class="row clearfix">
@@ -141,71 +140,115 @@
                     </div>
                 </div>
             </div>
-        </section>
-        <section class="none_cart">
-            <div class="container clearfix">
-                @if (ViewBag.message != null)
-                {
-                    <p>@ViewBag.message</p>
-                }
-                <a href="/Homepage"><i class="fa fa-undo"></i> Tiếp tục mua hàng</a>
-            </div>
-        </section>
-        <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
-        <script src="js/bootstrap.min.js"></script>
-        <script src="js/shopbeauty.js"></script>
-        <script type="text/javascript">
-            var count = "<?php echo $count; ?>";
-            $(document).ready(function () {
-                $(".test").on("click", ".remove", function () {
-                    var id_remove = $(this).attr("itemprop");
 
-                    $.ajax({
-                        url: "remove-cart.php",
-                        type: 'post',
-                        dataType: 'text',
-                        data: {
-                            "id_remove": id_remove
-                        },
-                        success: function (result) {
-                            window.location.replace("cart.php");
+        </div>
+    </section>
+    <section class="none_cart">
+        <div class="container clearfix">
+            @if (ViewBag.message != null)
+            {
+                <p>@ViewBag.message</p>
+            }
+            <a href="/Homepage"><i class="fa fa-undo"></i> Tiếp tục mua hàng</a>
+        </div>
+    </section>
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="js/shopbeauty.js"></script>
+    <script type="text/javascript">
+        var count = "<?php echo $count; ?>";
+        $(document).ready(function () {
+            //$(".test").on("click", ".remove", function () {
+            //    var id_remove = $(this).attr("itemprop");
+
+            //    $.ajax({
+            //        url: "remove-cart.php",
+            //        type: 'post',
+            //        dataType: 'text',
+            //        data: {
+            //            "id_remove": id_remove
+            //        },
+            //        success: function (result) {
+            //            window.location.replace("cart.php");
+            //        }
+            //    });
+            //});
+
+            //$(".cart-product-thumbnail a").click(function () {
+            //    var image_id = $(this).attr("itemprop");
+            //    $(this).attr('href', 'product.php?id=' + image_id);
+            //})
+            //$(".cart-product-name a").click(function () {
+            //    var image_id = $(this).attr("itemprop");
+            //    $(this).attr('href', 'product.php?id=' + image_id);
+            //})
+            //$(".btnpay").click(function () {
+            //    document.location.replace("/ThanhToan");
+            //});
+
+            //count = parseInt(count);
+            //if (count == 0) {
+            //    $(".none_cart").show();
+            //    $(".have_cart").hide();
+            //}
+            //else {
+            //    $(".none_cart").hide();
+            //    $(".have_cart").show();
+            //}
+
+            $('.sl').on('change', function () {
+                var sl = $(this).val();
+                var ton = $(this).attr("name");
+                var id_product = 0;
+
+                $(this).closest('tr').find("input.SanPhamId").each(function () {
+                    id_product = this.value;
+                });
+
+                present = $(this)
+                $.ajax({
+                    url: "/GioHang/getKho",
+                    type: 'get',
+                    data: {
+                        "SanPhamId": id_product
+                    },
+                    success: function (result) {
+                        if (sl > result) {
+                            alert("Không đủ số lượng")
+                        } else {
+                            $.ajax({
+                                    url: "/GioHang/EditSoLuong",
+                                    type: 'get',
+                                    data: {
+                                        "SanPhamId": id_product,
+                                        "soLuong": sl
+                                    },
+                                    success: function (result) {
+                                        $.each(result, function (key, value) {
+                                            if (key == "tienKhuyenMai") {
+                                
+                                                TienGiam = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+                                            }
+                                            if (key == "tongTien") {
+                                
+                                                ThanhTien = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value);
+                                            }
+                                        });
+                                            $.ajax({
+                                                    url: "/GioHang/getTongTien",
+                                                    type: 'get',
+                                                    success: function (result) {
+                                                        TongTien = new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(result);
+                                                        $("#TongTienChuaShip").text(TongTien)
+                                                        present.closest('tr').find("td.cart-product-price").find("span.sale").text(TienGiam)
+                                                        present.closest('tr').find("td.cart-product-subtotal").find("span.amount").text(ThanhTien) 
+                                                    }
+                                            });
+                                    }
+                                });
                         }
-                    });
-                });
 
-                $(".cart-product-thumbnail a").click(function () {
-                    var image_id = $(this).attr("itemprop");
-                    $(this).attr('href', 'product.php?id=' + image_id);
-                })
-                $(".cart-product-name a").click(function () {
-                    var image_id = $(this).attr("itemprop");
-                    $(this).attr('href', 'product.php?id=' + image_id);
-                })
-                $(".btnpay").click(function () {
-                    document.location.replace("/ThanhToan");
-                });
-
-                //count = parseInt(count);
-                if (count == 0) {
-                    $(".none_cart").show();
-                    $(".have_cart").hide();
-                }
-                else {
-                    $(".none_cart").hide();
-                    $(".have_cart").show();
-                }
-
-                $('.sl').on('change', function () {
-                    var sl = $(this).val();
-                    var id_product = $(this).attr("id");
-                    var ton = $(this).attr("name");
-                    //alert (ton);
-                    ton = parseInt(ton);
-                    if (sl > ton) {
-                        alert("Sản phẩm không đủ số lượng");
-                        $('.sl').val(ton);
-                        sl = ton;
                     }
                     $.ajax({
                         url: "add-cart.php",
@@ -224,7 +267,13 @@
 
                 });
 
+
+                  
+
             });
-        </script>
-    </body>
-    </html>
+            
+        });
+        
+    </script>
+</body>
+</html>

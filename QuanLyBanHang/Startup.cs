@@ -25,12 +25,18 @@ namespace QuanLyBanHang
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+                        services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
             services.AddControllersWithViews();
             services.AddDbContext<QuanLyBanHangDbContext>();
             services.AddScoped<DbContext>(sp => sp.GetService<QuanLyBanHangDbContext>());
             //container = services.BuildServiceProvider(); //container is a global variable。
             //Filters
-            services.AddScoped<LoginFilter>();
+            services.AddScoped<ClientFilter>();
+            services.AddScoped<AdminFilter>();
             //
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();

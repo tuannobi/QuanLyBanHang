@@ -116,5 +116,76 @@ namespace QuanLyBanHang.Controllers
             }
             return "Thêm thành công. Giỏ hàng có "+count;
         }
+
+        public IActionResult Delete(int id)
+        {
+            var gioHangSession = HttpContext.Session.GetString("gioHangSession");
+            if (gioHangSession != null)
+            {
+                List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
+                Console.WriteLine(chiTietHoaDons.Count());
+                foreach(var cthd in chiTietHoaDons.ToList())
+                {
+                    if (cthd.SanPhamId == id)
+                    {
+                        chiTietHoaDons.Remove(cthd);
+                        HttpContext.Session.SetString("gioHangSession", JsonConvert.SerializeObject(chiTietHoaDons));
+                    }
+                }
+            }
+            return Redirect("/GioHang/Details");
+        }
+
+        public IActionResult EditSoLuong(int SanPhamId,int soLuong)
+        {
+            var gioHangSession = HttpContext.Session.GetString("gioHangSession");
+            if (gioHangSession != null)
+            {
+                List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
+                foreach (var cthd in chiTietHoaDons.ToList())
+                {
+                    if (cthd.SanPhamId == SanPhamId)
+                    {
+                        cthd.SoLuong = soLuong;
+                        float khuyenMai = 0;
+                        ChiTietKhuyenMai km = context.ChiTietKhuyenMai.Where(k => k.SanPhamId == SanPhamId).FirstOrDefault();
+                        SanPham sp = context.SanPham.Where(s => s.SanPhamId == SanPhamId).FirstOrDefault();
+                        if (km != null)
+                        {
+                            khuyenMai = (float)(sp.GiaBanLe - (sp.GiaBanLe * km.PhanTramGiam));
+                        }
+                        cthd.TienKhuyenMai = khuyenMai*soLuong;
+                        cthd.TongTien = sp.GiaBanLe * soLuong - khuyenMai * soLuong;
+                        HttpContext.Session.SetString("gioHangSession", JsonConvert.SerializeObject(chiTietHoaDons));
+                        return Json(cthd);
+                    }
+                }
+            }
+            return View();
+        }
+
+        public float getTongTien()
+        {
+            var gioHangSession = HttpContext.Session.GetString("gioHangSession");
+            if (gioHangSession != null)
+            {
+                float tongTien = 0;
+                List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
+                foreach (var cthd in chiTietHoaDons.ToList())
+                {
+                    tongTien +=(float) cthd.TongTien;
+                }
+                return tongTien;
+            }
+            return 0;
+        }
+
+        public float getKho(int SanPhamId)
+        {
+            var Kho =context.SanPham.Where(sp => sp.SanPhamId == SanPhamId).Select(s => s.Kho).FirstOrDefault();
+            return (float)Kho;
+        }
+
+        
     }
 }
