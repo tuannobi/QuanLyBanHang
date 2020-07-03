@@ -376,6 +376,7 @@ else
         //Xử lý khi click comment chính
         $(document).on('click','#comment-submit', function (e) {  
             e.preventDefault()
+
              $.ajax({
                 url: "/ChiTietSanPham/Comment",
                  type: 'get',
@@ -410,6 +411,7 @@ else
                                 <textarea readonly cols="60" rows="2" name="txtcomment" class="txtcomment" style="padding-left: 10px;">'+ NoiDung + '</textarea><br>\
                                 <button id="'+ BinhLuanId +'" type="button" class="rep-submit" style="margin-left: 70px">Trả lời</button>\
                             </form>');
+                    $('#NoiDungComment').val("");
                 }
             });
         });
