@@ -1,12 +1,12 @@
 ﻿
 
-//Update
+/*//Update
 function Update(ID) {
     $('.background-popup').show();
     $('.background-popup').addClass('d-flex align-items-center justify-content-center');
     $('.background-popup').load("/NhanVien/Edit/" + ID)
 
-}
+}*/
 //In
 
 //delete
@@ -36,27 +36,23 @@ function Delete(ID) {
         });
     }
 }
-//Detail
+/*//Detail
 function Detail(ID) {
     $('.background-popup').show();
     $('.background-popup').addClass('d-flex align-items-center justify-content-center');
     $('.background-popup').load("/NhanVien/Details/" + ID)
 
 }
-
+*/
 
 $(document).ready(function() {
-    $(document).on('click', '#add-staff', function() {
+  /*  $(document).on('click', '#add-staff', function() {
         $('.background-popup').show();
         $('.background-popup').addClass('d-flex align-items-center justify-content-center');
         $('.background-popup').load("/NhanVien/Create");
     })
-
-    $(document).on('click', '#cancel-button', function() {
-        $('.background-popup').hide();
-        $('.background-popup').removeClass('d-flex align-items-center justify-content-center');
-        $('.background-popup').empty();
-    })
+*/
+   
 
     $(document).on('submit', '#formthem', function(e) {
         var form = $('#formthem')[0];

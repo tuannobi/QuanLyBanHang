@@ -1,0 +1,60 @@
+﻿@model QuanLyBanHang.Models.KhuyenMai;
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+    <link rel="stylesheet" href="~/admin/css/khuyenmai.css" />
+}
+
+
+<div class="container">
+    <div class="header-content">
+        <h2>Danh sách khuyến mãi</h2>
+        <div class="header-event">
+            <a class="add-user" href="/KhuyenMai/Create">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Thêm khuyến mãi
+            </a>
+            <a class="add-user" onclick="DeleteSelected()">
+                <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+                Xóa khuyến mãi
+            </a>
+        </div>
+
+    </div>
+    <div class="content-content vertical-menu">
+        <table>
+            <tr>
+                <th><input type="checkbox" id="checkall" /></th>
+                <th>Mã khuyến mãi</th>
+                <th>Tên khuyến mãi</th>
+                <th>Ngày bắt đầu</th>
+                <th>Ngày kết thúc</th>
+                <th>Phần trăm giảm</th>
+                <th>Chức năng</th>
+                
+            </tr>
+           @* @foreach (var item in Model)
+            {
+               
+                <tr>
+                    <th><input type="checkbox" class="tick" name="listproduct" value="@item.SanPhamId" /></th>
+                    <td style="text-align: center;">@item.SanPhamId</td>
+                    <td>@item.TenSanPham</td>
+                    <td style="text-align: center;"><img src="/client/images/product/@hinhanh"></td>
+                    <td>@item.ThuongHieu</td>
+                    <td style="text-align: center;">@item.GiaBanLe</td>
+                    <td style="text-align: center;">@item.Kho</td>
+                    <td style="text-align: center;">
+                        <a asp-action="Edit" asp-route-id="@item.SanPhamId"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a onclick="Delete(@item.SanPhamId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+            }*@
+        </table>
+    </div>
+</div>
