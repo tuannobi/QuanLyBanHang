@@ -35,7 +35,8 @@ namespace QuanLyBanHang
             services.AddScoped<DbContext>(sp => sp.GetService<QuanLyBanHangDbContext>());
             //container = services.BuildServiceProvider(); //container is a global variable。
             //Filters
-            services.AddScoped<LoginFilter>();
+            services.AddScoped<ClientFilter>();
+            services.AddScoped<AdminFilter>();
             //
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();

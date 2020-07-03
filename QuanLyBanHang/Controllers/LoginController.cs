@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
@@ -42,15 +43,20 @@ namespace QuanLyBanHang.Controllers
         [HttpPost]
         public IActionResult Index([Bind("Username,Password,VaiTroId")] TaiKhoan taiKhoan)
         {
-            var tk = _context.TaiKhoan.Where(t => t.Username == taiKhoan.Username && t.Password == taiKhoan.Password && t.VaiTroId==3).FirstOrDefault();
-            if (tk != null)
+            var tk = _context.TaiKhoan.Include("VaiTro").Where(t => t.Username == taiKhoan.Username && t.Password == taiKhoan.Password).FirstOrDefault();
+            switch (tk.VaiTro.VaiTroId)
             {
-                HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
-                return Redirect("/Homepage");
-            }
-            else
-            {
-                return View("/Views/Login/Index.cshtml");
+                case 1:
+                    HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
+                    return Redirect("/Admin");
+                case 2:
+                    HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
+                    return Redirect("/SanPham");
+                case 3:
+                    HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
+                    return Redirect("/Homepage");
+                default:
+                    return View("/Views/Login/Index.cshtml");
             }
         }
     }

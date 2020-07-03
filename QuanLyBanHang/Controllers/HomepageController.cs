@@ -9,6 +9,7 @@ using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
 {
+    [ServiceFilter(typeof(ClientFilter))]
     public class HomepageController : Controller
     {
 
