@@ -5,121 +5,42 @@
     var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
 
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="utf-8">
-    <meta http-equiv="X-UA-Compatible" content="IE=edge">
-    <meta name="viewport" content="width=device-width, initial-scale=1">
-    <!-- <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css"> -->
+@section Links{
+    <link rel="stylesheet" href="~/admin/css/giohang.css" />
+}
+    <body>
+        <section id="page-title">
+            <div class="container clearfix">
+                <ol class="breadcrumb col-md-6 col-sm-6">
+                    <li>
+                        <a href="/Homepage/Index" title="Trang chủ">Trang chủ</a>
+                    </li>
 
-    <title>Giỏ hàng</title>
+                    <li class="active">
+                        <h1 title="Giỏ hàng">Giỏ hàng</h1>
+                    </li>
 
-    <!-- Bootstrap -->
-    <link rel="stylesheet" type="text/css" href="~/client/css/bootstrap.min.css">
-    <link rel="stylesheet" type="text/css" href="~/client/css/bootstrap-theme.min.css">
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-    <style type="text/css">
-        .button {
-            display: inline-block;
-            position: relative;
-            cursor: pointer;
-            outline: none;
-            white-space: nowrap;
-            margin: 5px;
-            padding: 0 22px;
-            font-size: 14px;
-            height: 40px;
-            line-height: 40px;
-            background-color: #00c5bb;
-            color: #FFF;
-            font-weight: 600;
-            text-transform: uppercase;
-            letter-spacing: 1px;
-            border: none;
-            text-align: center;
-            float: right;
-        }
-
-        .qty {
-            width: 40px;
-            text-align: center;
-        }
-
-        .cart-product-name a, .product-name a {
-            font-weight: bold;
-            font-size: 13px;
-            color: #333;
-        }
-
-        .remove {
-            font-size: 14px;
-            color: #FF0000;
-        }
-
-        .cart-product-thumbnail a {
-            display: block;
-            width: 68px;
-        }
-
-        .cart-product-thumbnail img {
-            display: block;
-            width: auto;
-            max-width: 100%;
-            height: auto;
-            border: 2px solid #EEE;
-        }
-
-        .breadcrumb > li > h1 {
-            font-size: 13px !important;
-            font-weight: normal !important;
-            display: inline-block !important;
-            text-transform: none !important;
-            margin-bottom: 0px !important;
-            padding-top: 0;
-            padding-bottom: 0;
-        }
-
-        .breadcrumb {
-            background-color: white !important;
-        }
-    </style>
-</head>
-<body>
-    <section id="page-title">
-        <div class="container clearfix">
-            <ol class="breadcrumb col-md-6 col-sm-6">
-                <li>
-                    <a href="/Homepage/Index" title="Trang chủ">Trang chủ</a>
-                </li>
-
-                <li class="active">
-                    <h1 title="Giỏ hàng">Giỏ hàng</h1>
-                </li>
-
-            </ol>
-        </div>
-    </section>
-    <section class="have_cart">
-        <div class="container clearfix">
-            <div class="test">
-                <div class="table-responsive">
-                    <table class="table ">
-                        <thead>
-                            <tr>
-                                <th class="cart-product-remove">&nbsp;</th>
-                                <th class="cart-product-thumbnail">&nbsp;</th>
-                                <th class="cart-product-name">Sản phẩm</th>
-                                <th class="cart-product-price">Đơn giá</th>
-                                <th class="cart-product-quantity">Số lượng</th>
-                                <th>Tiền giảm</th>
-                                <th class="cart-product-subtotal">Thành tiền</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if (ViewBag.message == null)
-                            {
-                                @foreach (ChiTietHoaDon item in Model)
+                </ol>
+            </div>
+        </section>
+        <section class="have_cart">
+            <div class="container clearfix">
+                <div class="test">
+                    <div class="table-responsive">
+                        <table class="table ">
+                            <thead>
+                                <tr>
+                                    <th class="cart-product-remove">&nbsp;</th>
+                                    <th class="cart-product-thumbnail">&nbsp;</th>
+                                    <th class="cart-product-name">Sản phẩm</th>
+                                    <th class="cart-product-price">Đơn giá</th>
+                                    <th class="cart-product-quantity">Số lượng</th>
+                                    <th>Tiền giảm</th>
+                                    <th class="cart-product-subtotal">Thành tiền</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @if (ViewBag.message == null)
                                 {
                                     /*Định dạng theo tiền việt nam*/
                                     int tienKhuyenMai = (int)item.TienKhuyenMai;
@@ -202,21 +123,24 @@
                         </tbody>
                     </table>
 
-                </div>
-                <div class="row clearfix">
-                    <div class="col-xs-12 col-sm-6">
-                        <a style="display: block; line-height: 45px; font-size: 16px;" href="/Homepage/Index">
-                            <i class="fa fa-reply"></i>
-                            Tiếp tục mua hàng
-                        </a>
+
                     </div>
-                    <div class="col-sm-6 col-xs-12">
-                        <button class="cart_checkout_btn button fright btnpay" title="Tiến hành đặt hàng" type="button">
-                            <i class="fa fa-money"></i>THANH TOÁN
-                        </button>
+                    <div class="row clearfix">
+                        <div class="col-xs-12 col-sm-6">
+                            <a style="display: block; line-height: 45px; font-size: 16px;" href="/Homepage/Index">
+                                <i class="fa fa-reply"></i>
+                                Tiếp tục mua hàng
+                            </a>
+                        </div>
+                        <div class="col-sm-6 col-xs-12">
+                            <button class="cart_checkout_btn button fright btnpay" title="Tiến hành đặt hàng" type="button">
+                                <i class="fa fa-money"></i>THANH TOÁN
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
+
         </div>
     </section>
     <section class="none_cart">
@@ -324,7 +248,23 @@
                                     }
                                 });
                         }
+
                     }
+                    $.ajax({
+                        url: "add-cart.php",
+                        type: 'post',
+                        dataType: 'text',
+                        data: {
+                            "id_product": id_product,
+                            "amount": sl,
+                            "ht": 0
+                        },
+                        success: function (result) {
+                            //alert(result);
+                            window.location.replace("cart.php");
+                        }
+                    });
+
                 });
 
 

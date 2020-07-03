@@ -1,0 +1,63 @@
+﻿.button {
+    display: inline-block;
+    position: relative;
+    cursor: pointer;
+    outline: none;
+    white-space: nowrap;
+    margin: 5px;
+    padding: 0 22px;
+    font-size: 14px;
+    height: 40px;
+    line-height: 40px;
+    background-color: #00c5bb;
+    color: #FFF;
+    font-weight: 600;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    border: none;
+    text-align: center;
+    float: right;
+}
+
+.qty {
+    width: 40px;
+    text-align: center;
+}
+
+.cart-product-name a, .product-name a {
+    font-weight: bold;
+    font-size: 13px;
+    color: #333;
+}
+
+.remove {
+    font-size: 14px;
+    color: #FF0000;
+}
+
+.cart-product-thumbnail a {
+    display: block;
+    width: 68px;
+}
+
+.cart-product-thumbnail img {
+    display: block;
+    width: auto;
+    max-width: 100%;
+    height: auto;
+    border: 2px solid #EEE;
+}
+
+.breadcrumb > li > h1 {
+    font-size: 13px !important;
+    font-weight: normal !important;
+    display: inline-block !important;
+    text-transform: none !important;
+    margin-bottom: 0px !important;
+    padding-top: 0;
+    padding-bottom: 0;
+}
+
+.breadcrumb {
+    background-color: white !important;
+}
