@@ -96,3 +96,12 @@ input[type=submit] {
 	box-sizing: border-box;
 	background-color: #F5F1F2;
 }
+
+textarea{
+	width: 780px;
+	height: 100px;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	background-color: #F5F1F2;
+}

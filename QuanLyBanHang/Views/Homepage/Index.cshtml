@@ -1,4 +1,6 @@
-﻿@{
+﻿@using System.Collections.Generic;
+@using QuanLyBanHang.Models;
+@{
     ViewData["Title"] = "Homepage";
     Layout = "~/Views/Shared/LayoutClient.cshtml";
 
@@ -95,13 +97,13 @@
         </div>
         <ul>
             <li>
-                <a  href="/Category?id=9" title="" >Son môi</a>
+                <a href="/Category?id=9" title="">Son môi</a>
             </li>
             <li>
-                <a  href="/Category?id=10" title="" >Trang điểm mặt</a>
+                <a href="/Category?id=10" title="">Trang điểm mắt</a>
             </li>
             <li>
-                <a  href="/Category?id=11" title="" >Trang điểm mắt</a>
+                <a href="/Category?id=11" title="">Trang điểm mặt</a>
             </li>
         </ul>
         <div class="row">
@@ -111,7 +113,7 @@
                     @foreach (var item in ViewBag.trangDiemSanPhams)
                     {
 
-
+                        var masp = item.SanPhamId;
                         int giaBanLe = (int)item.GiaBanLe;
 
                         System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
@@ -132,13 +134,15 @@
                                         <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                     </div>
 
-                                    @*@foreach (var km in ViewBag.chiTietKhuyenMais)
-                                        {
-                                            if (km.SanPhamId == item.SanPhamId)
-                                            {
-                                                <div class="sale-flash">@km.PhanTramGiam</div>
-                                            }
-                                        }*@
+
+                                    @foreach (var obj in item.ChiTietKhuyenMai)
+                                    {
+                                        var pt = obj.PhanTramGiam * 100;
+
+                                        <div class="sale-flash">-@pt%</div>
+
+                                    }
+
 
                                 </div>
                                 <div class="product-desc">
@@ -168,13 +172,13 @@
             </div>
             <ul>
                 <li>
-                    <a  href="/Category?id=12" title="" >Mặt nạ</a>
+                    <a href="/Category?id=12" title="">Mặt nạ</a>
                 </li>
                 <li>
-                    <a  href="/Category?id=13" title="" >Xịt khoáng</a>
+                    <a href="/Category?id=13" title="">Xịt khoáng</a>
                 </li>
                 <li>
-                    <a  href="/Category?id=14" title="" >Kem chống nắng</a>
+                    <a href="/Category?id=14" title="">Kem chống nắng</a>
                 </li>
             </ul>
             <div class="row">
@@ -182,7 +186,7 @@
                     <div class="row">
                         @foreach (var item in ViewBag.chamSocDaSanPhams)
                         {
-
+                            var masp = item.SanPhamId;
                             int giaBanLe = (int)item.GiaBanLe;
 
                             System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
@@ -202,7 +206,15 @@
                                             <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                         </div>
 
-                                        <div class="sale-flash">10%</div>
+
+                                        @foreach (var obj in item.ChiTietKhuyenMai)
+                                        {
+                                            var pt = obj.PhanTramGiam * 100;
+
+                                            <div class="sale-flash">-@pt%</div>
+
+                                        }
+
 
                                     </div>
                                     <div class="product-desc">
@@ -232,10 +244,10 @@
                 </div>
                 <ul>
                     <li>
-                        <a  href="/Category?id=15" title="" >Nước hoa nữ</a>
+                        <a href="/Category?id=15" title="">Nước hoa nữ</a>
                     </li>
                     <li>
-                        <a  href="/Category?id=16" >Nước hoa nam</a>
+                        <a href="/Category?id=16">Nước hoa nam</a>
                     </li>
                 </ul>
                 <div class="row">
@@ -243,7 +255,7 @@
                         <div class="row">
                             @foreach (var item in ViewBag.nuocHoaSanPhams)
                             {
-                                
+                                var masp = item.SanPhamId;
                                 int giaBanLe = (int)item.GiaBanLe;
 
                                 System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
@@ -264,7 +276,14 @@
                                                 <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                             </div>
 
-                                            <div class="sale-flash">10%</div>
+
+                                            @foreach (var obj in item.ChiTietKhuyenMai)
+                                            {
+                                                var pt = obj.PhanTramGiam * 100;
+
+                                                <div class="sale-flash">-@pt%</div>
+
+                                            }
 
                                         </div>
                                         <div class="product-desc">
@@ -312,7 +331,7 @@
 
             $(".product-image").hover(function () {
                 $(".quick_action", this).toggle();
-            });   
+            });
         });
     </script>
 

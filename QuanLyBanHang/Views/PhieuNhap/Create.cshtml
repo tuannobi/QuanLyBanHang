@@ -1,0 +1,157 @@
+﻿@model QuanLyBanHang.Models.PhieuNhap
+
+@{
+        ViewData["Title"] = "Create";
+        Layout = "~/Views/Shared/Layout_Admin.cshtml";
+        var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+}
+
+    @section Links{
+    <link rel="stylesheet" href="~/admin/css/product.css" />
+}
+
+<div class="container">
+    <div class="header-content">
+        <h2>Thêm phiếu nhập</h2>
+    </div>
+    <div class="content-content">
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Nhà cung cấp</label>
+                <select id="ncc" style="width:272px" asp-items="ViewBag.NhaCungCapId">
+                    <option value="">Chọn nhà cung cấp</option>
+                </select>
+            </div>
+            <div class="col-xs-6 ">
+                <label>Ngày nhập</label>
+                <input type="date" id="ngnhap" required="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Loại sản phẩm</label>
+                <select id="loaisp" style="width:272px" asp-items="ViewBag.PhanLoaiId">
+                    <option value="">Chọn loại sản phẩm</option>
+                </select>
+            </div>
+            <div class="col-xs-6 ">
+                <label>Sản phẩm</label>
+                <select id="spham" style="width:272px">
+                    <option value="">Chọn sản phẩm</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-xs-6">
+                <label>Số lượng</label>
+                <input type="number" id="sl" required="">
+            </div>
+            <div class="col-xs-6 ">
+                <label>Giá nhập</label>
+                <input type="number" id="gia" required="">
+            </div>
+        </div>
+        <div class="row" style="text-align: center;">
+            <button id="bt" class="btn btn-success" value="Create">Thêm</button>
+        </div>
+        <br />
+        <div class="tablechitietkm">
+            <h4 style="text-align: center;"><b>CHI TIẾT PHIẾU NHẬP</b></h4>
+            <table id="tb">
+                <tr>
+                    <th>&nbsp;</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Giá nhập</th>
+                </tr>
+                <tr id = "tt">
+                    <td></td>
+                    <td></td>
+                    <td><center><b>Tổng tiền:</b></center></td>
+                    <td><center><b id="tongtien">@String.Format(info, "{0:C0}", 0)</b></center></td>
+                </tr>
+            </table>
+        </div>
+
+        <div class="row add_cancel" style="text-align: right;">
+            <button id="themkm" class="btn btn-success">Add</button>
+            <button type="button" class="btn btn-danger">Cancel</button>
+        </div>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function (e) {
+            var listSP = [];
+            var tong = 0;
+            $("#bt").click(function () {
+                var sp = { ID: $("#spham").val(), Name: $("#spham option:selected").text(), SL: $("#sl").val(), GIA: $("#gia").val() };
+                listSP.push(sp);
+                //message = "<tr><td><a class='remove' id =" + sp.ID + "><i class='fa fa-trash'></i></a></td><td>" + sp.Name + "</td><td>" + sp.SL + "</td></tr>";
+                message = "<tr><td><a class='remove' id =" + sp.ID + "><i class='fa fa-trash'></i></a></td><td>" + sp.Name + "</td><td><input type='number' class = 'soluong' id =" + sp.ID + " value =" + sp.SL + "></td><td><input type='number' class = 'gianhap' id =" + sp.ID + " value =" + sp.GIA + "></td></tr>";
+                $(message).insertBefore("#tt");
+                tong += sp.SL * sp.GIA;
+                $('#tongtien').text(tong.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+            });
+            $("#tb").on("click", ".remove", function () {
+                z = listSP.findIndex(obj => obj.ID == $(this).attr("id"));
+                tong -= listSP[z].SL * listSP[z].GIA;
+                listSP.splice(z, 1);
+                $(this).closest("tr").remove();
+                $('#tongtien').text(tong.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+            });
+            $('#loaisp').on('change', function () {
+                var loaiid = parseInt($('#loaisp').val());
+                $.ajax({
+                    url: "/PhieuNhap/GetProduct/",
+                    type: "POST",
+                    dataType: "json",
+                    contextType: "application/json",
+                    data: { id: loaiid },
+                    success: function (result) {
+                        $("#spham").html(result);
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            });
+            $("#themkm").click(function () {
+                var nhacc = $('#ncc').val();
+                var ngaynhap = $('#ngnhap').val();
+                //var sp = JSON.stringify(listSP);
+                $.ajax({
+                    url: "/PhieuNhap/ThemPN/",
+                    type: "POST",
+                    dataType: "json",
+                    contextType: "application/json",
+                    data: {
+                        mancc: nhacc,
+                        ngnhap: ngaynhap,
+                        listSP: listSP,
+                    },
+                    success: function (result) {
+                        alert(result);
+                        window.location.replace("Index");
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            });
+            $("#tb").on("change", ".soluong", function () {
+                z = listSP.findIndex(obj => obj.ID == $(this).attr("id"));
+                tong -= (listSP[z].SL - $(this).val()) * listSP[z].GIA;
+                listSP[z].SL = $(this).val();
+                $('#tongtien').text(tong.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+            });
+            $("#tb").on("change", ".gianhap", function () {
+                z = listSP.findIndex(obj => obj.ID == $(this).attr("id"));
+                tong -= (listSP[z].GIA - $(this).val()) * listSP[z].SL;
+                listSP[z].GIA = $(this).val();
+                $('#tongtien').text(tong.toLocaleString('it-IT', { style: 'currency', currency: 'VND' }));
+            });
+        });
+    </script>
+}
+

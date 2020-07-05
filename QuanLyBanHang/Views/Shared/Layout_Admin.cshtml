@@ -40,14 +40,6 @@
             height: auto;
         }
 
-        th:nth-child(2), td:nth-child(2) {
-            width: 20%;
-        }
-
-        th:nth-child(3), td:nth-child(3) {
-            width: 5%;
-        }
-
         td img:hover {
             max-width: 100px;
             height: auto;
@@ -157,6 +149,9 @@
                             </ul>
                         </li>
                         <li>
+                            <a class="list-group-item user-management" asp-controller="KhuyenMai" asp-action="Index"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý khuyến mãi</a>
+                        </li>
+                        <li>
                             <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Lập báo cáo</a>
                             <ul class="menu-usesmanagement">
                                 <li><a class="list-group-item users child" href="baocaoton.php"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Báo cáo tồn</a>
@@ -168,7 +163,7 @@
                             <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý chung</a>
                             <ul class="menu-usesmanagement">
                                 <li><a class="list-group-item users child" asp-controller="NhaCungCap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách nhà cung cấp</a>
-                                <li><a class="list-group-item users child" href="list_phieuchi.php"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách phiếu chi</a>
+                                <li><a class="list-group-item users child" asp-controller="PhieuNhap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách phiếu nhập</a>
                             </ul>
                         </li>
                     </ul>
