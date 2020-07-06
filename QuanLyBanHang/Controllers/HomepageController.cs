@@ -26,10 +26,9 @@ namespace QuanLyBanHang.Controllers
         {
             var sessionUser = HttpContext.Session.GetString("sessionUser");
             var gioHangSession = HttpContext.Session.GetString("gioHangSession");
-            var ngay = DateTime.Now;
-            var trangDiemSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 2);
-            var chamSocDaSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 3);
-            var nuocHoaSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 4);
+            var trangDiemSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 2 && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 2 && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
+            var chamSocDaSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 3 && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 3 && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now))); 
+            var nuocHoaSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 4 && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 4 && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
             /*var trangDiemSanPhams = from s in context.SanPham
                                     join p in context.PhanLoai
                                     on s.PhanLoaiId equals p.PhanLoaiId
@@ -44,31 +43,23 @@ namespace QuanLyBanHang.Controllers
                                   join p in context.PhanLoai
                                   on s.PhanLoaiId equals p.PhanLoaiId
                                   where p.NhomLoai == 4
-                                  select s;
-            var chiTietKhuyenMais = context.SanPham.Include("ChiTietKhuyenMai");*/
-            //var chiTietKhuyenMais = context.SanPham.Include("ChiTietKhuyenMai").Where(sp => (sp.ChiTietKhuyenMai.Where(x => x.KhuyenMai.NgayBatDau >= DateTime.Now)));
-            var chiTietKhuyenMais = context.SanPham.Include("ChiTietKhuyenMai").Where(sp=>sp.ChiTietKhuyenMai.Any(km=>km.KhuyenMai.NgayBatDau<=DateTime.Now)).ToList();
-            //Console.WriteLine(DateTime.Now);
-            //Console.WriteLine(chiTietKhuyenMais.Count());
-            foreach (var item in chiTietKhuyenMais)
-            {
-                if (item.ChiTietKhuyenMai.FirstOrDefault() != null)
-                    Console.WriteLine(item.ChiTietKhuyenMai.FirstOrDefault().PhanTramGiam);
-            }  
+                                  select s;*/
 
-            //int soLuong=0;
-            //if (sessionUser != null)
-            //{
-            //    TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
-            //    var username = taiKhoanSession.Username;               
-            //    ViewBag.username = username;   
-            //}if ma
-            //if (gioHangSession != null)
-            //{
-            //    List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
-            //    soLuong = chiTietHoaDons.Count();
-            //}
-            //ViewBag.soLuong = soLuong;
+            /*var chiTietKhuyenMais = context.SanPham.Include("ChiTietKhuyenMai").Where(sp => sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("ChiTietKhuyenMai").Where(sp => sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
+            Console.WriteLine(chiTietKhuyenMais.Count());*/
+            int soLuong=0;
+            if (sessionUser != null)
+            {
+               TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+                var username = taiKhoanSession.Username;               
+                ViewBag.username = username;   
+            }
+            if (gioHangSession != null)
+            {
+                List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
+                soLuong = chiTietHoaDons.Count();
+            }
+            ViewBag.soLuong = soLuong;
             //ViewBag.chiTietKhuyenMais = chiTietKhuyenMais;
             ViewBag.trangDiemSanPhams = trangDiemSanPhams;
             ViewBag.chamSocDaSanPhams = chamSocDaSanPhams;

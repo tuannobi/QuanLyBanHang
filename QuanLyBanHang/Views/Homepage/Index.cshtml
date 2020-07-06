@@ -135,11 +135,16 @@
                                     </div>
 
 
+                                    @{var i = 1; }
                                     @foreach (var obj in item.ChiTietKhuyenMai)
                                     {
-                                        var pt = obj.PhanTramGiam * 100;
+                                        if (i < 2)
+                                        {
+                                            var pt = obj.PhanTramGiam * 100;
 
-                                        <div class="sale-flash">-@pt%</div>
+                                            <div class="sale-flash">-@pt%</div>
+                                        }
+                                        i = i + 1;
 
                                     }
 
@@ -206,12 +211,16 @@
                                             <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                         </div>
 
-
+                                        @{var i = 1; }
                                         @foreach (var obj in item.ChiTietKhuyenMai)
                                         {
-                                            var pt = obj.PhanTramGiam * 100;
+                                            if (i < 2)
+                                            {
+                                                var pt = obj.PhanTramGiam * 100;
 
-                                            <div class="sale-flash">-@pt%</div>
+                                                <div class="sale-flash">-@pt%</div>
+                                            }
+                                            i = i + 1;
 
                                         }
 
@@ -277,11 +286,16 @@
                                             </div>
 
 
+                                            @{var i = 1; }
                                             @foreach (var obj in item.ChiTietKhuyenMai)
                                             {
-                                                var pt = obj.PhanTramGiam * 100;
+                                                if (i < 2)
+                                                {
+                                                    var pt = obj.PhanTramGiam * 100;
 
-                                                <div class="sale-flash">-@pt%</div>
+                                                    <div class="sale-flash">-@pt%</div>
+                                                }
+                                                i = i + 1;
 
                                             }
 

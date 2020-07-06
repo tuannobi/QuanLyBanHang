@@ -4,6 +4,7 @@ using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
@@ -60,17 +61,17 @@ namespace QuanLyBanHang.Controllers
             float tongTien = 0;
             int count = 0;
             SanPham sp = context.SanPham.Where(s => s.SanPhamId == productId).FirstOrDefault();
-            ChiTietKhuyenMai km = context.ChiTietKhuyenMai.Where(k => k.SanPhamId == productId).FirstOrDefault();
+            var km = context.ChiTietKhuyenMai.Include("KhuyenMai").Where(k => k.SanPhamId == productId && k.KhuyenMai.NgayBatDau<=DateTime.Now && k.KhuyenMai.NgayKetThuc >=DateTime.Now).FirstOrDefault();
             if (km != null)
             {
-                khuyenMai = (float)(sp.GiaBanLe - (sp.GiaBanLe * km.PhanTramGiam));
+                khuyenMai = (float)(sp.GiaBanLe * km.PhanTramGiam *soLuong);
             }
             else
             {
                 khuyenMai = 0;
             }
             Console.WriteLine("Tiền giảm khuyến mãi: " + khuyenMai);
-            tongTien = (float)(soLuong * sp.GiaBanLe-khuyenMai);
+            tongTien = (float)(soLuong * sp.GiaBanLe - khuyenMai);
             Console.WriteLine("Tổng tiền phải trả: " + tongTien);
             var gioHangSession = HttpContext.Session.GetString("gioHangSession");
             if (gioHangSession == null) //Nếu giỏ hàng chưa được khởi tạo
