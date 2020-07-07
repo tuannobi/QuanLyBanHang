@@ -50,14 +50,14 @@
                 @foreach (var item in ViewBag.HinhAnh)
                 {
 
-                    <img alt="" src="/client/images/product/@item">
+                    <img alt="" src="/client/images/@item">
                 }
             </div>
 
             <div class="clearfix"></div>
             <div class="row add_cancel" style="text-align: right;">
                 <input type="submit" value="Update" id="btnadd">
-                <button class="btncancel">Cancel</button>
+                <a class="btn btncancel" asp-action="Index" id="cancel-button">Hủy bỏ</a>
             </div>
         </form>
     </div>

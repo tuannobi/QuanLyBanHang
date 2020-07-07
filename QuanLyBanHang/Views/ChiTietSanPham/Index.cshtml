@@ -202,74 +202,42 @@
 
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tab-3">
-                        <form method='POST' action="cmt-submit.php?id=<?php echo $id;?>">
-                            <textarea cols='60' rows='2' name='txtcomment' class='txtcomment' placeholder='Vui lòng nhập bình luận ở đây...' style='padding-left: 10px;'></textarea><br>
-                            <button type='submit' name='cmt-submit'>Bình luận</button>
+                        <form method='POST' action="" id="comment-input-main">
+                            <input type="hidden" value="@Model.SanPhamId" id="SanPhamIdComment"/>
+                            <textarea id="NoiDungComment" cols='60' rows='2' name='txtcomment' class='txtcomment' placeholder='Vui lòng nhập bình luận ở đây...' style='padding-left: 10px;'></textarea><br>
+                            <button type='submit' id='comment-submit'>Bình luận</button>
                         </form>
-                        @*<?php
-                            $sql = "select * from comment where idproduct = $id";
-                            $result = mysqli_query($conn,$sql);
-                            while ($r = mysqli_fetch_array($result)){
-                            $idcmt = $r['idcmt'];
-                            $iduser = $r['iduser'];
-                            $date = $r['timecmt'];
-                            $comment = $r['content'];
-                            $sql2 = "select * from user where iduser = $iduser";
-                            $result2 = mysqli_query($conn,$sql2);
-                            while ($r2 = mysqli_fetch_array($result2)){
-                            $name = $r2['tenuser'];
-                            }
-                            ?>*@
-                        <div class='row'>
-                            <div id="comment">
-                                <img src="" width="50" height="50" style="float:left; margin-left: 20px; margin-top: 15px;" />
-                                <div id='inCmt'>
-                                    <?php
-                                    echo "<br><b>$name </b>";
-                                    echo "<br>$comment";
-                                    echo "<br><small>$date</small>";
-                                    ?>
-                                </div>
-                                <form method='POST' action="rep-submit.php?idcmt=<?php echo $idcmt;?>&id=<?php echo $id;?>">
-                                    <textarea cols='53' rows='1' name='txtreply' class='txtreply' placeholder='Vui lòng nhập phản hồi ở đây...' style='margin-left: 70px; padding-left: 10px;'></textarea><br>
-                                    <button type='submit' name='rep-submit' style="margin-left: 70px">Trả lời</button>
-                                </form>
-                                @*<?php
-                                    $sql3 = "select * from reply where idcmt = $idcmt";
-                                    $result3 = mysqli_query($conn,$sql3);
-                                    while ($row = mysqli_fetch_array($result3)){
-                                    $idrep = $row['idrep'];
-                                    $iduser2 = $row['iduser'];
-                                    $date2 = $row['timerep'];
-                                    $reply = $row['content'];
-                                    $sql4 = "select * from user where iduser = $iduser2";
-                                    $result4 = mysqli_query($conn,$sql4);
-                                    while ($r4 = mysqli_fetch_array($result4)){
-                                    $name2 = $r4['tenuser'];
-                                    }
-                                    ?>*@
-                                <div class='row' style="margin-left: 45px;">
-                                    <small>
-                                        <div id="reply">
-                                            <img src="" width="50" height="50" style="float:left; margin-left: 20px; margin-top: 10px;" />
-                                            <div id='inRep'>
-                                                @*<?php
-                                                    echo "<br><b>$name2 </b>";
-                                                    echo "<br>$reply";
-                                                    echo "<br><small>$date2</small>";
-                                                    ?>*@
+
+                        @foreach (var i in ViewBag.binhLuanList)
+                        {
+                            <br />
+                            <img src="~/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 20px;" />
+                            <div>@i.KhachHang.HoTen @i.ThoiGian</div>
+                            <form id="main-comment" method='POST' action="">
+                                <textarea readonly cols='60' rows='2' name='txtcomment' class='txtcomment' placeholder='Vui lòng nhập bình luận ở đây...' style='padding-left: 10px;'>@i.NoiDung</textarea><br>
+                                <button id="@i.BinhLuanId" type='button' class='rep-submit' style="margin-left: 70px">Trả lời</button>
+                            </form>
+                            foreach (var t in i.Reply)
+                            {
+                                foreach (var h in ViewBag.replyList)
+                                {
+                                    if (t.ReplyId == h.ReplyId)
+                                    {
+                                        <br />
+                                        <div class="row">
+                                            <div id="comment">
+                                                <img src="~/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 90px;" />
+                                                <div>@h.KhachHang.HoTen @h.ThoiGian</div>
+                                                <form method='POST' action="rep-submit.php?idcmt=<?php echo $idcmt;?>&id=<?php echo $id;?>">
+                                                    <textarea cols='53' rows='1' name='txtreply' class='txtreply' placeholder='Vui lòng nhập phản hồi ở đây...' style=' padding-left: 10px;'>@h.NoiDung</textarea><br>
+                                                </form>
                                             </div>
                                         </div>
-                                    </small>
-                                </div>
-                                <?php
+                                    }
                                 }
-                                ?>
-                            </div>
-                        </div>
-                        <?php
+                            }
+
                         }
-                        ?>
 
 
                     </div>
@@ -349,6 +317,108 @@ else
                 }
             });
         });
+
+        //Sử lý khi click vào nút Trả lời của bình luận có sẵn
+        //$('button.rep-submit').on('click', function (e) {
+            
+        //})
+        //khi click trả lời một comment
+        $(document).on('click','.rep-submit', function (e) {  
+            e.preventDefault()
+            $(this).parent().append('<div class="row">\
+                                            <div id="comment">\
+                                             <img src="/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 90px;" />\
+                                                <form method="GET" action="">\
+                                                    <input type="hidden" id="SanPhamId" value="@Model.SanPhamId"/>\
+                                                    <textarea cols="53" rows="2" id="NoiDung" class="txtreply" style=" padding-left: 10px;"></textarea><br>\
+                                                    <button id="'+ $(this).attr('id') +'" type="button" class="comment-button">Trả lời</button>\
+                                                </form>\
+                                            </div>\
+                                        </div>');
+        });
+        //Khi click xác nhận reply một bình luận
+        $(document).on('click', '.comment-button', function (e) {
+            e.preventDefault()
+            var NoiDungReply = $('#NoiDung').val()
+            var MaBinhLuan = $(this).attr('id')
+            NutCanXoa = $(this)
+            TextField = $(this).parent().find('#NoiDung')
+            Form = $(this).parent()
+            $.ajax({
+                url: "/ChiTietSanPham/Reply",
+                type: 'get',
+                data: {
+                    "NoiDung": NoiDungReply,
+                    "BinhLuanId": MaBinhLuan
+                },
+                success: function (result) {
+                    $.each(result, function (key, value) {
+                        if (key == "thoiGian") {
+                            ThoiGianReply = value;
+                        }
+                        if (key == "khachHang") {
+                            $.each(value, function (key, value) {
+                                if (key == "hoTen") {
+                                    HoTenReply = value;
+                                }
+
+                            });
+                        }
+                    })
+                    Form.prepend('<div>' + HoTenReply + ' ' + ThoiGianReply + '</div>')
+                        NutCanXoa.remove()
+                        TextField.attr("rows", "1")
+                        TextField.attr("readonly")
+                }
+            });
+        });
+
+        //Xử lý khi click comment chính
+        $(document).on('click','#comment-submit', function (e) {  
+            e.preventDefault()
+
+             $.ajax({
+                url: "/ChiTietSanPham/Comment",
+                 type: 'get',
+                data: {
+                     "SanPhamId": $('#SanPhamIdComment').val(),
+                    "NoiDung": $('#NoiDungComment').val()
+                },
+                 success: function (result) {
+                     $.each(result, function (key, value) {
+                        if (key == "thoiGian") {
+                            ThoiGian = value;
+                        }
+                        if (key == "noiDung") {
+                            NoiDung = value;    
+                        }
+                         if (key == "binhLuanId") {
+                             BinhLuanId = value;
+                         }
+                         if (key == "khachHang") {
+                                         $.each(value, function (key, value) {
+                                    if (key == "hoTen") {
+                                        HoTen = value;
+                                    }
+                                  
+                                 });
+                        }
+                     });
+                     $('#comment-input-main').append('<br />\
+                            <img src="/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 20px;" />\
+                            <div>'+ HoTen +' '+ ThoiGian +'</div>\
+                            <form id="main-comment" method="POST" action="">\
+                                <textarea readonly cols="60" rows="2" name="txtcomment" class="txtcomment" style="padding-left: 10px;">'+ NoiDung + '</textarea><br>\
+                                <button id="'+ BinhLuanId +'" type="button" class="rep-submit" style="margin-left: 70px">Trả lời</button>\
+                            </form>');
+                    $('#NoiDungComment').val("");
+                }
+            });
+        });
+        //$('#comment-submit').on('click', function (e) {
+            
+        //})
+
         function changeImage() {
             $(".ega-product-img").click(function () {
                 var src = $(this).attr("src");

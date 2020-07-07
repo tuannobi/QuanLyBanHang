@@ -18,7 +18,6 @@ namespace QuanLyBanHang.Controllers
     public class KhuyenMaiController : Controller
     {
         private readonly QuanLyBanHangDbContext _context;
-        
         public KhuyenMaiController(QuanLyBanHangDbContext context)
         {
             _context = context;
@@ -70,7 +69,6 @@ namespace QuanLyBanHang.Controllers
             PopulateCategoryDropDownList();
             return View();
         }
-
         // GET: KhuyenMai/Details/5
         public async Task<IActionResult> Details(int id)
         {

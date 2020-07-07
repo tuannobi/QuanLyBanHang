@@ -53,7 +53,7 @@ namespace QuanLyBanHang.Controllers
             return View();
         }
 
-        public async Task<IActionResult> Details(int id)
+        public IActionResult Details(int id)
         {
             var thongtinsanpham = _context.ChiTietHoaDon.Include("SanPham").Where(sp => sp.HoaDonId == id);
             /*var thongtinsanpham = (from sp in _context.SanPham

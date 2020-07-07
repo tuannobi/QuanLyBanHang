@@ -6,18 +6,22 @@
 }
 @section Links{
     <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+    <link rel="stylesheet" href="~/admin/css/product.css" />
 }
 <div class="container">
     <div class="header-content">
         <h2>Danh sách sản phẩm</h2>
-        <a class="add-user" onclick="DeleteSelected()">
-            <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
-            Xóa sản phẩm
-        </a>
-        <a class="add-user" href="/SanPham/Create">
-            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-            Thêm sản phẩm
-        </a>
+        <div class="header-event">
+            <a class="add-user" href="/SanPham/Create">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Thêm sản phẩm
+            </a>
+            <a class="add-user" onclick="DeleteSelected()">
+                <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+                Xóa sản phẩm
+            </a>
+        </div>
+
     </div>
     <div class="content-content vertical-menu">
         <table>

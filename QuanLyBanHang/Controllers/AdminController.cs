@@ -9,6 +9,7 @@ using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
 {
+    [ServiceFilter(typeof(AdminFilter))]
     public class AdminController : Controller
     {
         private readonly QuanLyBanHangDbContext _context;
