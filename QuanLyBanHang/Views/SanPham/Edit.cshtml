@@ -34,7 +34,7 @@
             <input asp-for="TrangThai" type="text" value="@ViewBag.SanPham.TrangThai" required="">
 
             <label>Loại sản phẩm</label>
-            <select style="width:200px" asp-for="PhanLoaiId" asp-items="ViewBag.PhanLoaiId">
+            <select  asp-for="PhanLoaiId" asp-items="ViewBag.PhanLoaiId">
                 <option value="">Chọn loại sản phẩm</option>
             </select>
             <br>
@@ -55,7 +55,7 @@
             </div>
 
             <div class="clearfix"></div>
-            <div class="row add_cancel" style="text-align: right;">
+            <div class="row add_cancel" style="float: right;">
                 <input type="submit" value="Update" id="btnadd">
                 <a class="btn btncancel" asp-action="Index" id="cancel-button">Hủy bỏ</a>
             </div>

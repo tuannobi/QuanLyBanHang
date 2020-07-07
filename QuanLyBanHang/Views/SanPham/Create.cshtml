@@ -30,19 +30,19 @@
             <input asp-for="TrangThai" type="text" required="">
 
             <label>Loại sản phẩm</label>
-            <select style="width:200px" asp-for="PhanLoaiId" asp-items="ViewBag.PhanLoaiId">
+            <select asp-for="PhanLoaiId" asp-items="ViewBag.PhanLoaiId">
                 <option value="">Chọn loại sản phẩm</option>
             </select>
-            <br>
+            
 
             <label asp-for="MoTa">Mô tả</label>
             <textarea asp-for="MoTa" id="mota" required="" ></textarea>
             <label>Link sản phẩm</label>
             <input type="file" id="uploadFile" name="files" multiple="multiple">
 
-            <br>
+           
             <label>Ảnh sản phẩm</label>
-            <div id="image_preview"></div>
+            <div id="image_preview" style="margin: 5px 0;"></div>
 
             <div class="clearfix"></div>
             <div class="row add_cancel" style="float: right;">

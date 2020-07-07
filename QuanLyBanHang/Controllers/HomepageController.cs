@@ -30,23 +30,23 @@ namespace QuanLyBanHang.Controllers
             var trangDiemSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 2 && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 2 && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
             var chamSocDaSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 3 && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 3 && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now))); 
             var nuocHoaSanPhams = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 4 && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.NhomLoai == 4 && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
-            //var trangDiemSanPhams = from s in context.SanPham
-            //                        join p in context.PhanLoai
-            //                        on s.PhanLoaiId equals p.PhanLoaiId
-            //                        where p.NhomLoai == 1
-            //                        select s;
-            //var chamSocDaSanPhams = from s in context.SanPham
-            //                        join p in context.PhanLoai
-            //                        on s.PhanLoaiId equals p.PhanLoaiId
-            //                        where p.NhomLoai == 2
-            //                        select s;
-            //var nuocHoaSanPhams = from s in context.SanPham
-            //                      join p in context.PhanLoai
-            //                      on s.PhanLoaiId equals p.PhanLoaiId
-            //                      where p.NhomLoai == 3
-            //                      select s;
-            //var chiTietKhuyenMais = from km in context.ChiTietKhuyenMai
-            //                        select km;
+            /*var trangDiemSanPhams = from s in context.SanPham
+                                    join p in context.PhanLoai
+                                    on s.PhanLoaiId equals p.PhanLoaiId
+                                    where p.NhomLoai == 1
+                                    select s;
+            var chamSocDaSanPhams = from s in context.SanPham
+                                    join p in context.PhanLoai
+                                    on s.PhanLoaiId equals p.PhanLoaiId
+                                    where p.NhomLoai == 2
+                                    select s;
+            var nuocHoaSanPhams = from s in context.SanPham
+                                  join p in context.PhanLoai
+                                  on s.PhanLoaiId equals p.PhanLoaiId
+                                  where p.NhomLoai == 3
+                                  select s;
+            var chiTietKhuyenMais = from km in context.ChiTietKhuyenMai
+                                    select km;*/
             int soLuong=0;
             if (sessionUser != null)
             {

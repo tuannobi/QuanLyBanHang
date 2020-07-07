@@ -6,7 +6,7 @@
 }
 @section Links{
     <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
-    <link rel="stylesheet" href="~/admin/css/product.css" />
+    @*<link rel="stylesheet" href="~/admin/css/product.css" />*@
 }
 <div class="container">
     <div class="header-content">
@@ -26,14 +26,14 @@
     <div class="content-content vertical-menu">
         <table>
             <tr>
-                <th><input type="checkbox" id="checkall" /></th>
-                <th>Mã sản phẩm</th>
-                <th>Tên sản phẩm</th>
-                <th>Hình ảnh</th>
-                <th>Thương hiệu</th>
-                <th>Giá</th>
-                <th>Số lượng</th>
-                <th>Chỉnh sửa</th>
+                <th scope="col"><input type="checkbox" id="checkall" /></th>
+                <th scope="col">Mã sản phẩm</th>
+                <th scope="col" >Tên sản phẩm</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Thương hiệu</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Chỉnh sửa</th>
             </tr>
             @foreach (var item in Model)
             {
