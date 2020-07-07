@@ -61,10 +61,10 @@ namespace QuanLyBanHang.Controllers
             float tongTien = 0;
             int count = 0;
             SanPham sp = context.SanPham.Where(s => s.SanPhamId == productId).FirstOrDefault();
-            var km = context.ChiTietKhuyenMai.Include("KhuyenMai").Where(k => k.SanPhamId == productId && k.KhuyenMai.NgayBatDau <= DateTime.Now && k.KhuyenMai.NgayKetThuc >= DateTime.Now).FirstOrDefault();
+            var km = context.ChiTietKhuyenMai.Include("KhuyenMai").Where(k => k.SanPhamId == productId && k.KhuyenMai.NgayBatDau<=DateTime.Now && k.KhuyenMai.NgayKetThuc >=DateTime.Now).FirstOrDefault();
             if (km != null)
             {
-                khuyenMai = (float)(sp.GiaBanLe * km.PhanTramGiam * soLuong);
+                khuyenMai = (float)(sp.GiaBanLe * km.PhanTramGiam *soLuong);
             }
             else
             {

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,7 +12,7 @@ namespace QuanLyBanHang.Models
         public QuanLyBanHangDbContext()
         {
         }
-
+        
         public QuanLyBanHangDbContext(DbContextOptions<QuanLyBanHangDbContext> options)
             : base(options)
         {
@@ -40,7 +43,7 @@ namespace QuanLyBanHang.Models
             if (!optionsBuilder.IsConfigured)
             {
 #warning To protect potentially sensitive information in your connection string, you should move it out of source code. See http://go.microsoft.com/fwlink/?LinkId=723263 for guidance on storing connection strings.
-                optionsBuilder.UseMySql("server=localhost;port=3306;database=quanlybanhang;user=root;password=123456");
+                optionsBuilder.UseMySql("server=localhost;port=3306;database=quanlybanhang;user=root;password=");
             }
         }
 
@@ -444,5 +447,6 @@ namespace QuanLyBanHang.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+       
     }
 }

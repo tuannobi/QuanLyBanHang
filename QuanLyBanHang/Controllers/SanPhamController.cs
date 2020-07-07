@@ -122,7 +122,7 @@ namespace QuanLyBanHang.Controllers
                 _context.SanPham.Remove(sp);
             }
             _context.SaveChanges();
-            return Json("All the selected producted deleted successfully!");
+            return Json("All the selected products deleted successfully!");
         }
 
 
