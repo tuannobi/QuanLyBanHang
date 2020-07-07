@@ -76,9 +76,10 @@ a:hover, a:active, a:visited{
     border-top: 5px solid #000;
 
 }
-.prefoorerone{
-    width: 20%;
+.prefoorerone {
+    width: 18%;
     float: left;
+    margin-left: 2%;
 }
 .certification a img{
     margin-top: 20px;

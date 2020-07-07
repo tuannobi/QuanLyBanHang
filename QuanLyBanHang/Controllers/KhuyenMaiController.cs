@@ -10,8 +10,6 @@ using Newtonsoft.Json;
 
 using QuanLyBanHang.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
-using System.Dynamic;
-using Microsoft.AspNetCore.Mvc.ViewFeatures;
 
 namespace QuanLyBanHang.Controllers
 {

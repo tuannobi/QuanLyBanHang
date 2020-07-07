@@ -19,7 +19,7 @@ label {
 	width: 15%;
 }
 
-input[type=text], input[type=password], input[type=email],input[type=datetime-local],input[type=tel], input[type=datetime] {
+input[type=text], input[type=password], input[type=email],input[type=datetime-local],input[type=tel], input[type=datetime], input[type=date],input[type=number] {
 	display: inline;
 	width: 84%;
 	padding: 8px 18px;
@@ -92,12 +92,9 @@ input[type=submit] {
 	box-sizing: border-box;
 	background-color: #F5F1F2;
 }
-
-textarea{
-	width: 780px;
-	height: 100px;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-	background-color: #F5F1F2;
+#btnadd{
+	margin-right:5px;
+}
+.btncancel{
+	margin-right:20px;
 }

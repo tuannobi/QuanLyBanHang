@@ -24,7 +24,7 @@
             <input asp-for="Email" type="email" id="email" required="">
 
             <label asp-for="Sdt">Số điện thoại</label>
-            <input asp-for="Sdt" type="tel" id="sdt" required="" >
+            <input asp-for="Sdt" type="tel" id="sdt" required="" pattern="(\+84|0)\d{9,10}" title="Số điện không hợp lệ" >
 
             <label asp-for="DiaChi">Địa chỉ</label>
             <input asp-for="DiaChi" type="text" required="" id="diachi" >
@@ -41,7 +41,7 @@
             <input asp-for="TaiKhoan.NgayTao" type="datetime" value="@DateTime.Now" id="ngaytao" required="" readonly>
 
             <div class="clearfix"></div>
-            <div class="row add_cancel" style="float: right;margin-right: 5px;">
+            <div class="row add_cancel" style="float: right;">
                 <input type="submit" value="Thêm" id="btnadd" style="margin-right:3px">
                 <a class="btn btncancel" asp-action="Index" id="cancel-button">Hủy bỏ</a>
             </div>

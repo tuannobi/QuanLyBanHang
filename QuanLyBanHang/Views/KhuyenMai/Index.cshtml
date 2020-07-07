@@ -11,42 +11,46 @@
 <div class="container">
     <div class="header-content">
         <h2>Danh sách khuyến mãi</h2>
-        <a class="add-user" onclick="DeleteSelected()">
-            <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
-            Xóa khuyến mãi
-        </a>
-        <a class="add-user" href="/KhuyenMai/Create">
-            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-            Thêm khuyến mãi
-        </a>
+        <div class="header-event">
+
+            <a class="add-user" href="/KhuyenMai/Create">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Thêm khuyến mãi
+            </a>
+            <a class="add-user" onclick="DeleteSelected()">
+                <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+                Xóa khuyến mãi
+            </a>
+        </div>
+        </div>
+        <div class="content-content vertical-menu">
+            <table>
+                <tr>
+                    <th><input type="checkbox" id="checkall" /></th>
+                    <th>Mã khuyến mãi</th>
+                    <th>Tên khuyến mãi</th>
+                    <th>Ngày bắt đầu</th>
+                    <th>Ngày kết thúc</th>
+                    <th>Chức năng</th>
+                </tr>
+                @foreach (var item in Model)
+                {
+                    <tr>
+                        <th><input type="checkbox" class="tick" name="listproduct" value="@item.KhuyenMaiId" /></th>
+                        <td style="text-align: center;">@item.KhuyenMaiId</td>
+                        <td style="text-align: center;">@item.TenKhuyenMai</td>
+                        <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.NgayBatDau)</td>
+                        <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.NgayKetThuc)</td>
+                        <td style="text-align: center;">
+                            <a asp-action="Details" asp-route-id="@item.KhuyenMaiId" title="Chi tiết khuyến mãi"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                            <a onclick="Delete(@item.KhuyenMaiId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                        </td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
-    <div class="content-content vertical-menu">
-        <table>
-            <tr>
-                <th><input type="checkbox" id="checkall" /></th>
-                <th>Mã khuyến mãi</th>
-                <th>Tên khuyến mãi</th>
-                <th>Ngày bắt đầu</th>
-                <th>Ngày kết thúc</th>
-                <th>Chức năng</th>
-            </tr>
-            @foreach (var item in Model)
-            {
-        <tr>
-            <th><input type="checkbox" class="tick" name="listproduct" value="@item.KhuyenMaiId" /></th>
-            <td style="text-align: center;">@item.KhuyenMaiId</td>
-            <td style="text-align: center;">@item.TenKhuyenMai</td>
-            <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.NgayBatDau)</td>
-            <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.NgayKetThuc)</td>
-            <td style="text-align: center;">
-                <a asp-action="Details" asp-route-id="@item.KhuyenMaiId" title="Chi tiết khuyến mãi"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a onclick="Delete(@item.KhuyenMaiId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-            </td>
-        </tr>
-            }
-        </table>
-    </div>
-</div>
+
 @section Scripts {
     <script>
         function Delete(kmid) {
