@@ -16,7 +16,6 @@ namespace QuanLyBanHang.Controllers
     public class KhuyenMaiController : Controller
     {
         private readonly QuanLyBanHangDbContext _context;
-
         public KhuyenMaiController(QuanLyBanHangDbContext context)
         {
             _context = context;
@@ -33,21 +32,20 @@ namespace QuanLyBanHang.Controllers
         public ActionResult GetProduct(int id)
         {
             var listProduct = from d in _context.SanPham
-                              where d.PhanLoaiId == id
-                              select d;
+                                where d.PhanLoaiId == id
+                                select d;
             var s = "<option value =''>Chọn sản phẩm</option>";
             foreach (var item in listProduct)
             {
-                s += "<option value =" + item.SanPhamId + ">" + item.TenSanPham + "</option>";
+                s += "<option value =" + item.SanPhamId + ">"+item.TenSanPham+"</option>";
             }
             return Json(s);
         }
-        public ActionResult ThemKM(string tenKM, string moTa, DateTime bd, DateTime kt, List<SPKM> listKM)
-        {
+        public ActionResult ThemKM(string tenKM, string moTa,DateTime bd, DateTime kt,List<SPKM> listKM )
+        {  
             //List<SPKM> listSP = JsonConvert.DeserializeObject<List<SPKM>>(listKM);  
             List<ChiTietKhuyenMai> CTKM = new List<ChiTietKhuyenMai>();
-            foreach (var item in listKM)
-            {
+            foreach (var item in listKM) {
                 var ctkm = new ChiTietKhuyenMai();
                 ctkm.SanPhamId = item.ID;
                 ctkm.PhanTramGiam = item.SL;
@@ -69,13 +67,12 @@ namespace QuanLyBanHang.Controllers
             PopulateCategoryDropDownList();
             return View();
         }
-
         // GET: KhuyenMai/Details/5
         public async Task<IActionResult> Details(int id)
         {
             var km = from d in _context.KhuyenMai
-                     where d.KhuyenMaiId == id
-                     select d;
+                       where d.KhuyenMaiId == id
+                       select d;
             var ctkm = (from ct in _context.ChiTietKhuyenMai
                         join sp in _context.SanPham on ct.SanPhamId equals sp.SanPhamId
                         where ct.KhuyenMaiId == id
@@ -83,8 +80,8 @@ namespace QuanLyBanHang.Controllers
                         {
                             ID = sp.SanPhamId,
                             Name = sp.TenSanPham,
-                            SL = (float)ct.PhanTramGiam
-                        });
+                            SL = ct.PhanTramGiam
+                        });  
             ViewBag.TTKM = km;
             ViewBag.CTKM = ctkm;
             return View();

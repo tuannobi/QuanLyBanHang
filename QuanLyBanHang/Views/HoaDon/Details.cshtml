@@ -1,4 +1,4 @@
-﻿@model IEnumerable<QuanLyBanHang.Models.ThongTinHoaDon>
+﻿@model QuanLyBanHang.Models.HoaDon;
 
 @{
     ViewData["Title"] = "Details";
@@ -23,11 +23,11 @@
         {
             <div class="">
                 <span class="span1">Số hóa đơn: </span>
-                <span class="span2">@item1.HoaDon.HoaDonId</span>
+                <span class="span2">@item1.HoaDonId</span>
             </div>
             <div class="">
                 <span class="span1">Ngày:</span>
-                <span class="span2">@String.Format("{0:dd/MM/yyyy}", @item1.HoaDon.ThoiGianChoXuLy)</span>
+                <span class="span2">@String.Format("{0:dd/MM/yyyy}", @item1.ThoiGianChoXuLy)</span>
             </div>
             <div class="">
                 <span class="span1">Khách hàng: </span>
@@ -35,7 +35,7 @@
             </div>
             <div class="">
                 <span class="span1">Địa chỉ: </span>
-                <span class="span2">@item1.HoaDon.SoNha, @item1.PhiShip.Quan</span>
+                <span class="span2">@item1.SoNha, @item1.Quan</span>
             </div>
             <div class="">
                 <span class="span1">Số điện thoại: </span>
@@ -59,15 +59,15 @@
             @{var i = 1; }
             @foreach (var item in ViewBag.TTSP)
             {
-                var thanhtien = item.ChiTietHoaDon.TongTien - item.ChiTietHoaDon.TienKhuyenMai;
-                var dongia = thanhtien / item.ChiTietHoaDon.SoLuong;
+                var thanhtien = item.TongTien - item.TienKhuyenMai;
+                var dongia = thanhtien / item.SoLuong;
                 <tr>
                     <td style="text-align: center;">@i</td>
                     <td style="text-align: center;">@item.SanPham.TenSanPham</td>
-                    <td style="text-align: center;">@item.ChiTietHoaDon.SoLuong</td>
+                    <td style="text-align: center;">@item.SoLuong</td>
                     <td style="text-align: center;">@dongia</td>
-                    <td style="text-align: center;">@item.ChiTietHoaDon.TongTien</td>
-                    <td style="text-align: center;">@item.ChiTietHoaDon.TienKhuyenMai</td>
+                    <td style="text-align: center;">@item.TongTien</td>
+                    <td style="text-align: center;">@item.TienKhuyenMai</td>
                     <td style="text-align: center;">@thanhtien</td>
                 </tr>
                 i = i + 1;
@@ -79,7 +79,7 @@
                     <td></td>
                     <td></td>
                     <td colspan="2"><center><b>Tổng tiền:</b></center></td>
-                    <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.HoaDon.TongTien)</b></center></td>
+                    <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.TongTien)</b></center></td>
                 </tr>
                 <tr>
                     <td></td>
@@ -93,7 +93,7 @@
                     <td></td>
                     <td></td>
                     <td colspan="2"><center><b>Tổng tiền thanh toán:</b></center></td>
-                    <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.HoaDon.TongTienThanhToan)</b></center></td>
+                    <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.TongTienThanhToan)</b></center></td>
                 </tr>
             }
         </table>

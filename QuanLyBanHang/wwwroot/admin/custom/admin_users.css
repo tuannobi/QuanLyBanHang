@@ -24,10 +24,9 @@
 		border-radius: 8px;
 		padding: 3px 15px;
 		color: white;
-		background-color: #272F44;
+		background-color: black;
 		float: right;
 		margin-left: 10px;
-		height: fit-content;
 	}
 
 		.header-content .add-user:hover {
@@ -53,11 +52,11 @@ td, th {
 tr {
 	border-bottom: solid 1px #C6C6C6;
 }
-tr:nth-child(1) {
+
+	tr:nth-child(1) {
 		background-color: black !important;
 		color: white;
 	}
-	
 
 	tr:hover {
 		background-color: #dddddd;

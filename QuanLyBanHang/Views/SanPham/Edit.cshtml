@@ -22,10 +22,10 @@
             <input type="text" id="name" value="@ViewBag.SanPham.TenSanPham" asp-for="TenSanPham" required="">
 
             <label asp-for="GiaBanLe">Giá</label>
-            <input asp-for="GiaBanLe" type="text" id="gia" value="@ViewBag.SanPham.GiaBanLe" required="">
+            <input asp-for="GiaBanLe" type="text" id="gia" value="@ViewBag.SanPham.GiaBanLe" readonly>
 
             <label asp-for="Kho">Số lượng</label>
-            <input asp-for="Kho" type="text" id="soluong" value="@ViewBag.SanPham.Kho" required="">
+            <input asp-for="Kho" type="text" id="soluong" value="@ViewBag.SanPham.Kho" readonly>
 
             <label asp-for="ThuongHieu">Thương hiệu</label>
             <input asp-for="ThuongHieu" type="text" id="thuonghieu" value="@ViewBag.SanPham.ThuongHieu" required="">
@@ -38,9 +38,8 @@
                 <option value="">Chọn loại sản phẩm</option>
             </select>
             <br>
-
             <label asp-for="MoTa">Mô tả</label>
-            <input asp-for="MoTa" type="text" id="thuonghieu" value="@ViewBag.SanPham.MoTa" required="">
+            <textarea>@ViewBag.SanPham.MoTa</textarea>
 
             <label>Link sản phẩm</label>
             <input type="file" id="uploadFile" name="files" multiple />

@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,7 +12,7 @@ namespace QuanLyBanHang.Models
         public QuanLyBanHangDbContext()
         {
         }
-
+        
         public QuanLyBanHangDbContext(DbContextOptions<QuanLyBanHangDbContext> options)
             : base(options)
         {
@@ -444,5 +447,6 @@ namespace QuanLyBanHang.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+       
     }
 }

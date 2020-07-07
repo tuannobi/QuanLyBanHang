@@ -1,8 +1,9 @@
-﻿@model QuanLyBanHang.Models.HoaDon;
+﻿@model IEnumerable<QuanLyBanHang.Models.PhieuNhap>
 
 @{
     ViewData["Title"] = "Index";
     Layout = "~/Views/Shared/Layout_Admin.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
 
 @section Links{
@@ -10,37 +11,37 @@
 }
 <div class="container">
     <div class="header-content">
-        <h2>Danh sách hóa đơn chờ xử lí</h2>
-        <a class="add-user btn" style="color:white" onclick="DuyetSelected()">
-            <i class="fa fa-check" aria-hidden="true"></i>&nbsp;
-            Duyệt hóa đơn
+        <h2>Danh sách phiếu nhập</h2>
+        <a class="add-user" onclick="DeleteSelected()">
+            <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+            Xóa phiếu nhập
+        </a>
+        <a class="add-user" href="/PhieuNhap/Create">
+            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+            Thêm phiếu nhập
         </a>
     </div>
     <div class="content-content vertical-menu">
         <table>
             <tr>
                 <th><input type="checkbox" id="checkall" /></th>
-                <th>Số hóa đơn</th>
-                <th>Ngày tạo</th>
-                <th>Khách hàng</th>
-                <th>Địa chỉ</th>
-                <th>Phí ship</th>
+                <th>Mã phiếu nhập</th>
+                <th>Nhà cung cấp</th>
+                <th>Ngày nhập</th>
                 <th>Tổng tiền</th>
                 <th>Chức năng</th>
             </tr>
-            @foreach (var item in ViewBag.TTHD)
+            @foreach (var item in Model)
             {
                 <tr>
-                    <th><input type="checkbox" class="tick" name="listproduct" value="@item.HoaDonId" /></th>
-                    <td style="text-align: center;">@item.HoaDonId</td>
-                    <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.ThoiGianChoXuLy)</td>
-                    <td style="text-align: center;">@item.KhachHang.HoTen</td>
-                    <td style="text-align: center;">@item.SoNha, @item.Quan</td>
-                    <td style="text-align: center;">@item.PhiShip.ChiPhi</td>
-                    <td style="text-align: center;">@item.TongTienThanhToan</td>
+                    <th><input type="checkbox" class="tick" name="listproduct" value="@item.PhieuNhapId" /></th>
+                    <td style="text-align: center;">@item.PhieuNhapId</td>
+                    <td style="text-align: center;">@item.NhaCungCap.TenNhaCungCap</td>
+                    <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.NgayTao)</td>
+                    <td style="text-align: center;">@String.Format(info, "{0:C0}", item.TongTien)</td>
                     <td style="text-align: center;">
-                        <a asp-action="Details" asp-route-id="@item.HoaDonId" title="Chi tiết hóa đơn"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                        <a onclick="Duyet(@item.HoaDonId)"><i class="fa fa-check" aria-hidden="true"></i></a>
+                        <a asp-action="Details" asp-route-id="@item.PhieuNhapId" title="Chi tiết khuyến mãi"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        <a onclick="Delete(@item.PhieuNhapId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
                     </td>
                 </tr>
             }
@@ -49,15 +50,15 @@
 </div>
 @section Scripts {
     <script>
-        function Duyet(hoadonid) {
-            var ans = confirm("Bạn có chắc chắn muốn duyệt hóa đơn này không?");
+        function Delete(kmid) {
+            var ans = confirm("Bạn có chắc chắn muốn xóa phiếu nhập này không?");
             if (ans) {
                 $.ajax({
-                    url: "/HoaDon/Duyet/",
+                    url: "/PhieuNhap/Delete/",
                     type: "POST",
                     dataType: "json",
                     contextType: "application/json",
-                    data: { id: hoadonid },
+                    data: { id: kmid },
                     success: function (result) {
                         alert(result);
                         window.location.reload();
@@ -68,8 +69,8 @@
                 });
             }
         };
-        function DuyetSelected() {
-            var ans = confirm("Bạn có chắc chắn muốn duyệt những hóa đơn này không?");
+        function DeleteSelected() {
+            var ans = confirm("Bạn có chắc chắn muốn xóa những phiếu nhập này không?");
             if (ans) {
                 var selectedIDs = new Array();
                 $('input:checkbox.tick').each(function () {
@@ -78,7 +79,7 @@
                     }
                 });
                 $.ajax({
-                    url: "/HoaDon/DuyetSelected/",
+                    url: "/PhieuNhap/DeleteSelected/",
                     type: "POST",
                     dataType: "json",
                     contextType: "application/json",
