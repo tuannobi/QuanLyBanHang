@@ -52,7 +52,7 @@ namespace QuanLyBanHang.Models
 			message.From.AddRange(emailMessage.FromAddresses.Select(x => new MailboxAddress(x.Name, x.Address)));
 
 			message.Subject = emailMessage.Subject;
-			emailMessage.Content="<h1>Hello world</h1>";
+			emailMessage.Content=emailMessage.Content;
 			//We will say we are sending HTML. But there are options for plaintext etc. 
 			message.Body = new TextPart(TextFormat.Html)
 			{
