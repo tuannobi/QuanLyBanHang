@@ -1,1 +1,150 @@
-﻿
+﻿@model IEnumerable<QuanLyBanHang.Models.KhuyenMai>
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+
+@section Links{
+    <link rel="stylesheet" href="~/admin/css/khuyenmai.css" />
+    <link rel="stylesheet" href="~/admin/custom/admin_adduser.css" />
+}
+
+<div class="container">
+    <div class="header-content">
+        <h2>Thêm khuyến mãi</h2>
+        <hr />
+    </div>
+    <div class="content-content">
+        <div class="row">
+            <div class="col-6">
+                <label class="col-4">Tên khuyến mãi</label>
+                <input class="col-6" type="text" id="name" required="">
+            </div>
+            <div class="col-6 ">
+                <label  class="col-4">Mô tả</label>
+                <input class="col-6" type="text" id="mota" required="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label  class="col-4">Ngày bắt đầu</label>
+                <input class="col-6" type="date" id="ngaybd" required="">
+            </div>
+            <div class="col-6 ">
+                <label  class="col-4">Ngày kết thúc</label>
+                <input class="col-6" type="date" id="ngaykt" required="">
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label  class="col-4">Loại sản phẩm</label>
+                <select class="col-6" id="loaisp" style="width:270px" asp-items="ViewBag.PhanLoaiId">
+                    <option value="">Chọn loại sản phẩm</option>
+                </select>
+            </div>
+            <div class="col-6 ">
+                <label  class="col-4">Sản phẩm</label>
+                <select class="col-6" id="spham" style="width:270px">
+                    <option value="">Chọn sản phẩm</option>
+                </select>
+            </div>
+        </div>
+        <div class="row">
+            <div class="col-6">
+                <label  class="col-4">Phần trăm giảm</label>
+                <input class="col-6" type="number" id="giam" required="" min="0" max="1" step="0.01">
+            </div>
+            <div class="col-6 "></div>
+        </div>
+        <div class="row event" >
+            <button id="bt" class="btn eventadd" value="Create">Thêm</button>
+        </div>
+        <br />
+        <br />
+        <div class="tablechitietkm">
+            <div class="content-content">
+                <h4 style="text-align: center;"><b>CHI TIẾT KHUYẾN MÃI</b></h4>
+                <table id="tb" class="table table-hover tm-table-small ">
+                    <tr>
+                        <th scope="col">&nbsp;</th>
+                        <th scope="col">Tên sản phẩm</th>
+                        <th scope="col">Phần trăm giảm giá</th>
+                    </tr>
+
+                </table>
+            </div>
+            </div>
+
+            <div class="row add_cancel" style="text-align: right;">
+                <button id="themkm" class="btn">Add</button>
+                <button type="button" class="btn">Cancel</button>
+            </div>
+        </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function (e) {
+            var listSP = [];
+            $("#bt").click(function () {
+                var sp = { ID: $("#spham").val(), Name: $("#spham option:selected").text(), SL: $("#giam").val() };
+                listSP.push(sp);
+                //message = "<tr><td><a class='remove' id =" + sp.ID + "><i class='fa fa-trash'></i></a></td><td>" + sp.Name + "</td><td>" + sp.SL + "</td></tr>";
+                message = "<tr><td><a class='remove' id =" + sp.ID + "><i class='fa fa-trash'></i></a></td><td>" + sp.Name + "</td><td><input type='number' min='0' max='1' step='0.01' class = 'pt' id =" + sp.ID + " value =" + sp.SL + "></td></tr>";
+                $('#tb').append(message);
+            });
+            $("#tb").on("click", ".remove", function () {
+                z = listSP.findIndex(obj => obj.ID == $(this).attr("id"));
+                listSP.splice(z, 1);
+                $(this).closest("tr").remove();
+            });
+            $('#loaisp').on('change', function () {
+                var loaiid = parseInt($('#loaisp').val());
+                $.ajax({
+                    url: "/KhuyenMai/GetProduct/",
+                    type: "POST",
+                    dataType: "json",
+                    contextType: "application/json",
+                    data: { id: loaiid },
+                    success: function (result) {
+                        $("#spham").html(result);
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            });
+            $("#themkm").click(function () {
+                var tenkm = $('#name').val();
+                var mota = $('#mota').val();
+                var batdau = $('#ngaybd').val();
+                var ketthuc = $('#ngaykt').val();
+                //var sp = JSON.stringify(listSP);
+                $.ajax({
+                    url: "/KhuyenMai/ThemKM/",
+                    type: "POST",
+                    dataType: "json",
+                    contextType: "application/json",
+                    data: {
+                        tenKM: tenkm,
+                        moTa: mota,
+                        bd: batdau,
+                        kt: ketthuc,
+                        listKM: listSP,
+                    },
+                    success: function (result) {
+                        alert(result);
+                        window.location.replace("Index");
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            });
+            $("#tb").on("change", ".pt", function () {
+                z = listSP.findIndex(obj => obj.ID == $(this).attr("id"));
+                listSP[z].SL = $(this).val();
+            });
+        });
+    </script>
+}

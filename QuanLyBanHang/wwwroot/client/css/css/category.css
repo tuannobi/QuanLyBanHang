@@ -268,3 +268,12 @@ div.sidebar h4 a {
     padding-top: 20px;
     border-top: 1px dashed #E5E5E5;
 }
+.thuonghieu{
+    display: flex
+}
+.ThuongHieuCheckbox{
+    margin-right:4% !important;
+}
+#filter_group_1{
+    width:90%;
+}

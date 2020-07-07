@@ -16,7 +16,7 @@
     </div>
     <div class="content-content">
         <div class="content-content">
-            <form id="addproduct" asp-action="Create" enctype="multipart/form-data" method="post">
+            <form id="addproduct" asp-action="Edit" enctype="multipart/form-data" method="post">
                 <label asp-for="Adminid">Mã admin</label>
                 <input type="text" id="nhanvienid" required="" asp-for="Adminid" readonly value="@ViewBag.Admin.Adminid">
 
@@ -30,7 +30,7 @@
                 <input asp-for="Email" type="email" id="email" required="" value="@ViewBag.Admin.Email">
 
                 <label asp-for="Sdt">Số điện thoại</label>
-                <input asp-for="Sdt" type="tel" id="sdt" required="" value="@ViewBag.Admin.Sdt">
+                <input asp-for="Sdt" type="tel" id="sdt" required="" value="@ViewBag.Admin.Sdt" pattern="(\+84|0)\d{9,10}" title="Số điện không hợp lệ">
 
                 <label asp-for="DiaChi">Địa chỉ</label>
                 <input asp-for="DiaChi" type="text" required="" id="diachi" value="@ViewBag.Admin.DiaChi">
@@ -47,7 +47,7 @@
                 <input asp-for="TaiKhoan.NgayTao" type="datetime" value="@ViewBag.TaiKhoan.NgayTao" id="ngaytao" required="" readonly>
 
                 <div class="clearfix"></div>
-                <div class="row add_cancel" style="float: right;margin-right: 5px;">
+                <div class="row add_cancel" style="float: right;">
                     <input type="submit" value="Thêm" id="btnadd" style="margin-right:3px">
                     <a class="btn btncancel" asp-action="Index" id="cancel-button">Hủy bỏ</a>
                 </div>

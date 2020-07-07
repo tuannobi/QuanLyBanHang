@@ -28,17 +28,17 @@ namespace QuanLyBanHang.Controllers
             var trangDiemSanPhams = from s in context.SanPham
                                     join p in context.PhanLoai
                                     on s.PhanLoaiId equals p.PhanLoaiId
-                                    where p.NhomLoai == 2
+                                    where p.NhomLoai == 1
                                     select s;
             var chamSocDaSanPhams = from s in context.SanPham
                                     join p in context.PhanLoai
                                     on s.PhanLoaiId equals p.PhanLoaiId
-                                    where p.NhomLoai == 3
+                                    where p.NhomLoai == 2
                                     select s;
             var nuocHoaSanPhams = from s in context.SanPham
                                   join p in context.PhanLoai
                                   on s.PhanLoaiId equals p.PhanLoaiId
-                                  where p.NhomLoai == 4
+                                  where p.NhomLoai == 3
                                   select s;
             var chiTietKhuyenMais = from km in context.ChiTietKhuyenMai
                                     select km;
