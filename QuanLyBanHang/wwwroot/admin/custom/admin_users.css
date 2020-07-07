@@ -27,6 +27,7 @@
 		background-color: black;
 		float: right;
 		margin-left: 10px;
+		height: 32px;
 	}
 
 		.header-content .add-user:hover {
@@ -61,6 +62,12 @@ tr {
 	tr:hover {
 		background-color: #dddddd;
 	}
+	tr td img{
+		height:15%;
+	}
+	tr td img:hover {
+		height: 35%;
+	}
 
 td .fa {
 	font-weight: bold;
@@ -76,6 +83,21 @@ td li {
 	display: inline;
 	margin-right: 4px;
 }
+
+
+#uploadFile {
+	display: inline;
+	padding: 8px 18px;
+	margin: 5px 0;
+	display: inline-block;
+	border: 1px solid #ccc;
+	border-radius: 4px;
+	box-sizing: border-box;
+	background-color: #F5F1F2;
+}
+
+
+
 
 .btncancel {
 	border: 1px solid #495057 !important;

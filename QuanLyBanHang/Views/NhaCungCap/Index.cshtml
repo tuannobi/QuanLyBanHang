@@ -6,19 +6,22 @@
 }
 @section Links{
     <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
-    <link rel="stylesheet" href="/admin/css/ncc.css" />
+   @* <link rel="stylesheet" href="/admin/css/ncc.css" />*@
 }
 <div class="container">
     <div class="header-content">
         <h2>Danh sách nhà cung cấp</h2>
-            <a class="add-user" onclick="DeleteSelected()">
-                <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
-                Xóa nhà cung cấp
-            </a>
+        <div class="header-event">
+
             <a class="add-user" href="/NhaCungCap/Create">
                 <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
                 Thêm nhà cung cấp
             </a>
+            <a class="add-user" onclick="DeleteSelected()">
+                <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+                Xóa nhà cung cấp
+            </a>
+        </div>
         </div>
         <div class="content-content vertical-menu">
             <table>

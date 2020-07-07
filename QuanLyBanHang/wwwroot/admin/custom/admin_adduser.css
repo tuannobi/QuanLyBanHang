@@ -19,7 +19,7 @@ label {
 	width: 15%;
 }
 
-input[type=text], input[type=password], input[type=email],input[type=datetime-local],input[type=tel], input[type=datetime], input[type=date],input[type=number] {
+input[type=text], input[type=password], input[type=email],input[type=datetime-local],input[type=tel], input[type=datetime], input[type=date],input[type=number], input[type=file] {
 	display: inline;
 	width: 84%;
 	padding: 8px 18px;
@@ -30,17 +30,17 @@ input[type=text], input[type=password], input[type=email],input[type=datetime-lo
 	box-sizing: border-box;
 	background-color: #F5F1F2;
 }
-
-select {
-	display: inline;
-	width: 170px;
+textarea,select{
+	width: 84%;
 	padding: 8px 18px;
 	margin: 5px 0;
 	display: inline-block;
 	border: 1px solid #ccc;
 	border-radius: 4px;
 	box-sizing: border-box;
+	background-color: #F5F1F2;
 }
+
 
 input[type=submit] {
 	border: 1px solid #ccc;
@@ -82,16 +82,7 @@ input[type=submit] {
 		padding: 5px;
 	}
 
-#uploadFile {
-	display: inline;
-	padding: 8px 18px;
-	margin: 5px 0;
-	display: inline-block;
-	border: 1px solid #ccc;
-	border-radius: 4px;
-	box-sizing: border-box;
-	background-color: #F5F1F2;
-}
+
 #btnadd{
 	margin-right:5px;
 }

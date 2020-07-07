@@ -14,7 +14,7 @@
     <div class="header-content">
         <h2>Sửa nhân viên</h2>
     </div>
-    <div class="content-content">
+ 
         <div class="content-content">
             <form id="addproduct" asp-action="Edit" method="post">
                 <label asp-for="NhanVienId">Mã nhân viên</label>
@@ -38,7 +38,7 @@
 
 
                 <label asp-for="TaiKhoan.Username">Tên đăng nhập</label>
-                <input asp-for="TaiKhoan.Username" type="text" id="username" required="" value="@ViewBag.TaiKhoan.Username">
+                <input asp-for="TaiKhoan.Username" type="text" id="username" required="" value="@ViewBag.TaiKhoan.Username" readonly>
 
                 <label asp-for="TaiKhoan.Password">Mật khẩu</label>
                 <input asp-for="TaiKhoan.Password" type="password" id="matkhau" required="" value="@ViewBag.TaiKhoan.Password">
@@ -53,7 +53,7 @@
                 </div>
             </form>
         </div>
-    </div>
+
 </div>
 
 

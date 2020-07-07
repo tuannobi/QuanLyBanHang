@@ -63,16 +63,16 @@
                         @item.taiKhoan.Password
                     </td>
                     <td>
-                        @item.taiKhoan.NgayTao
+                        @String.Format("{0:dd/MM/yyyy}", @item.taiKhoan.NgayTao)
                     </td>
                     <td>
                         @item.vaiTro.MoTa
                     </td>
                     <td>
                         <div>
-                            <a href="/KhachHang/Edit/@item.khachhang.KhachHangId" class="btn tm-product-delete-link" id="update-staff"><i class="fa fa-pencil-square-ofas fa-edit tm-product-delete-icon"></i></a>
+                            <a href="/TaiKhoan/EditKhachHang/@item.taiKhoan.TaiKhoanId" class="btn tm-product-delete-link" id="update-staff"><i class="fa fa-pencil-square-ofas fa-edit tm-product-delete-icon"></i></a>
                             <a onclick="Delete(@item.khachhang.KhachHangId)" class="tm-product-delete-link" id="delete-staff"><i class="fa fa-trash-o tm-product-delete-icon"></i></a>
-                            <a href="/KhachHang/Details/@item.khachhang.KhachHangId" class="btn tm-product-delete-link" id="detail-staff"><i class="fa fa-eye tm-product-delete-icon"></i></a>
+                            
                         </div>
                     </td>
 

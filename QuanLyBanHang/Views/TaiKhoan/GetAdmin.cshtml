@@ -71,16 +71,16 @@
                             @item.taiKhoan.Password
                         </td>
                         <td>
-                            @item.taiKhoan.NgayTao
+                            @String.Format("{0:dd/MM/yyyy}", @item.taiKhoan.NgayTao)
                         </td>
                         <td>
                             @item.vaiTro.MoTa
                         </td>
                         <td>
                             <div>
-                                <a href="/Admin/Edit/@item.admin.Adminid" class="btn tm-product-delete-link" id="update-staff"><i class="fa fa-pencil-square-o tm-product-delete-icon"></i></a>
+                                <a href="/TaiKhoan/EditAdmin/@item.taiKhoan.TaiKhoanId" class="btn tm-product-delete-link" id="update-staff"><i class="fa fa-pencil-square-o tm-product-delete-icon"></i></a>
                                 <a onclick="Delete(@item.admin.Adminid)" class="tm-product-delete-link" id="delete-staff"><i class="fa fa-trash-o tm-product-delete-icon"></i></a>
-                                <a href="/Admin/Details/@item.admin.Adminid" class="btn tm-product-delete-link" id="detail-staff"><i class="fa fa-eye tm-product-delete-icon"></i></a>
+                               
                             </div>
                         </td>
 

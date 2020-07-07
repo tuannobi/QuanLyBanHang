@@ -46,7 +46,7 @@ namespace QuanLyBanHang.Controllers
                                   where p.NhomLoai == 3
                                   select s;
             var chiTietKhuyenMais = from km in context.ChiTietKhuyenMai
-                                    select km;
+                                    select km;*/
             int soLuong=0;
             if (sessionUser != null)
             {
