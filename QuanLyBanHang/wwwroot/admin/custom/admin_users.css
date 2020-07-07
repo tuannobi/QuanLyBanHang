@@ -27,6 +27,7 @@
 		background-color: black;
 		float: right;
 		margin-left: 10px;
+		height: fit-content;
 	}
 
 		.header-content .add-user:hover {
