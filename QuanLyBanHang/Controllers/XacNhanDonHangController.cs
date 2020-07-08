@@ -108,7 +108,7 @@ namespace QuanLyBanHang.Controllers
         public void sendSuccessfulEmail(string destinationEmail, string customerName, string MaXacNhan, int SoHoaDon)
         {
             List<ChiTietHoaDon> ChiTietHoaDons = context.ChiTietHoaDon.Include("SanPham").Where(hd => hd.HoaDonId == SoHoaDon).ToList();
-            HoaDon hoaDon = context.HoaDon.Where(hd => hd.HoaDonId == SoHoaDon).FirstOrDefault();
+            HoaDon hoaDon = context.HoaDon.Include("PhiShip").Where(hd => hd.HoaDonId == SoHoaDon).FirstOrDefault();
             EmailMessage emailMessage = new EmailMessage();
             //
             EmailAddress emailAddress1 = new EmailAddress();
@@ -146,7 +146,7 @@ namespace QuanLyBanHang.Controllers
             {
                 content += "<tr><td> " + cthd.SanPham.TenSanPham + "</td><td>" + cthd.SanPham.GiaBanLe + "</td><td>" + cthd.SoLuong + "</td><td>" + cthd.TienKhuyenMai + "</td><td>" + cthd.TongTien + "</td></tr>";
             }
-            content += "<tr><td colspan ='4'> Tạm tính </td><td> " + hoaDon.TongTien + " </td></tr><tr><td colspan ='4'> Phí Ship </td><td> " + hoaDon.PhiShip + " </td></tr><tr><td colspan ='4'> Tổng số tiền phải trả </td><td>" + hoaDon.TongTienThanhToan + " </td></tr>";
+            content += "<tr><td colspan ='4'> Tạm tính </td><td> " + hoaDon.TongTien + " </td></tr><tr><td colspan ='4'> Phí Ship </td><td> " + hoaDon.PhiShip.ChiPhi + " </td></tr><tr><td colspan ='4'> Tổng số tiền phải trả </td><td>" + hoaDon.TongTienThanhToan + " </td></tr>";
             content += "  </td></table> ";
             emailMessage.Content = content;
             emailService.Send(emailMessage);
