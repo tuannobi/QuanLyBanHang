@@ -1,0 +1,36 @@
+﻿@model QuanLyBanHang.Models.HoaDon;
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+}
+<div class="header-content">
+    <h2>Thống kê hóa đơn theo thời gian</h2>
+    <div class="fill">
+        <form method="post" action="ThongKeHoaDonTheoThoiGian">
+            <input type="datetime-local" name="ngayBatDau" id="ngayBatDau"/>
+            <input type="datetime-local" name="ngayKetThuc" id="ngayKetThuc"/>
+            <input type="submit"  value="Thống kê" id="thongke"/>
+        </form>
+
+    </div>
+    <a id="inhoadonbutton" class="add-user btn" style="color:white">
+        <i class="fa fa-print" aria-hidden="true"></i>&nbsp;
+        In hóa đơn
+    </a>
+</div>
+
+
+@section Scripts{
+    @*<script>
+        $('#thongke').on('click', function () {
+            ngbd = $('#ngbd').val()
+            ngkt = $('#ngkt').val()
+            alert(ngbd)
+            window.location.replace('/HoaDon/ThongKeHoaDonTheoThoiGian/'+ngbd+"/"+ngkt);
+        })
+    </script>*@
+}

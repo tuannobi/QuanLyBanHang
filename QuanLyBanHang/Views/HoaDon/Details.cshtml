@@ -13,7 +13,7 @@
 <div class="container">
     <div class="header-content">
         <h2>Phiếu bán hàng</h2>
-        <a class="add-user btn" style="color:white">
+        <a id="inhoadonbutton" class="add-user btn" style="color:white">
             <i class="fa fa-print" aria-hidden="true"></i>&nbsp;
             In hóa đơn
         </a>
@@ -23,7 +23,7 @@
         {
             <div class="">
                 <span class="span1">Số hóa đơn: </span>
-                <span class="span2">@item1.HoaDonId</span>
+                <span id="sohoadon" class="span2">@item1.HoaDonId</span>
             </div>
             <div class="">
                 <span class="span1">Ngày:</span>
@@ -61,15 +61,16 @@
             {
                 var thanhtien = item.TongTien - item.TienKhuyenMai;
                 var dongia = thanhtien / item.SoLuong;
-                <tr>
-                    <td style="text-align: center;">@i</td>
-                    <td style="text-align: center;">@item.SanPham.TenSanPham</td>
-                    <td style="text-align: center;">@item.SoLuong</td>
-                    <td style="text-align: center;">@dongia</td>
-                    <td style="text-align: center;">@item.TongTien</td>
-                    <td style="text-align: center;">@item.TienKhuyenMai</td>
-                    <td style="text-align: center;">@thanhtien</td>
-                </tr>
+        <tr>
+            <td style="text-align: center;">@i</td>
+            <td style="text-align: center;">@item.SanPham.TenSanPham</td>
+            <td style="text-align: center;">@item.SoLuong</td>
+            <td style="text-align: center;">@dongia</td>
+            <td style="text-align: center;">@thanhtien</td>
+            <td style="text-align: center;">@item.TienKhuyenMai</td>
+            
+            <td style="text-align: center;">@item.TongTien</td>
+        </tr>
                 i = i + 1;
             }
             @foreach (var item in ViewBag.TTHD)
@@ -99,3 +100,12 @@
         </table>
     </div>
 </div>
+@section Scripts{
+    <script>
+        $('#inhoadonbutton').on('click', function () {
+            id = $('#sohoadon').text()
+            alert(id)
+            window.location.replace('/HoaDon/InHoaDon/'+id);
+        })
+    </script>
+}
