@@ -1,7 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Drawing;
 using System.Linq;
 using System.Threading.Tasks;
+using GrapeCity.Documents.Html;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
@@ -37,21 +39,32 @@ namespace QuanLyBanHang.Controllers
             {
                 string HoTen = HttpContext.Session.GetString("HoTenSession");
                 string Email = HttpContext.Session.GetString("EmailSession");
+                string KiemTraKhachHang = HttpContext.Session.GetString("KiemTraKhachHang");
                 HoaDon hoaDon = JsonConvert.DeserializeObject<HoaDon>(HttpContext.Session.GetString("hoaDonSession"));
-                context.Add(hoaDon);
-                context.SaveChanges();
-                sendSuccessfulEmail(Email, HoTen, MaXacNhanSession,hoaDon.HoaDonId);
+                if (KiemTraKhachHang.Equals("KHM"))
+                {
+                    context.Add(hoaDon);
+                    context.SaveChanges();
+                }
+                else
+                {
+                    context.Update(hoaDon);
+                    context.SaveChanges();
+                }
+                sendSuccessfulEmail(Email, HoTen, MaXacNhanSession, hoaDon.HoaDonId);
                 HttpContext.Session.Remove("MaXacNhanSession");
                 HttpContext.Session.Remove("hoaDonSession");
                 HttpContext.Session.Remove("gioHangSession");
                 HttpContext.Session.Remove("EmailSession");
                 HttpContext.Session.Remove("HoTenSession");
+                HttpContext.Session.Remove("KiemTraKhachHang");
                 return Redirect("/homepage");
             }
             else
             {
                 HttpContext.Session.Remove("MaXacNhanSession");
-                return View("FailPage");            }
+                return View("FailPage");
+            }
 
 
         }
@@ -94,9 +107,9 @@ namespace QuanLyBanHang.Controllers
 
         public void sendSuccessfulEmail(string destinationEmail, string customerName, string MaXacNhan, int SoHoaDon)
         {
-            List<ChiTietHoaDon> ChiTietHoaDons =context.ChiTietHoaDon.Include("SanPham").Where(hd => hd.HoaDonId == SoHoaDon).ToList();
+            List<ChiTietHoaDon> ChiTietHoaDons = context.ChiTietHoaDon.Include("SanPham").Where(hd => hd.HoaDonId == SoHoaDon).ToList();
             HoaDon hoaDon = context.HoaDon.Where(hd => hd.HoaDonId == SoHoaDon).FirstOrDefault();
-;            EmailMessage emailMessage = new EmailMessage();
+            EmailMessage emailMessage = new EmailMessage();
             //
             EmailAddress emailAddress1 = new EmailAddress();
             emailAddress1.Name = "Email xác nhận từ shop bán mỹ phẩm";
@@ -114,36 +127,9 @@ namespace QuanLyBanHang.Controllers
             emailMessage.ToAddresses = listEmailAdress2;
             //
             emailMessage.Subject = "Đặt hàng thành công";
-       
-            string content = @"
-<!DOCTYPE html>
-<html>
-<head>
-<style>
-#customers {
-font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
-  border - collapse: collapse;
-        width: 100 %;
-        }
-#customers td, #customers th {
-        border: 1px solid #ddd;
-  padding: 8px;
-}
+            var content = "";
+            content = @"
 
-#customers tr:nth-child(even){background-color: #f2f2f2;}
-
-#customers tr:hover {background-color: #ddd;}
-
-#customers th {
-    padding-top: 12px;
-  padding-bottom: 12px;
-  text-align: left;
-  background-color: #000000;
-  color: white;
-}
-</style>
-</head>
-<body>
 <table id = 'customers'>
   <th>
     <tr>
@@ -158,15 +144,14 @@ font-family: 'Trebuchet MS', Arial, Helvetica, sans-serif;
 ";
             foreach (ChiTietHoaDon cthd in ChiTietHoaDons)
             {
-                content+="<tr><td> " + cthd.SanPham.TenSanPham + "</td><td>" + cthd.SanPham.GiaBanLe + "</td><td>" + cthd.SoLuong + "</td><td>" + cthd.TienKhuyenMai + "</td><td>" + cthd.TongTien + "</td></tr>";
+                content += "<tr><td> " + cthd.SanPham.TenSanPham + "</td><td>" + cthd.SanPham.GiaBanLe + "</td><td>" + cthd.SoLuong + "</td><td>" + cthd.TienKhuyenMai + "</td><td>" + cthd.TongTien + "</td></tr>";
             }
-            content+="<tr><td colspan ='4'> Tạm tính </td><td> " + hoaDon.TongTien + " </td></tr><tr><td colspan ='4'> Phí Ship </td><td> " + hoaDon.PhiShip + " </td></tr><tr><td colspan ='4'> Tổng số tiền phải trả </td><td>" + hoaDon.TongTienThanhToan + " </td></tr>";
-            content+="  </td></table></body></html> ";
+            content += "<tr><td colspan ='4'> Tạm tính </td><td> " + hoaDon.TongTien + " </td></tr><tr><td colspan ='4'> Phí Ship </td><td> " + hoaDon.PhiShip + " </td></tr><tr><td colspan ='4'> Tổng số tiền phải trả </td><td>" + hoaDon.TongTienThanhToan + " </td></tr>";
+            content += "  </td></table> ";
             emailMessage.Content = content;
-
-
             emailService.Send(emailMessage);
         }
-            
-        }
+
+
     }
+ }

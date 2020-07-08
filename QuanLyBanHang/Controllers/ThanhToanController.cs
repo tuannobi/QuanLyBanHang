@@ -9,6 +9,7 @@ using QuanLyBanHang.Models;
 using System.Text;
 using System.Security.Cryptography;
 using QuanLyBanHang.Utils;
+using Microsoft.EntityFrameworkCore;
 
 namespace QuanLyBanHang.Controllers
 {
@@ -71,6 +72,7 @@ namespace QuanLyBanHang.Controllers
             HoaDon hoaDon = new HoaDon();
             if (sessionUser != null && gioHangSession != null) //Tức là có phiên đăng nhập
             {
+                HttpContext.Session.SetString("KiemTraKhachHang", "KHC"); //Kiểm tra cập nhật hay thêm mới
                 List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
                 TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
                 KhachHang khachHang = context.KhachHang.Where(kh => kh.TaiKhoan.Username == taiKhoanSession.Username).FirstOrDefault();
@@ -93,12 +95,33 @@ namespace QuanLyBanHang.Controllers
             {
                 List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
                 PhiShip phiShip = context.PhiShip.Where(ps => ps.PhiShipId == quan).FirstOrDefault();
-                KhachHang khachHang = new KhachHang();
-                khachHang.HoTen = HoTen;
-                khachHang.Email = Email;
+                //Kiểm tra người dùng đã từng mua hàng chưa
+                KhachHang khachHang = null;
+                KhachHang tempKhachHang = context.KhachHang.Include("TaiKhoan").Where(kh => kh.Email == Email).FirstOrDefault();
+                if (tempKhachHang != null)
+                {
+                    //Kiểm tra có phải khách hàng đã có tài khoản hay chưa.. Thanh viên hay đã đặt trước nhưng chưa đăng ký thành viên
+                    if (tempKhachHang.TaiKhoan == null)
+                    {
+                        khachHang = tempKhachHang;
+                        HttpContext.Session.SetString("KiemTraKhachHang", "KHC");
+                    }
+                    else
+                    {
+                        HttpContext.Session.SetString("messageSession", "Khách hàng đã có tài khoản vui lòng đăng nhập");
+                        return Redirect("/login");
+
+                    }
+                }
+                else
+                {
+                    khachHang = new KhachHang();
+                    khachHang.HoTen = HoTen;
+                    khachHang.Email = Email;
+                    HttpContext.Session.SetString("KiemTraKhachHang", "KHM");
+                }
                 khachHang.Sdt = SoDienThoai;
                 khachHang.DiaChi = SoNha;
-
                 hoaDon.PhuongThucThanhToan = "SHIPCODE";
                 hoaDon.SoNha = SoNha;
                 hoaDon.Quan = phiShip.Quan;

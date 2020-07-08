@@ -23,6 +23,12 @@ namespace QuanLyBanHang.Controllers
         {
             var sessionUser = HttpContext.Session.GetString("sessionUser");
             var gioHangSession = HttpContext.Session.GetString("gioHangSession");
+            var message = HttpContext.Session.GetString("messageSession");
+            if (message != null)
+            {
+                ViewBag.message = message;
+                HttpContext.Session.Remove("messageSession");
+            }
             int soLuong = 0;
             if (sessionUser != null)
             {

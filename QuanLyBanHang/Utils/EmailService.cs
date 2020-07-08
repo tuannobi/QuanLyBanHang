@@ -54,10 +54,19 @@ namespace QuanLyBanHang.Models
 			message.Subject = emailMessage.Subject;
 			emailMessage.Content=emailMessage.Content;
 			//We will say we are sending HTML. But there are options for plaintext etc. 
-			message.Body = new TextPart(TextFormat.Html)
-			{
-				Text = emailMessage.Content
-			};
+			//message.Body = new TextPart(TextFormat.Html)
+			//{
+			//	Text = emailMessage.Content
+			//};
+			var builder = new BodyBuilder();
+			//var image = builder.LinkedResources.Add(@"C:\selfie.jpg");
+			builder.HtmlBody = string.Format(emailMessage.Content);
+			// We may also want to attach a calendar event for Monica's party...
+			//builder.Attachments.Add(@"C:\party.ics");
+			message.Body = builder.ToMessageBody();
+
+			// Now we just need to set the message body and we're done
+			message.Body = builder.ToMessageBody();
 
 			//Be careful that the SmtpClient class is the one from Mailkit not the framework!
 			using (var emailClient = new SmtpClient())

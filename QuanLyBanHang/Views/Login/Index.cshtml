@@ -68,6 +68,11 @@
                 </div>
                 <div class="row">
                     <div class="col-xs-12 col-sm-6">
+                        @if (ViewBag.message != null)
+                        {
+                            <div class="alert-danger alert">@ViewBag.message</div>
+                        }
+                        
                         <form accept-charset="UTF-8" id="customer_login" method="post">
 
                             <div class="form-group">
