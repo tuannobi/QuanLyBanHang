@@ -10,33 +10,33 @@
 <div class="container clearfix">
     <div class="row">
         <form method="post" action="">
-            <input type="hidden" value="@Model.SanPhamId" name="SanPhamId" />
+            <input type="hidden" value="@Model.SanPhamId" name="SanPhamId"/>
             <div class="col-md-5 col-xs-12">
                 <div class="product-image product-main-image">
                     <div class="slider-wrap">
                         <div class="pd_slide nopadding">
                             <div class="slide">
-                                @{var index = Model.HinhAnh.IndexOf(',');
-                                    string hinhanh;
-                                    if (index != -1) hinhanh = Model.HinhAnh.Substring(0, index);
-                                    else hinhanh = Model.HinhAnh; }
-                                <img itemprop="photos" src="~/client/images/product/@hinhanh" alt="">
+                                <img itemprop="photos" src="~/client/images/product/@Model.HinhAnh" alt="">
                             </div>
                         </div>
                         <div class="pd_slide_thumb owl-carousel owl-theme ega-product-img-carousel owl-loaded owl-drag">
                             <div class="owl-stage-outer">
                                 <div class="owl-stage">
-                                    @{ var hinhAnh = Model.HinhAnh.Split(',');}
-                                    @foreach (var item in hinhAnh)
-                                    {
-                                        <div class="owl-item active" style="width: 82.4px;">
-                                            <div class="slide">
-                                                <div class="img">
-                                                    <img class="ega-product-img" alt="" index="0" src="/client/images/product/@item">
-                                                </div>
-                                            </div>
+
+                                    @*<?php
+                                for($i=0;  $i < count($image_link); $i = $i + 1)
+                                {
+                                ?>
+                                <div class="owl-item active" style="width: 82.4px;">
+                                    <div class="slide">
+                                        <div class="img">
+                                            <img class="ega-product-img" alt="" index="0" src="<?=$image_link[$i]?>">
                                         </div>
-                                    }
+                                    </div>
+                                </div>
+                                <?php
+                                }
+                                ?>*@
                                 </div>
                             </div>
                             <div class="owl-dots disabled"></div>
@@ -45,11 +45,9 @@
                 </div>
             </div>
             @{
-
-                int giaBanLe = (int)Model.GiaBanLe;
-
-                System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
-                nfi.CurrencyPositivePattern = 1;
+                /*Định dạng theo tiền việt nam*/
+                var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                decimal giaBanLe = (decimal)Model.GiaBanLe;
             }
             <div class="col-md-4 col-xs-6 pd_desc_wrapper">
                 <div class="product-desc">
@@ -60,12 +58,12 @@
                         <span class="id_product">Mã SP: @Model.SanPhamId</span>
                         <span class="product_vendor">
                             Thương hiệu:
-                            <a href="" >@Model.ThuongHieu</a>
+                            <a href="" title="<?=$brand?>">@*<?=$brand?>*@</a>
                         </span>
                     </div>
                     <div class="pd_sale_wrapper clearfix">
                         <div class="product-price">
-                            <ins itemprop="">@string.Format(nfi, "{0:C0}", giaBanLe)</ins> <!----> <!---->
+                            <ins itemprop="">@String.Format(info, "{0:c}", giaBanLe);</ins> <!----> <!---->
                         </div>
                         <div class="clear"></div>
                         <div class="line"></div>
@@ -73,9 +71,9 @@
                             <div class="col-xs-12 options_picker color" style="position: relative;">
                                 <h6 class="options_header">Màu sắc</h6>
                                 <ul>
-                                    <li class="selected">
-                                        <span>Đỏ</span>
-                                    </li>
+                                <li class="selected">
+                                    <span>Đỏ</span>
+                                </li>
                                     <li class="">
                                         <span>Cam</span>
                                     </li>
@@ -83,14 +81,13 @@
                             </div>
 
                         </div>
-                        <input id="SoLuongThuc" type="hidden" value="@Model.Kho" />
                         <div class="quantity_title">
                             <label class="nomargin">Số lượng: </label>
                         </div>
                         <div class="quantity clearfix product-quantity">
-                            <input type="button" value="-" class="minus KiemTraKho">
-                            <input type="text" id="product_quantity" min="1" name="quantity" value="1" title="Qty" size="4" class="qty KiemTraKho">
-                            <input type="button" value="+" class="plus KiemTraKho">
+                            <input type="button" value="-" class="minus">
+                            <input type="text" id="product_quantity" min="1" name="quantity" value="1" title="Qty" size="4" class="qty">
+                            <input type="button" value="+" class="plus">
                         </div>
                         <div class="clear"></div>
                         @if (Model.Kho > 0)
@@ -199,56 +196,82 @@
                         </div>
                     </div>
                     <div role="tabpanel" class="tab-pane active" id="tab-2">
-                        
-                        <ul>
-                            <li>- Để nơi khô ráo, thoáng mát, nhiệt độ 20 độ C.</li>
-                        </ul>
+
                     </div>
                     <div role="tabpanel" class="tab-pane" id="tab-3">
-                        <form method='POST' action="" id="comment-input-main">
-                            <input type="hidden" value="@Model.SanPhamId" id="SanPhamIdComment"/>
-                            <textarea id="NoiDungComment" cols='60' rows='2' name='txtcomment' class='txtcomment' placeholder='Vui lòng nhập bình luận ở đây...' style='padding-left: 10px;'></textarea><br>
-                            <button type='submit' id='comment-submit'>Bình luận</button>
+                        <form method='POST' action="cmt-submit.php?id=<?php echo $id;?>">
+                            <textarea cols='60' rows='2' name='txtcomment' class='txtcomment' placeholder='Vui lòng nhập bình luận ở đây...' style='padding-left: 10px;'></textarea><br>
+                            <button type='submit' name='cmt-submit'>Bình luận</button>
                         </form>
-
-                        @foreach (var i in ViewBag.binhLuanList)
-                        {
-                            <br />
-                            <img src="~/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 20px;" />
-                            <div>@i.KhachHang.HoTen @i.ThoiGian</div>
-                            <form id="main-comment" method='POST' action="">
-                                <textarea readonly cols='60' rows='2' name='txtcomment' class='txtcomment' placeholder='Vui lòng nhập bình luận ở đây...' style='padding-left: 10px;'>@i.NoiDung</textarea><br>
-                                <button id="@i.BinhLuanId" type='button' class='rep-submit' style="margin-left: 70px">Trả lời</button>
-                            </form>
-                            foreach (var t in i.Reply)
-                            {
-                                foreach (var h in ViewBag.replyList)
-                                {
-                                    if (t.ReplyId == h.ReplyId)
-                                    {
-                                        <br />
-                                        <div class="row">
-                                            <div id="comment">
-                                                <img src="~/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 90px;" />
-                                                <div>@h.KhachHang.HoTen @h.ThoiGian</div>
-                                                <form method='POST' action="rep-submit.php?idcmt=<?php echo $idcmt;?>&id=<?php echo $id;?>">
-                                                    <textarea cols='53' rows='1' name='txtreply' class='txtreply' placeholder='Vui lòng nhập phản hồi ở đây...' style=' padding-left: 10px;'>@h.NoiDung</textarea><br>
-                                                </form>
+                        @*<?php
+                            $sql = "select * from comment where idproduct = $id";
+                            $result = mysqli_query($conn,$sql);
+                            while ($r = mysqli_fetch_array($result)){
+                            $idcmt = $r['idcmt'];
+                            $iduser = $r['iduser'];
+                            $date = $r['timecmt'];
+                            $comment = $r['content'];
+                            $sql2 = "select * from user where iduser = $iduser";
+                            $result2 = mysqli_query($conn,$sql2);
+                            while ($r2 = mysqli_fetch_array($result2)){
+                            $name = $r2['tenuser'];
+                            }
+                            ?>*@
+                        <div class='row'>
+                            <div id="comment">
+                                <img src="" width="50" height="50" style="float:left; margin-left: 20px; margin-top: 15px;" />
+                                <div id='inCmt'>
+                                    <?php
+                                    echo "<br><b>$name </b>";
+                                    echo "<br>$comment";
+                                    echo "<br><small>$date</small>";
+                                    ?>
+                                </div>
+                                <form method='POST' action="rep-submit.php?idcmt=<?php echo $idcmt;?>&id=<?php echo $id;?>">
+                                    <textarea cols='53' rows='1' name='txtreply' class='txtreply' placeholder='Vui lòng nhập phản hồi ở đây...' style='margin-left: 70px; padding-left: 10px;'></textarea><br>
+                                    <button type='submit' name='rep-submit' style="margin-left: 70px">Trả lời</button>
+                                </form>
+                                @*<?php
+                                    $sql3 = "select * from reply where idcmt = $idcmt";
+                                    $result3 = mysqli_query($conn,$sql3);
+                                    while ($row = mysqli_fetch_array($result3)){
+                                    $idrep = $row['idrep'];
+                                    $iduser2 = $row['iduser'];
+                                    $date2 = $row['timerep'];
+                                    $reply = $row['content'];
+                                    $sql4 = "select * from user where iduser = $iduser2";
+                                    $result4 = mysqli_query($conn,$sql4);
+                                    while ($r4 = mysqli_fetch_array($result4)){
+                                    $name2 = $r4['tenuser'];
+                                    }
+                                    ?>*@
+                                <div class='row' style="margin-left: 45px;">
+                                    <small>
+                                        <div id="reply">
+                                            <img src="" width="50" height="50" style="float:left; margin-left: 20px; margin-top: 10px;" />
+                                            <div id='inRep'>
+                                                @*<?php
+                                                echo "<br><b>$name2 </b>";
+                                                echo "<br>$reply";
+                                                echo "<br><small>$date2</small>";
+                                                ?>*@
                                             </div>
                                         </div>
-                                    }
+                                    </small>
+                                </div>
+                                <?php
                                 }
-                            }
-
+                                ?>
+                            </div>
+                        </div>
+                        <?php
                         }
+                        ?>
 
 
                     </div>
                     <div role="tabpanel" class="tab-pane active" id="tab-4">
-                        <ul>
-                            <li>- Đổi trả nếu sản phẩm bị lỗi trong 7 ngày</li>
-                            <li>- Hoàn tiền gấp 5 lần nếu là sản phẩm giả</li>
-                        </ul>
+
                     </div>
                 </div>
             </div>
@@ -256,205 +279,91 @@
     </div>
 </div>
     </div>
-@if (ViewBag.chiTietHoaDons != null)
-{
-    foreach (var cthd in ViewBag.chiTietHoaDons)
+
+@section scripts{ 
+<script>
+    $(document).ready(function () {
+ 	changeImage();
+ 	changeNumber();
+ 	var addSelectedColor = $(".color ul li");
+ 	var addSelectedSize = $(".size ul li");
+ 	addSelected(addSelectedColor);
+ 	addSelected(addSelectedSize);
+ 	$('.buynow').click(function (){
+    var ton = 5;
+    var count = 4;
+		var id_product = $('.id_product').text();
+    id_product = id_product.substr(7);
+    var amount = $(".qty").val();
+		if (product_quantity > ton)
+		{
+			alert ("Sản phẩm này hiện không đủ số lượng");
+		}
+		else
+	  {
+      ht =$("#product_quantity").val();
+			$.ajax({
+				url : "/GioHang",
+				type : 'get',
+				dataType : 'text',
+                data: {
+                    "id_product": id_product,
+					"product_quantity"		: ht,
+				},
+				success : function(result) {
+                    alert("Thêm vào giỏ hàng thành công");
+                    alert(result)
+                location.reload();
+          /* if (count ==0)
+  {
+    $(".top_cart_qty").text(1);
+    $(".top_cart_qty").show();
+  }
+  else
+  {
+    if (result == 1)
     {
-        if (cthd.SanPhamId == Model.SanPhamId)
-        {
-            <input type="hidden" id="soLuongSession" value="@cthd.SoLuong" />
-        }
+      count = parseInt(count);
+      count = count + 1;
     }
+    $(".top_cart_qty").text(count);
+  } */
+
+				  }
+			});
+		}
+	});
+});
+function changeImage(){
+	$(".ega-product-img").click(function(){
+		var src = $(this).attr("src");
+		$("img[itemprop='photos']").attr("src",src);
+	});
 }
-else
-{
-    <input type="hidden" id="soLuongSession" value="0" />
+function changeNumber(){
+	$(".plus").click(function(){
+		var number =  $("#product_quantity").attr("value");
+		var plus =  parseInt(number,10) + 1;
+		$("#product_quantity").attr("value",plus);
+	});
+	$(".minus").click(function(){
+		var number =  $("#product_quantity").attr("value");
+		var minus =  parseInt(number,10) - 1;
+		if(minus < 1){
+			minus = 1;
+		}
+		$("#product_quantity").attr("value",minus);
+	});
 }
-@section scripts{
-    <script>
-        $(document).ready(function () {
-            changeImage();
-            changeNumber();
-            var addSelectedColor = $(".color ul li");
-            var addSelectedSize = $(".size ul li");
-            addSelected(addSelectedColor);
-            addSelected(addSelectedSize);
-            $('.buynow').click(function () {
-                var ton = 5;
-                var count = 4;
-                var id_product = $('.id_product').text();
-                id_product = id_product.substr(7);
-                var ht = parseInt($("#product_quantity").val());
-                var amount = parseInt($("#SoLuongThuc").val());
-                var soLuongSanPham = 0
-                soLuongSanPham = parseInt($('#soLuongSession').val())
-                var tongSoLuongSanPhamVaDatMua = soLuongSanPham + ht
-                if (tongSoLuongSanPhamVaDatMua > amount) {
-                    alert("Sản phẩm này hiện không đủ số lượng");
-                }
-                else {
-                    $.ajax({
-                        url: "/GioHang",
-                        type: 'get',
-                        dataType: 'text',
-                        data: {
-                            "id_product": id_product,
-                            "product_quantity": ht,
-                        },
-                        success: function (result) {
-                            location.reload();
-                            /* if (count ==0)
-                    {
-                      $(".top_cart_qty").text(1);
-                      $(".top_cart_qty").show();
-                    }
-                    else
-                    {
-                      if (result == 1)
-                      {
-                        count = parseInt(count);
-                        count = count + 1;
-                      }
-                      $(".top_cart_qty").text(count);
-                    } */
-
-                        }
-                    });
-                }
-            });
-        });
-
-        //Sử lý khi click vào nút Trả lời của bình luận có sẵn
-        //$('button.rep-submit').on('click', function (e) {
-            
-        //})
-        //khi click trả lời một comment
-        $(document).on('click','.rep-submit', function (e) {  
-            e.preventDefault()
-            $(this).parent().append('<div class="row">\
-                                            <div id="comment">\
-                                             <img src="/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 90px;" />\
-                                                <form method="GET" action="">\
-                                                    <input type="hidden" id="SanPhamId" value="@Model.SanPhamId"/>\
-                                                    <textarea cols="53" rows="2" id="NoiDung" class="txtreply" style=" padding-left: 10px;"></textarea><br>\
-                                                    <button id="'+ $(this).attr('id') +'" type="button" class="comment-button">Trả lời</button>\
-                                                </form>\
-                                            </div>\
-                                        </div>');
-        });
-        //Khi click xác nhận reply một bình luận
-        $(document).on('click', '.comment-button', function (e) {
-            e.preventDefault()
-            var NoiDungReply = $('#NoiDung').val()
-            var MaBinhLuan = $(this).attr('id')
-            NutCanXoa = $(this)
-            TextField = $(this).parent().find('#NoiDung')
-            Form = $(this).parent()
-            $.ajax({
-                url: "/ChiTietSanPham/Reply",
-                type: 'get',
-                data: {
-                    "NoiDung": NoiDungReply,
-                    "BinhLuanId": MaBinhLuan
-                },
-                success: function (result) {
-                    $.each(result, function (key, value) {
-                        if (key == "thoiGian") {
-                            ThoiGianReply = value;
-                        }
-                        if (key == "khachHang") {
-                            $.each(value, function (key, value) {
-                                if (key == "hoTen") {
-                                    HoTenReply = value;
-                                }
-
-                            });
-                        }
-                    })
-                    Form.prepend('<div>' + HoTenReply + ' ' + ThoiGianReply + '</div>')
-                        NutCanXoa.remove()
-                        TextField.attr("rows", "1")
-                        TextField.attr("readonly")
-                }
-            });
-        });
-
-        //Xử lý khi click comment chính
-        $(document).on('click','#comment-submit', function (e) {  
-            e.preventDefault()
-
-             $.ajax({
-                url: "/ChiTietSanPham/Comment",
-                 type: 'get',
-                data: {
-                     "SanPhamId": $('#SanPhamIdComment').val(),
-                    "NoiDung": $('#NoiDungComment').val()
-                },
-                 success: function (result) {
-                     $.each(result, function (key, value) {
-                        if (key == "thoiGian") {
-                            ThoiGian = value;
-                        }
-                        if (key == "noiDung") {
-                            NoiDung = value;    
-                        }
-                         if (key == "binhLuanId") {
-                             BinhLuanId = value;
-                         }
-                         if (key == "khachHang") {
-                                         $.each(value, function (key, value) {
-                                    if (key == "hoTen") {
-                                        HoTen = value;
-                                    }
-                                  
-                                 });
-                        }
-                     });
-                     $('#comment-input-main').append('<br />\
-                            <img src="/client/images/avatar.png" width="50" height="50" style="float:left; margin-left: 20px;" />\
-                            <div>'+ HoTen +' '+ ThoiGian +'</div>\
-                            <form id="main-comment" method="POST" action="">\
-                                <textarea readonly cols="60" rows="2" name="txtcomment" class="txtcomment" style="padding-left: 10px;">'+ NoiDung + '</textarea><br>\
-                                <button id="'+ BinhLuanId +'" type="button" class="rep-submit" style="margin-left: 70px">Trả lời</button>\
-                            </form>');
-                    $('#NoiDungComment').val("");
-                }
-            });
-        });
-        //$('#comment-submit').on('click', function (e) {
-            
-        //})
-
-        function changeImage() {
-            $(".ega-product-img").click(function () {
-                var src = $(this).attr("src");
-                $("img[itemprop='photos']").attr("src", src);
-            });
-        }
-        function changeNumber() {
-            $(".plus").click(function () {
-                var number = $("#product_quantity").attr("value");
-                var plus = parseInt(number, 10) + 1;
-                $("#product_quantity").attr("value", plus);
-            });
-            $(".minus").click(function () {
-                var number = $("#product_quantity").attr("value");
-                var minus = parseInt(number, 10) - 1;
-                if (minus < 1) {
-                    minus = 1;
-                }
-                $("#product_quantity").attr("value", minus);
-            });
-        }
-        function removeSelected(element) {
-            element.removeClass("selected");
-        }
-        function addSelected(element) {
-            element.click(function () {
-                removeSelected(element);
-                $(this).addClass("selected");
-            });
-        }
-    </script>
+function removeSelected(element){
+	element.removeClass("selected");
+}
+function addSelected(element){
+	element.click(function(){
+		removeSelected(element);
+	 	$(this).addClass("selected");
+	});
+    }
+</script>
 }
 

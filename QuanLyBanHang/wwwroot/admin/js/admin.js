@@ -1,4 +1,10 @@
-﻿
+﻿//Update
+function Update(ID) {
+    $('.background-popup').show();
+    $('.background-popup').addClass('d-flex align-items-center justify-content-center');
+    $('.background-popup').load("/Admin/Edit/" + ID)
+
+}
 
 //delete
 function Delete(ID) {
@@ -27,11 +33,27 @@ function Delete(ID) {
         });
     }
 }
+//Detail
+function Detail(ID) {
+    $('.background-popup').show();
+    $('.background-popup').addClass('d-flex align-items-center justify-content-center');
+    $('.background-popup').load("/Admin/Details/" + ID)
 
+}
 
 
 $(document).ready(function () {
-   
+    $(document).on('click', '#add-admin', function () {
+        $('.background-popup').show();
+        $('.background-popup').addClass('d-flex align-items-center justify-content-center');
+        $('.background-popup').load("/Admin/Create");
+    })
+
+    $(document).on('click', '#cancel-button', function () {
+        $('.background-popup').hide();
+        $('.background-popup').removeClass('d-flex align-items-center justify-content-center');
+        $('.background-popup').empty();
+    })
 
     $(document).on('submit', '#formthem', function (e) {
         var form = $('#formthem')[0];

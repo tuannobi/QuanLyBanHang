@@ -118,12 +118,51 @@ namespace QuanLyBanHang.Controllers
             return View(quanlyadmin);
         }
 
-    
-       
+        // GET: TaiKhoan/Details/5
+        public async Task<IActionResult> Details(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
 
+            var taiKhoan = await _context.TaiKhoan
+                .Include(t => t.VaiTro)
+                .FirstOrDefaultAsync(m => m.TaiKhoanId == id);
+            if (taiKhoan == null)
+            {
+                return NotFound();
+            }
+
+            return View(taiKhoan);
+        }
+
+        // GET: TaiKhoan/Create
+        public IActionResult Create()
+        {
+            ViewData["VaiTroId"] = new SelectList(_context.VaiTro, "VaiTroId", "VaiTroId");
+            return View();
+        }
+
+        // POST: TaiKhoan/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(taiKhoan);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["VaiTroId"] = new SelectList(_context.VaiTro, "VaiTroId", "VaiTroId", taiKhoan.VaiTroId);
+            return View(taiKhoan);
+        }
 
         // GET: TaiKhoan/Edit/5
-        public async Task<IActionResult> EditAdmin(int? id)
+        public async Task<IActionResult> Edit(int? id)
         {
             if (id == null)
             {
@@ -144,7 +183,7 @@ namespace QuanLyBanHang.Controllers
         // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditAdmin(int id, [Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
+        public async Task<IActionResult> Edit(int id, [Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
         {
             if (id != taiKhoan.TaiKhoanId)
             {
@@ -155,7 +194,6 @@ namespace QuanLyBanHang.Controllers
             {
                 try
                 {
-                    taiKhoan.NgayTao = DateTime.Now;
                     _context.Update(taiKhoan);
                     await _context.SaveChangesAsync();
                 }
@@ -170,125 +208,11 @@ namespace QuanLyBanHang.Controllers
                         throw;
                     }
                 }
-                return RedirectToAction(nameof(GetAdmin));
+                return RedirectToAction(nameof(Index));
             }
             ViewData["VaiTroId"] = new SelectList(_context.VaiTro, "VaiTroId", "VaiTroId", taiKhoan.VaiTroId);
             return View(taiKhoan);
         }
-        //nhan vien
-
-        // GET: TaiKhoan/Edit/5
-        public async Task<IActionResult> EditNhanVien(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var taiKhoan = await _context.TaiKhoan.FindAsync(id);
-            if (taiKhoan == null)
-            {
-                return NotFound();
-            }
-            ViewData["VaiTroId"] = new SelectList(_context.VaiTro, "VaiTroId", "VaiTroId", taiKhoan.VaiTroId);
-            return View(taiKhoan);
-        }
-
-        // POST: TaiKhoan/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditNhanVien(int id, [Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
-        {
-            if (id != taiKhoan.TaiKhoanId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    taiKhoan.NgayTao = DateTime.Now;
-                    _context.Update(taiKhoan);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TaiKhoanExists(taiKhoan.TaiKhoanId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(GetNhanVien));
-            }
-            ViewData["VaiTroId"] = new SelectList(_context.VaiTro, "VaiTroId", "VaiTroId", taiKhoan.VaiTroId);
-            return View(taiKhoan);
-        }
-
-
-        //Khach hang
-
-        // GET: TaiKhoan/Edit/5
-        public async Task<IActionResult> EditKhachHang(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var taiKhoan = await _context.TaiKhoan.FindAsync(id);
-            if (taiKhoan == null)
-            {
-                return NotFound();
-            }
-            ViewData["VaiTroId"] = new SelectList(_context.VaiTro, "VaiTroId", "VaiTroId", taiKhoan.VaiTroId);
-            return View(taiKhoan);
-        }
-
-        // POST: TaiKhoan/Edit/5
-        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
-        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
-        [HttpPost]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> EditKhachHang(int id, [Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
-        {
-            if (id != taiKhoan.TaiKhoanId)
-            {
-                return NotFound();
-            }
-
-            if (ModelState.IsValid)
-            {
-                try
-                {
-                    taiKhoan.NgayTao = DateTime.Now;
-                    _context.Update(taiKhoan);
-                    await _context.SaveChangesAsync();
-                }
-                catch (DbUpdateConcurrencyException)
-                {
-                    if (!TaiKhoanExists(taiKhoan.TaiKhoanId))
-                    {
-                        return NotFound();
-                    }
-                    else
-                    {
-                        throw;
-                    }
-                }
-                return RedirectToAction(nameof(GetKhachHang));
-            }
-            ViewData["VaiTroId"] = new SelectList(_context.VaiTro, "VaiTroId", "VaiTroId", taiKhoan.VaiTroId);
-            return View(taiKhoan);
-        }
-
-
 
         // GET: TaiKhoan/Delete/5
         public async Task<IActionResult> Delete(int? id)

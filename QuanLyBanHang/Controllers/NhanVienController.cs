@@ -1,13 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
-using System.Reflection.Metadata;
-using System.Text;
 using System.Threading.Tasks;
-using iTextSharp.text;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.pdf;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
@@ -24,31 +18,6 @@ namespace QuanLyBanHang.Controllers
             _context = context;
         }
 
-        [HttpPost]
-        public IActionResult Details(int id)
-        {
-            MemoryStream workStream = new MemoryStream();
-            //iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 25, 25, 25, 25);        
-            string html = "<!DOCTYPE html>" +
-                "< html >" +
-                "< body >" +
-                "< h1 > Tiêu đề đầu tiên của tôi </ h1> " +
-                "< p > Đoạn văn đầu tiên của tôi.</ p >" +
-                "</ body> " +
-                "</ html > ";
-            //PdfWriter.GetInstance(document, workStream).CloseStream = false;
-            //document.Open();
-            //document.Add(new Paragraph(html));
-            //document.Add(new Paragraph(DateTime.Now.ToString()));
-            //document.Close();
-            //Convert document type to html
-            byte[] byteInfo = GetPDF(html);
-            workStream.Write(byteInfo, 0, byteInfo.Length);
-            workStream.Position = 0;
-
-            return new FileStreamResult(workStream, "application/pdf");
-        }
-
         // GET: NhanVien
         public async Task<IActionResult> Index()
         {
@@ -56,32 +25,6 @@ namespace QuanLyBanHang.Controllers
             var quanLyBanHangDbContext = _context.NhanVien.Include(n => n.TaiKhoan);
             return View(await quanLyBanHangDbContext.ToListAsync());
         }
-
-        [HttpPost]
-        public IActionResult In(int id)
-        {
-            MemoryStream workStream = new MemoryStream();
-            //iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 25, 25, 25, 25);        
-            string html = "<!DOCTYPE html>" +
-                "< html >" +
-                "< body >" +
-                "< h1 > Tiêu đề đầu tiên của tôi </ h1> " +
-                "< p > Đoạn văn đầu tiên của tôi.</ p >" +
-                "</ body> " +
-                "</ html > ";
-            //PdfWriter.GetInstance(document, workStream).CloseStream = false;
-            //document.Open();
-            //document.Add(new Paragraph(html));
-            //document.Add(new Paragraph(DateTime.Now.ToString()));
-            //document.Close();
-            //Convert document type to html
-            byte[] byteInfo = GetPDF(html);
-            workStream.Write(byteInfo, 0, byteInfo.Length);
-            workStream.Position = 0;
-
-            return new FileStreamResult(workStream, "application/pdf");
-        }
-
 
         // GET: NhanVien/Details/5
         public async Task<IActionResult> Details(int? id)
@@ -211,38 +154,6 @@ namespace QuanLyBanHang.Controllers
             return _context.NhanVien.Any(e => e.NhanVienId == id);
         }
 
-        public byte[] GetPDF(string pHTML)
-        {
-            byte[] bPDF = null;
-
-            MemoryStream ms = new MemoryStream();
-            TextReader txtReader = new StringReader(pHTML);
-
-            // 1: create object of a itextsharp document class
-            iTextSharp.text.Document doc = new iTextSharp.text.Document(PageSize.A4, 25, 25, 25, 25);
-
-            // 2: we create a itextsharp pdfwriter that listens to the document and directs a XML-stream to a file
-            PdfWriter oPdfWriter = PdfWriter.GetInstance(doc, ms);
-
-            // 3: we create a worker parse the document
-            HTMLWorker htmlWorker = new HTMLWorker(doc);
-
-            // 4: we open document and start the worker on the document
-            doc.Open();
-            htmlWorker.StartDocument();
-
-            // 5: parse the html into the document
-            htmlWorker.Parse(txtReader);
-
-            // 6: close the document and the worker
-            htmlWorker.EndDocument();
-            htmlWorker.Close();
-            doc.Close();
-
-            bPDF = ms.ToArray();
-
-            return bPDF;
-        }
     }
 
 }

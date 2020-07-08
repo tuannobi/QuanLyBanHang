@@ -97,15 +97,5 @@ header h2{
 	background-color: #272C3C !important;
 	color: #4AFFFF;
 }
-.envent_login_logout{
-	display: flex;
-	justify-content:space-between;
-}
-#search {
-	background-color: #272F44;
-	border-radius: 8px;
-	color: white;
-	padding: 3px 15px;
-}
 
 /* <========== End Menu style ==========>*/

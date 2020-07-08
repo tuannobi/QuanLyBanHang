@@ -41,8 +41,8 @@ namespace QuanLyBanHang.Controllers
         [HttpPost]
         public IActionResult Index([Bind("HoTen,Email,Sdt,DiaChi,TaiKhoan")] KhachHang khachHang)
         {
-            khachHang.TaiKhoan.VaiTroId = 3;
-            khachHang.TaiKhoan.NgayTao = DateTime.Now;
+            khachHang.TaiKhoan.VaiTroId = 1;
+            khachHang.TaiKhoan.NgayTao = DateTime.Now.Date;
             _context.Add(khachHang);
             _context.SaveChanges();
             return Redirect("/Login");

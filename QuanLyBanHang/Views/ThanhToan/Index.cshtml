@@ -299,11 +299,7 @@
                                                     {
                                                         @if (sp.SanPhamId == item.SanPhamId)
                                                         {
-                                                            var index = sp.HinhAnh.IndexOf(',');
-                                                            string hinhanh;
-                                                            if (index != -1) hinhanh = sp.HinhAnh.Substring(0, index);
-                                                            else hinhanh = sp.HinhAnh;
-                                                            <img src="~/client/images/product/@hinhanh" class="product-thumbnail__image">
+                                                            <img src="~/client/images/product/@sp.HinhAnh" class="product-thumbnail__image">
                                                         }
                                                     }
 
@@ -331,7 +327,7 @@
 
                                         </td>
                                     <td class="product-price text-right">
-                                        @String.Format(info, "{0:C0}", tongTien)
+                                        @String.Format(info, "{0:c}", tongTien)
                                     </td>
                                     </tr>
                                     }
@@ -370,9 +366,9 @@
                                 Tạm tính
                             </span>
                             @{
-                                int tongTienTamTinh = (int)ViewBag.tongTienTamTinh;
+                                decimal tongTienTamTinh = (decimal)ViewBag.tongTienTamTinh;
                             }
-                            <span class="money">@String.Format(info, "{0:C0}", tongTienTamTinh)</span>
+                            <span class="money">@String.Format(info, "{0:c}", tongTienTamTinh)</span>
                         </div>
 
                         <div class="total-line total-line-subtotal clearfix">
@@ -387,13 +383,13 @@
                             <span class="total-line-name pull-left">
                                 Tổng cộng
                             </span>
-                            <span id="tongTienThanhToanId" class="money sum_price" itemprop="">@String.Format(info, "{0:C0}", tongTienTamTinh)</span>
+                            <span id="tongTienThanhToanId" class="money sum_price" itemprop="">@String.Format(info, "{0:c}", tongTienTamTinh)</span>
                         </div>
                     </div>
                 </div>
                 <div class="form-group clearfix ">
                     <div class="field__input-btn-wrapper mt10">
-                        <a class="previous-link" href="/GioHang/Details">
+                        <a class="previous-link" href="cart.php">
                             <i class="fa fa-angle-left fa-lg" aria-hidden="true"></i>
                             <span>Quay về giỏ hàng</span>
                         </a>
@@ -428,11 +424,11 @@
                                     </span>
                                     @if (ViewBag.khachHang == null)
                                     {
-                                        <input class='field__input form-control' required type="email" id="Email" name="Email" />
+                                        <input required type="email" id="Email" name="Email" />
                                     }
                                     else
                                     {
-                                        <input readonly required value="@ViewBag.khachHang.Email" type="email" id="email" name="email" />
+                                        <input disabled required value="@ViewBag.khachHang.Email" type="email" id="email" name="email" />
                                     }
                                 </div>
                                 <div class="form-group">
@@ -441,11 +437,11 @@
                                     </span>
                                     @if (ViewBag.khachHang == null)
                                     {
-                                        <input class='field__input form-control' required type="text" id="HoTen" name="HoTen" />
+                                        <input required type="text" id="HoTen" name="HoTen" />
                                     }
                                     else
                                     {
-                                        <input class='field__input form-control' readonly required value="@ViewBag.khachHang.HoTen" type="text" id="HoTen" name="HoTen" />
+                                        <input disabled required value="@ViewBag.khachHang.HoTen" type="text" id="HoTen" name="HoTen" />
                                     }
                                 </div>
                                 <div class="form-group">
@@ -454,26 +450,25 @@
                                     </span>
                                     @if (ViewBag.khachHang == null)
                                     {
-                                        <input class='field__input form-control' required type="number" id="SoDienThoai" name="SoDienThoai" />
+                                        <input required type="number" id="SoDienThoai" name="SoDienThoai" />
                                     }
                                     else
                                     {
-                                        <input class='field__input form-control' required disabled type="text" value="@ViewBag.khachHang.Sdt" id="SoDienThoai" name="SoDienThoai" />
+                                        <input required disabled type="text" value="@ViewBag.khachHang.Sdt" id="SoDienThoai" name="SoDienThoai" />
                                     }
                                 </div>
                                 <div class="form-group">
                                     <span class="field__label">
                                         Số nhà
                                     </span>
-                                    <input class='field__input form-control' required type="text" id="SoNha" name="SoNha" />
+                                    <input required type="text" id="SoNha" name="SoNha" />
                                 </div>
                                 <div class="form-group">
                                     <span class="field__label">
                                         Quận
                                     </span>
-                                    <select class='field__input form-control' id="quan" name="quan">
-                                        <option value="" disabled selected>Chọn Quận</option>
-                                        @foreach (var quan in ViewBag.phiShipList)
+                                    <select id="quan" name="quan">
+                                        @foreach(var quan in ViewBag.phiShipList)
                                         {
                                             <option value="@quan.PhiShipId">@quan.Quan</option>
                                         }
@@ -577,9 +572,9 @@
                         })*/
                         $.each(data, function (key, value) {
                             if (key == "chiPhi") {
-                                $('#phiShipId').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value));
-                                $('#vanChuyen').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value));
-                                $('#tongTienThanhToanId').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(@ViewBag.tongTienTamTinh+value));
+                                $('#phiShipId').text(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(value));
+                                $('#vanChuyen').text(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(value));
+                                $('#tongTienThanhToanId').text(new Intl.NumberFormat('de-DE', { style: 'currency', currency: 'VND' }).format(@ViewBag.tongTienTamTinh-value));
                                 $('#tongTienThanhToan').val(@ViewBag.tongTienTamTinh-value);
                             }
                         })
