@@ -37,11 +37,11 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">SẢN PHẨM <b class="caret"></b></a>
                             <ul class="dropdown-menu category">
-                                <li><a href="#" itemprop="111">Sản phẩm nổi bật</a></li>
+                                <li><a href="/Category/NhomSanPham/111" itemprop="111">Sản phẩm nổi bật</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#" itemprop="111">Sản phẩm mới</a></li>
+                                <li><a href="/Category/NhomSanPham/222" itemprop="222">Sản phẩm mới</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#" itemprop="Sản phẩm khuyến mãi">Sản phẩm khuyến mãi</a></li>
+                                <li><a href="/Category/NhomSanPham/333" itemprop="333">Sản phẩm khuyến mãi</a></li>
                             </ul>
                         </li>
                         <li>
@@ -240,13 +240,9 @@
                 window.location.replace("/GioHang/Details");
             });
 
-            /*$('#search').on('change', function () {
-                var nd = $(this).val();
-                var sort = 'default';
-                var loc = 'all';
-                var locgia = 'all';
-                window.location.replace('category.php?id=all&sortby=' + sort + '&loc=' + loc + '&locgia=' + locgia + '&search=' + nd);
-            });*/
+            $('#search').on('change', function () {
+                window.location.replace("/Homepage/TimKiem?keyword=" + $(this).val());
+            });
         });
     </script>
     @RenderSection("scripts", required: false)

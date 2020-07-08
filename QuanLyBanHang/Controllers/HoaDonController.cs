@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
@@ -104,6 +106,7 @@ namespace QuanLyBanHang.Controllers
             _context.SaveChanges();
             return Json("Tất cả những hóa đơn được chọn đã duyệt thành công");
         }
+
     }
 
   
