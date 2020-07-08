@@ -25,15 +25,24 @@ namespace QuanLyBanHang
         // This method gets called by the runtime. Use this method to add services to the container.
         public void ConfigureServices(IServiceCollection services)
         {
+                        services.AddControllersWithViews()
+                .AddNewtonsoftJson(options =>
+                options.SerializerSettings.ReferenceLoopHandling = Newtonsoft.Json.ReferenceLoopHandling.Ignore
+            );
+
             services.AddControllersWithViews();
             services.AddDbContext<QuanLyBanHangDbContext>();
             services.AddScoped<DbContext>(sp => sp.GetService<QuanLyBanHangDbContext>());
             //container = services.BuildServiceProvider(); //container is a global variable。
             //Filters
-            services.AddScoped<LoginFilter>();
+            services.AddScoped<ClientFilter>();
+            services.AddScoped<AdminFilter>();
             //
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
+            //
+            services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
+            services.AddTransient<IEmailService, EmailService>();
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -66,7 +75,7 @@ namespace QuanLyBanHang
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=Login}/{action=Index}/{id?}");
+                    pattern: "{controller=HomePage}/{action=Index}/{id?}");
             });
         }
     }

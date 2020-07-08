@@ -2,89 +2,62 @@
 
 @{
     ViewData["Title"] = "Edit";
-    Layout = "";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
 }
 
 
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_adduser.css" />
+}
 
-<form id="formsua" asp-action="Edit" method="POST">
-    <div id="popup-them-header" class="font-weight-bold" style="color:white">Sửa nhân viên</div>
-    <div id="popup-them-body">
-        <div class="col-6 d-inline-block" id="div-trai">
-            <div class="form-group row">
-                <label for="them_ho" class="col-5 col-form-label font-weight-bold">Mã nhân viên</label>
-                <div class="col-sm-7">
-                    <input type="text" readonly class="form-control" asp-for="Adminid" value="@ViewBag.Admin.Adminid" aria-describedby="emailHelp">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="them_ho" class="col-5 col-form-label font-weight-bold">Họ và tên</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" asp-for="HoTen" value="@ViewBag.Admin.HoTen" aria-describedby="emailHelp">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label for="them_ngaysinh" class="col-5 col-form-label font-weight-bold">Ngày sinh</label>
-                <div class="col-sm-7">
-
-                    <input type="datetime-local" class="form-control" asp-for="NgaySinh" value="@ViewBag.NgaySinh" aria-describedby="emailHelp">
-
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="them_email" class="col-5 col-form-label font-weight-bold">Email</label>
-                <div class="col-sm-7">
-                    <input type="email" class="form-control" asp-for="Email" value="@ViewBag.Admin.Email" aria-describedby="emailHelp">
-                </div>
-            </div>
-
-            <div class="form-group row">
-                <label class="col-5 font-weight-bold" for="them_sdt">Số điện thoại</label>
-                <div class="col-sm-7">
-                    <input type="tel" class="form-control" asp-for="Sdt" value="@ViewBag.Admin.Sdt" aria-describedby="emailHelp">
-                </div>
-            </div>
-            <br />
-        </div>
-
-        <div class="col-6 float-right" id="div-phai">
-            <div class="form-group row">
-                <label for="them_diachi" class="col-4 col-form-label font-weight-bold">Địa chỉ</label>
-                <div class="col-sm-7">
-                    <input type="text" class="form-control" asp-for="DiaChi" value="@ViewBag.Admin.DiaChi" aria-describedby="emailHelp">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-4 font-weight-bold" for="them_loaisanpham">Tên đăng nhập</label>
-                <div class="col-7">
-                    <input type="text" readonly class="form-control" asp-for="TaiKhoan.Username" value="@ViewBag.TaiKhoan.Username" aria-describedby="emailHelp">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label class="col-4 font-weight-bold" for="them_loaisanpham">Mật khẩu</label>
-                <div class="col-7">
-                    <input type="password" class="form-control" asp-for="TaiKhoan.Password" value="@ViewBag.TaiKhoan.Password" aria-describedby="emailHelp">
-                </div>
-            </div>
-            <div class="form-group row">
-                <label for="them_diachi" class="col-4 col-form-label font-weight-bold">Ngày tạo</label>
-                <div class="col-sm-7">
-                    <input type="datetime" readonly class="form-control" asp-for="TaiKhoan.NgayTao" value="@ViewBag.TaiKhoan.NgayTao" aria-describedby="emailHelp">
-                </div>
-            </div>
-
-
-        </div>
-
+<div class="container">
+    <div class="header-content">
+        <h2>Cập nhật chi tiết admin</h2>
     </div>
+    <div class="content-content">
+        <div class="content-content">
+            <form id="addproduct" asp-action="Edit" enctype="multipart/form-data" method="post">
+                <label asp-for="Adminid">Mã admin</label>
+                <input type="text" id="nhanvienid" required="" asp-for="Adminid" readonly value="@ViewBag.Admin.Adminid">
 
-    <div id="popup-body-button" class="float-right  mb-3 mt-2">
-        <button type="submit" class="btn btn-success" value="Edit">Lưu</button>
-        <button type="button" class="btn btn-danger" id="cancel-button">Hủy bỏ</button>
+                <label asp-for="HoTen">Họ và tên</label>
+                <input type="text" id="hoten" required="" asp-for="HoTen" value="@ViewBag.Admin.HoTen">
+
+                <label asp-for="NgaySinh">Ngày sinh</label>
+                <input asp-for="NgaySinh" type="datetime-local" id="ngaysinh" required="" value="@ViewBag.NgaySinh">
+
+                <label asp-for="Email">Email</label>
+                <input asp-for="Email" type="email" id="email" required="" value="@ViewBag.Admin.Email">
+
+                <label asp-for="Sdt">Số điện thoại</label>
+                <input asp-for="Sdt" type="tel" id="sdt" required="" value="@ViewBag.Admin.Sdt" pattern="(\+84|0)\d{9,10}" title="Số điện không hợp lệ">
+
+                <label asp-for="DiaChi">Địa chỉ</label>
+                <input asp-for="DiaChi" type="text" required="" id="diachi" value="@ViewBag.Admin.DiaChi">
+
+
+
+                <label asp-for="TaiKhoan.Username">Tên đăng nhập</label>
+                <input asp-for="TaiKhoan.Username" type="text" id="username" required="" value="@ViewBag.TaiKhoan.Username">
+
+                <label asp-for="TaiKhoan.Password">Mật khẩu</label>
+                <input asp-for="TaiKhoan.Password" type="password" id="matkhau" required="" value="@ViewBag.TaiKhoan.Password">
+
+                <label asp-for="TaiKhoan.NgayTao">Ngày tạo</label>
+                <input asp-for="TaiKhoan.NgayTao" type="datetime" value="@ViewBag.TaiKhoan.NgayTao" id="ngaytao" required="" readonly>
+
+                <div class="clearfix"></div>
+                <div class="row add_cancel" style="float: right;">
+                    <input type="submit" value="Thêm" id="btnadd" style="margin-right:3px">
+                    <a class="btn btncancel" asp-action="Index" id="cancel-button">Hủy bỏ</a>
+                </div>
+            </form>
+        </div>
     </div>
+</div>
 
-</form>
+
+
 
 
 

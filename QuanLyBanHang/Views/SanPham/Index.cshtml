@@ -1,0 +1,130 @@
+﻿@model IEnumerable<QuanLyBanHang.Models.SanPham>
+
+@{
+    ViewData["Title"] = "Index";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+    @*<link rel="stylesheet" href="~/admin/css/product.css" />*@
+}
+<div class="container">
+    <div class="header-content">
+        <h2>Danh sách sản phẩm</h2>
+        <div class="header-event">
+            <a class="add-user" href="/SanPham/Create">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Thêm sản phẩm
+            </a>
+            <a class="add-user" onclick="DeleteSelected()">
+                <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+                Xóa sản phẩm
+            </a>
+        </div>
+
+    </div>
+    <div class="content-content vertical-menu">
+        <table>
+            <tr>
+                <th scope="col"><input type="checkbox" id="checkall" /></th>
+                <th scope="col">Mã sản phẩm</th>
+                <th scope="col" >Tên sản phẩm</th>
+                <th scope="col">Hình ảnh</th>
+                <th scope="col">Thương hiệu</th>
+                <th scope="col">Giá</th>
+                <th scope="col">Số lượng</th>
+                <th scope="col">Chỉnh sửa</th>
+            </tr>
+            @foreach (var item in Model)
+            {
+                /*var hinhanh = item.HinhAnh;
+                hinhanh = hinhanh.Remove(hinhanh.IndexOf(','));*/
+                var index = item.HinhAnh.IndexOf(',');
+                string hinhanh;
+                if (index != -1) hinhanh = item.HinhAnh.Substring(0, index);
+                else hinhanh = item.HinhAnh;
+                <tr>
+                    <th><input type="checkbox" class="tick" name="listproduct" value="@item.SanPhamId" /></th>
+                    <td style="text-align: center;">@item.SanPhamId</td>
+                    <td>@item.TenSanPham</td>
+                    <td style="text-align: center;"><img src="/client/images/product/@hinhanh"></td>
+                    <td>@item.ThuongHieu</td>
+                    <td style="text-align: center;">@item.GiaBanLe</td>
+                    <td style="text-align: center;">@item.Kho</td>
+                    <td style="text-align: center;">
+                        <a asp-action="Edit" asp-route-id="@item.SanPhamId"><i class="fa fa-pencil-square-o" aria-hidden="true"></i></a>
+                        <a onclick="Delete(@item.SanPhamId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        function Delete(productid) {
+            var ans = confirm("Are you sure you want to delete this product?");
+            if (ans) {
+                $.ajax({
+                    url: "/SanPham/Delete/",
+                    type: "POST",
+                    data: { id: productid },
+                    dataType: "text",
+                    success: function (result) {
+                        alert(result);
+                        window.location.reload();
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+            }
+        };
+        function DeleteSelected() {
+            var ans = confirm("Are you sure you want to delete selected product?");
+            if (ans) {
+                var selectedIDs = new Array();
+                $('input:checkbox.tick').each(function () {
+                    if ($(this).prop("checked")) {
+                        selectedIDs.push($(this).val());
+                    }
+                });
+                $.ajax({
+                    url: "/SanPham/DeleteSelected/",
+                    type: "POST",
+                    dataType: "json",
+                    contextType: "application/json",
+                    data: { selected: selectedIDs },
+                    //traditional: true,
+                    success: function (result) {
+                        alert(result);
+                        window.location.reload();
+                        //window.location.href("/SanPham");
+                    },
+                    error: function (errormessage) {
+                        alert(errormessage.responseText);
+                    }
+                });
+
+
+            }
+
+        };
+        $(document).ready(function () {
+            $(function () {
+                $('#checkall').change(function () {
+                    if ($(this).prop("checked") == true) {
+                        $("input[name=listproduct]").prop("checked", true);
+                    }
+                    else {
+                        $("input[name=listproduct]").prop("checked", false);
+                    }
+                });
+
+            });
+
+        });
+    </script>
+}
+
+

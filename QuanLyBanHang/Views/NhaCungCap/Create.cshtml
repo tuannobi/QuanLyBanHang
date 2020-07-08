@@ -1,0 +1,37 @@
+﻿@model QuanLyBanHang.Models.NhaCungCap
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_adduser.css" />
+}
+
+<div class="container">
+    <div class="header-content">
+        <h2>Thêm nhà cung cấp</h2>
+    </div>
+    <div class="content-content">
+        <form asp-action="Create">
+            <label asp-for="TenNhaCungCap">Tên nhà cung cấp</label>
+            <input type="text" required="" asp-for="TenNhaCungCap">
+
+            <label asp-for="DiaChi">Địa chỉ</label>
+            <input asp-for="DiaChi" type="text"  required="">
+
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" type="email" required="">
+
+            <label asp-for="Sdt">Số điện thoại</label>
+            <input asp-for="Sdt" type="text" required="">
+
+
+            <div class="clearfix"></div>
+            <div class="row add_cancel" style="float: right;">
+                <input type="submit" value="Add" id="btnadd">
+                <button class="btncancel">Cancel</button>
+            </div>
+        </form>
+    </div>
+</div>

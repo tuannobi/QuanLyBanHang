@@ -1,4 +1,7 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Dynamic;
+using Microsoft.AspNetCore.Mvc.ViewFeatures;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata;
 
@@ -9,7 +12,7 @@ namespace QuanLyBanHang.Models
         public QuanLyBanHangDbContext()
         {
         }
-
+        
         public QuanLyBanHangDbContext(DbContextOptions<QuanLyBanHangDbContext> options)
             : base(options)
         {
@@ -32,6 +35,7 @@ namespace QuanLyBanHang.Models
         public virtual DbSet<SanPham> SanPham { get; set; }
         public virtual DbSet<TaiKhoan> TaiKhoan { get; set; }
         public virtual DbSet<VaiTro> VaiTro { get; set; }
+        public virtual DbSet<ThongTinHoaDon> ThongTinHoaDon { get; set; }
         public object HttpContext { get; internal set; }
 
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
@@ -443,5 +447,6 @@ namespace QuanLyBanHang.Models
         }
 
         partial void OnModelCreatingPartial(ModelBuilder modelBuilder);
+       
     }
 }

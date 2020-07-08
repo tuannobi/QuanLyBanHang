@@ -1,0 +1,68 @@
+﻿@model QuanLyBanHang.Models.SanPham
+
+@{
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+}
+@section Links{
+    <link rel="stylesheet" href="~/admin/custom/admin_adduser.css" />
+}
+
+<div class="container">
+    <div class="header-content">
+        <h2>Thêm sản phẩm</h2>
+    </div>
+    <div class="content-content">
+        <form id="addproduct" asp-action="Create" enctype="multipart/form-data" method="post">
+            <label asp-for="TenSanPham">Tên sản phẩm</label>
+            <input type="text" id="name" required="" asp-for="TenSanPham">
+
+            <label asp-for="GiaBanLe">Giá</label>
+            <input asp-for="GiaBanLe" type="text" id="gia" required="">
+
+            <label asp-for="Kho">Số lượng</label>
+            <input asp-for="Kho" type="text" id="soluong" required="">
+
+            <label asp-for="ThuongHieu">Thương hiệu</label>
+            <input asp-for="ThuongHieu" type="text" id="thuonghieu" required="">
+
+            <label asp-for="TrangThai">Trạng thái</label>
+            <input asp-for="TrangThai" type="text" required="">
+
+            <label>Loại sản phẩm</label>
+            <select asp-for="PhanLoaiId" asp-items="ViewBag.PhanLoaiId">
+                <option value="">Chọn loại sản phẩm</option>
+            </select>
+            
+
+            <label asp-for="MoTa">Mô tả</label>
+            <textarea asp-for="MoTa" id="mota" required="" ></textarea>
+            <label>Link sản phẩm</label>
+            <input type="file" id="uploadFile" name="files" multiple="multiple">
+
+           
+            <label>Ảnh sản phẩm</label>
+            <div id="image_preview" style="margin: 5px 0;"></div>
+
+            <div class="clearfix"></div>
+            <div class="row add_cancel" style="float: right;">
+                <input type="submit" value="Add" id="btnadd">
+                <a class="btn btncancel" asp-action="Index" id="cancel-button">Hủy bỏ</a>
+            </div>
+        </form>
+    </div>
+</div>
+@section Scripts {
+    <script>
+        $(document).ready(function (e) {
+            $("#uploadFile").change(function () {
+                $('#image_preview').html("");
+                var total_file = document.getElementById("uploadFile").files.length;
+                for (var i = 0; i < total_file; i++) {
+                    $('#image_preview').append("<img src='" + URL.createObjectURL(event.target.files[i]) + "'>");
+                }
+            });
+        });
+    </script>
+}
+

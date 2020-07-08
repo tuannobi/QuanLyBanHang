@@ -1,0 +1,52 @@
+﻿.event {
+    text-align: center;
+    float: right;
+    margin-right: 7%;
+}
+.eventadd {
+    background-color: #272F44;
+    color: white;
+}
+table{
+    width:90% !important;
+    margin-left:5%;
+}
+td, th {
+    text-align: left;
+    padding: 8px;
+    width: auto !important;
+}
+
+tr {
+    border-bottom: solid 1px #C6C6C6;
+}
+
+    tr:nth-child(1) {
+        background-color: #272F44 !important;
+        color: white;
+    }
+
+
+    tr:hover {
+        background-color: #dddddd;
+    }
+
+td .fa {
+    font-weight: bold;
+    font-size: 18px;
+    color: black;
+}
+
+.add_cancel {
+    float: right;
+    margin-right: 5%;
+
+}
+    .add_cancel button {
+        background-color: #272F44;
+        color: white;
+        border-radius: 4px;
+    }
+    #themkm {
+        margin-right: 5px;
+    }
