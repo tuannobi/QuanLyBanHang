@@ -1,0 +1,42 @@
+﻿@model QuanLyBanHang.Models.TaiKhoan
+
+@{
+    ViewData["Title"] = "Details";
+}
+
+<h2>Details</h2>
+
+<div>
+    <h4>TaiKhoan</h4>
+    <hr />
+    <dl class="dl-horizontal">
+        <dt>
+            @Html.DisplayNameFor(model => model.Username)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Username)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.Password)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.Password)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.NgayTao)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.NgayTao)
+        </dd>
+        <dt>
+            @Html.DisplayNameFor(model => model.VaiTro)
+        </dt>
+        <dd>
+            @Html.DisplayFor(model => model.VaiTro.VaiTroId)
+        </dd>
+    </dl>
+</div>
+<div>
+    <a asp-action="Edit" asp-route-id="@Model.TaiKhoanId">Edit</a> |
+    <a asp-action="Index">Back to List</a>
+</div>

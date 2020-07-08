@@ -7,8 +7,6 @@ using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 using System.Text;
-using System.Security.Cryptography;
-using QuanLyBanHang.Utils;
 
 namespace QuanLyBanHang.Controllers
 {
@@ -16,12 +14,9 @@ namespace QuanLyBanHang.Controllers
     {
         private readonly QuanLyBanHangDbContext context;
 
-        private IEmailService emailService;
-
-        public ThanhToanController(QuanLyBanHangDbContext context, IEmailService emailService)
+        public ThanhToanController(QuanLyBanHangDbContext context)
         {
             this.context = context;
-            this.emailService = emailService;
         }
         public IActionResult Index()
         {
@@ -68,13 +63,13 @@ namespace QuanLyBanHang.Controllers
             //2 trường hợp là người dùng đã có tài khoản đặt mua và người dùng không cần đăng nhập để đặt mua
             var sessionUser = HttpContext.Session.GetString("sessionUser");
             var gioHangSession = HttpContext.Session.GetString("gioHangSession");
-            HoaDon hoaDon = new HoaDon();
             if (sessionUser != null && gioHangSession != null) //Tức là có phiên đăng nhập
             {
                 List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
                 TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
                 KhachHang khachHang = context.KhachHang.Where(kh => kh.TaiKhoan.Username == taiKhoanSession.Username).FirstOrDefault();
                 PhiShip phiShip = context.PhiShip.Where(ps => ps.PhiShipId == quan).FirstOrDefault();
+                HoaDon hoaDon = new HoaDon();
                 hoaDon.PhuongThucThanhToan = "SHIPCODE";
                 hoaDon.SoNha = SoNha;
                 hoaDon.Quan = phiShip.Quan;
@@ -86,10 +81,9 @@ namespace QuanLyBanHang.Controllers
                 hoaDon.TrangThai = "Chờ xử lý";
                 hoaDon.ThoiGianChoXuLy = DateTime.Now;
                 hoaDon.ChiTietHoaDon = chiTietHoaDons;
-                //
-
-            }
-            else if( sessionUser==null && gioHangSession!=null)//Không có phiên đăng nhập
+                context.Add(hoaDon);
+                context.SaveChanges();
+            }else if( sessionUser==null && gioHangSession!=null)//Không có phiên đăng nhập
             {
                 List<ChiTietHoaDon> chiTietHoaDons = JsonConvert.DeserializeObject<List<ChiTietHoaDon>>(HttpContext.Session.GetString("gioHangSession"));
                 PhiShip phiShip = context.PhiShip.Where(ps => ps.PhiShipId == quan).FirstOrDefault();
@@ -99,6 +93,7 @@ namespace QuanLyBanHang.Controllers
                 khachHang.Sdt = SoDienThoai;
                 khachHang.DiaChi = SoNha;
 
+                HoaDon hoaDon = new HoaDon();
                 hoaDon.PhuongThucThanhToan = "SHIPCODE";
                 hoaDon.SoNha = SoNha;
                 hoaDon.Quan = phiShip.Quan;
@@ -110,44 +105,10 @@ namespace QuanLyBanHang.Controllers
                 hoaDon.TrangThai = "Chờ xử lý";
                 hoaDon.ThoiGianChoXuLy = DateTime.Now;
                 hoaDon.ChiTietHoaDon = chiTietHoaDons;
-                //
+                context.Add(hoaDon);
+                context.SaveChanges();
             }
-            string MaXacNhan = TokenGenerator.GenerateToken();
-            Console.WriteLine("Ma xac nhan: " + MaXacNhan);
-            HttpContext.Session.SetString("MaXacNhanSession", MaXacNhan);
-            HttpContext.Session.SetString("hoaDonSession", JsonConvert.SerializeObject(hoaDon));
-
-            HttpContext.Session.SetString("EmailSession", Email);
-            HttpContext.Session.SetString("HoTenSession", HoTen);
-            sendEmail(Email, HoTen, MaXacNhan);
-            return Redirect("/XacNhanDonHang/Index");
-        }
-
-       
-
-        public void sendEmail(string destinationEmail, string customerName, string MaXacNhan)
-        {
-            EmailMessage emailMessage = new EmailMessage();
-            //
-            EmailAddress emailAddress1 = new EmailAddress();
-            emailAddress1.Name = "Email xác nhận từ shop bán mỹ phẩm";
-            emailAddress1.Address = "dinhvantien12061998@gmail.com";
-            //
-            List<EmailAddress> listEmailAdress1 = new List<EmailAddress>();
-            listEmailAdress1.Add(emailAddress1);
-            emailMessage.FromAddresses = listEmailAdress1;
-            EmailAddress emailAddress2 = new EmailAddress();
-            //
-            emailAddress2.Name = customerName;
-            emailAddress2.Address = destinationEmail;
-            List<EmailAddress> listEmailAdress2 = new List<EmailAddress>();
-            listEmailAdress2.Add(emailAddress2);
-            emailMessage.ToAddresses = listEmailAdress2;
-            //
-            emailMessage.Subject = "Thư xác nhận đơn hàng đã đặt mua";
-            emailMessage.Content = "<h1>Xin chào "+customerName+"</h1><h1> Mã xác nhận của bạn là: "+ MaXacNhan + "</h1>";
-
-            emailService.Send(emailMessage);
+            return Redirect("/Homepage");
         }
     }
 }

@@ -1,6 +1,4 @@
-﻿@using System.Collections.Generic;
-@using QuanLyBanHang.Models;
-@{
+﻿@{
     ViewData["Title"] = "Homepage";
     Layout = "~/Views/Shared/LayoutClient.cshtml";
 
@@ -22,16 +20,16 @@
         <!-- Wrapper for slides -->
         <div class="carousel-inner" role="listbox">
             <div class="item active">
-                <img src="~/client/images/slideshow_1.jpg" alt="" width="100%">
+                <img src="~/client/images/slideshow_1.jpg" alt="">
             </div>
             <div class="item">
-                <img src="~/client/images/slideshow_2.jpg" alt="" width="100%">
+                <img src="~/client/images/slideshow_2.jpg" alt="">
             </div>
             <div class="item">
-                <img src="~/client/images/slideshow_3.jpg" alt="" width="100%">
+                <img src="~/client/images/slideshow_3.jpg" alt="">
             </div>
             <div class="item">
-                <img src="~/client/images/slideshow_4.jpg" alt="" width="100%">
+                <img src="~/client/images/slideshow_4.jpg" alt="">
             </div>
         </div>
 
@@ -97,13 +95,13 @@
         </div>
         <ul>
             <li>
-                <a href="/Category?id=4" title="">Son môi</a>
+                <a href="" title="" itemprop="4">Son môi</a>
             </li>
             <li>
-                <a href="/Category?id=5" title="">Trang điểm mắt</a>
+                <a href="" title="" itemprop="5">Trang điểm mặt</a>
             </li>
             <li>
-                <a href="/Category?id=6" title="">Trang điểm mặt</a>
+                <a href="" title="" itemprop="6">Trang điểm mắt</a>
             </li>
         </ul>
         <div class="row">
@@ -113,53 +111,40 @@
                     @foreach (var item in ViewBag.trangDiemSanPhams)
                     {
 
-                        var masp = item.SanPhamId;
+                        /*Định dạng theo tiền việt nam*/
+                        var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
                         int giaBanLe = (int)item.GiaBanLe;
-
-                        System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
-                        nfi.CurrencyPositivePattern = 1;
-                        var index = item.HinhAnh.IndexOf(',');
-                        string hinhanh;
-                        if (index != -1) hinhanh = item.HinhAnh.Substring(0, index);
-                        else hinhanh = item.HinhAnh;
 
                         <div class="product_single col-xs-6 col-md-3">
                             <div class="product product_one clearfix ">
                                 <div class="product-image">
-                                    <a href="/ChiTietSanPham?id=@item.SanPhamId">
-                                        <img src="~/client/images/product/@hinhanh" alt="">
+                                    <a href="">
+                                        <img src="~/client/images/product/@item.HinhAnh" alt="">
                                     </a>
                                     <div class="quick_action clearfix">
                                         <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>
                                         <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                     </div>
 
-
-                                    @{var i = 1; }
-                                    @foreach (var obj in item.ChiTietKhuyenMai)
+                                    @*@foreach (var km in ViewBag.chiTietKhuyenMais)
                                     {
-                                        if (i < 2)
+                                        if (km.SanPhamId == item.SanPhamId)
                                         {
-                                            var pt = obj.PhanTramGiam * 100;
-
-                                            <div class="sale-flash">-@pt%</div>
+                                            <div class="sale-flash">@km.PhanTramGiam</div>
                                         }
-                                        i = i + 1;
-
-                                    }
-
+                                    }*@
 
                                 </div>
                                 <div class="product-desc">
                                     <div class="product-title">
                                         <h3>
-                                            <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="@item.TenSanPham">
+                                            <a href="" itemprop="" title="@item.TenSanPham">
                                                 <p>@item.TenSanPham</p>
                                             </a>
                                         </h3>
                                     </div>
                                     <div class="product-price">
-                                        <ins>@string.Format(nfi, "{0:C0}", giaBanLe)</ins>
+                                        <ins>@String.Format(info, "{0:c}", giaBanLe); </ins>
                                     </div>
                                 </div>
                             </div>
@@ -177,13 +162,13 @@
             </div>
             <ul>
                 <li>
-                    <a href="/Category?id=7" title="">Mặt nạ</a>
+                    <a href="" title="" itemprop="7">Mặt nạ</a>
                 </li>
                 <li>
-                    <a href="/Category?id=8" title="">Xịt khoáng</a>
+                    <a href="" title="" itemprop="8">Xịt khoáng</a>
                 </li>
                 <li>
-                    <a href="/Category?id=9" title="">Kem chống nắng</a>
+                    <a href="" title="" itemprop="9">Kem chống nắng</a>
                 </li>
             </ul>
             <div class="row">
@@ -191,51 +176,33 @@
                     <div class="row">
                         @foreach (var item in ViewBag.chamSocDaSanPhams)
                         {
-                            var masp = item.SanPhamId;
-                            int giaBanLe = (int)item.GiaBanLe;
-
-                            System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
-                            nfi.CurrencyPositivePattern = 1;
-                            var index = item.HinhAnh.IndexOf(',');
-                            string hinhanh;
-                            if (index != -1) hinhanh = item.HinhAnh.Substring(0, index);
-                            else hinhanh = item.HinhAnh;
+                            /*Định dạng theo tiền việt nam*/
+                            var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                            decimal giaBanLe = (decimal)item.GiaBanLe;
                             <div class="product_single col-xs-6 col-md-3">
                                 <div class="product product_one clearfix ">
                                     <div class="product-image">
-                                        <a href="/ChiTietSanPham?id=@item.SanPhamId">
-                                            <img src="~/client/images/product/@hinhanh" alt="">
+                                        <a href="">
+                                            <img src="~/client/images/product/@item.HinhAnh" alt="">
                                         </a>
                                         <div class="quick_action clearfix">
                                             <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>
                                             <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                         </div>
 
-                                        @{var i = 1; }
-                                        @foreach (var obj in item.ChiTietKhuyenMai)
-                                        {
-                                            if (i < 2)
-                                            {
-                                                var pt = obj.PhanTramGiam * 100;
-
-                                                <div class="sale-flash">-@pt%</div>
-                                            }
-                                            i = i + 1;
-
-                                        }
-
+                                        <div class="sale-flash">10%</div>
 
                                     </div>
                                     <div class="product-desc">
                                         <div class="product-title">
                                             <h3>
-                                                <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="@item.TenSanPham">
+                                                <a href="" itemprop="" title="@item.TenSanPham">
                                                     <p>@item.TenSanPham</p>
                                                 </a>
                                             </h3>
                                         </div>
                                         <div class="product-price">
-                                            <ins>@string.Format(nfi, "{0:C0}", giaBanLe)</ins>
+                                            <ins>@String.Format(info, "{0:c}", giaBanLe); </ins>
                                         </div>
                                     </div>
                                 </div>
@@ -253,10 +220,10 @@
                 </div>
                 <ul>
                     <li>
-                        <a href="/Category?id=10" title="">Nước hoa nữ</a>
+                        <a href="" title="" itemprop="10">Nước hoa nữ</a>
                     </li>
                     <li>
-                        <a href="/Category?id=11">Nước hoa nam</a>
+                        <a href="" title="" itemprop="11">Nước hoa nam</a>
                     </li>
                 </ul>
                 <div class="row">
@@ -264,52 +231,33 @@
                         <div class="row">
                             @foreach (var item in ViewBag.nuocHoaSanPhams)
                             {
-                                var masp = item.SanPhamId;
-                                int giaBanLe = (int)item.GiaBanLe;
-
-                                System.Globalization.NumberFormatInfo nfi = new System.Globalization.CultureInfo("vi-VN", false).NumberFormat;
-                                nfi.CurrencyPositivePattern = 1;
-
-                                var index = item.HinhAnh.IndexOf(',');
-                                string hinhanh;
-                                if (index != -1) hinhanh = item.HinhAnh.Substring(0, index);
-                                else hinhanh = item.HinhAnh;
+                                /*Định dạng theo tiền việt nam*/
+                                var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+                                decimal giaBanLe = (decimal)item.GiaBanLe;
                                 <div class="product_single col-xs-6 col-md-3">
                                     <div class="product product_one clearfix ">
                                         <div class="product-image">
-                                            <a href="/ChiTietSanPham?id=@item.SanPhamId">
-                                                <img src="~/client/images/product/@hinhanh" alt="">
+                                            <a href="">
+                                                <img src="~/client/images/product/@item.HinhAnh" alt="">
                                             </a>
                                             <div class="quick_action clearfix">
                                                 <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>
                                                 <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                             </div>
 
-
-                                            @{var i = 1; }
-                                            @foreach (var obj in item.ChiTietKhuyenMai)
-                                            {
-                                                if (i < 2)
-                                                {
-                                                    var pt = obj.PhanTramGiam * 100;
-
-                                                    <div class="sale-flash">-@pt%</div>
-                                                }
-                                                i = i + 1;
-
-                                            }
+                                            <div class="sale-flash">10%</div>
 
                                         </div>
                                         <div class="product-desc">
                                             <div class="product-title">
                                                 <h3>
-                                                    <a href="/ChiTietSanPham?id=@item.SanPhamId" itemprop="" title="@item.TenSanPham">
+                                                    <a href="" itemprop="" title="@item.TenSanPham">
                                                         <p>@item.TenSanPham</p>
                                                     </a>
                                                 </h3>
                                             </div>
                                             <div class="product-price">
-                                                <ins>@string.Format(nfi, "{0:C0}", giaBanLe)</ins>
+                                                <ins>@String.Format(info, "{0:c}", giaBanLe); </ins>
                                             </div>
                                         </div>
                                     </div>
@@ -340,13 +288,6 @@
     </div>
 </div>
 @section scripts{
-    <script>
-        $(document).ready(function () {
-
-            $(".product-image").hover(function () {
-                $(".quick_action", this).toggle();
-            });
-        });
-    </script>
-
+    <script src="~/client/js/shopbeauty.js"></script> 
+      
 }

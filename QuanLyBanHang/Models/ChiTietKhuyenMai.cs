@@ -7,7 +7,7 @@ namespace QuanLyBanHang.Models
     {
         public int SanPhamId { get; set; }
         public int KhuyenMaiId { get; set; }
-        public float PhanTramGiam { get; set; }
+        public float? PhanTramGiam { get; set; }
 
         public virtual KhuyenMai KhuyenMai { get; set; }
         public virtual SanPham SanPham { get; set; }

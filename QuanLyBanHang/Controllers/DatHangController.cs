@@ -8,7 +8,7 @@ namespace QuanLyBanHang.Controllers
 {
     public class DatHangController : Controller
     {
-        [ServiceFilter(typeof(ClientFilter))]
+        [ServiceFilter(typeof(LoginFilter))]
         public IActionResult Index()
         {
             return View();

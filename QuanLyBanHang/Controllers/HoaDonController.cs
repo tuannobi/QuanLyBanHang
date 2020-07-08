@@ -19,92 +19,153 @@ namespace QuanLyBanHang.Controllers
         }
 
         // GET: HoaDon
-        public IActionResult Index()
+        public async Task<IActionResult> Index()
         {
-            var thongtinhoadon = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.TrangThai == "Chờ xử lý");
-            /*var thongtinhoadon = (from hd in _context.HoaDon
-                                 join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
-                                 join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
-                                 where hd.TrangThai == "Chờ xử lý"
-                                 select new ThongTinHoaDon
-                                  {
-                                      HoaDon = hd,
-                                      PhiShip = ship,
-                                      KhachHang = kh
-                                  });*/
-            ViewBag.TTHD = thongtinhoadon;
-            return View();
+            var quanLyBanHangDbContext = _context.HoaDon.Include(h => h.KhachHang).Include(h => h.NhanVien).Include(h => h.PhiShip);
+            return View(await quanLyBanHangDbContext.ToListAsync());
         }
 
-        public IActionResult Index1()
+        // GET: HoaDon/Details/5
+        public async Task<IActionResult> Details(int? id)
         {
-            var thongtinhoadon = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.TrangThai == "Đã xử lý");
-            /*var thongtinhoadon = (from hd in _context.HoaDon
-                                  join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
-                                  join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
-                                  where hd.TrangThai == "Đã xử lý"
-                                  select new ThongTinHoaDon
-                                  {
-                                      HoaDon = hd,
-                                      PhiShip = ship,
-                                      KhachHang = kh
-                                  });*/
-            ViewBag.TTHD = thongtinhoadon;
-            return View();
-        }
-
-        public IActionResult Details(int id)
-        {
-            var thongtinsanpham = _context.ChiTietHoaDon.Include("SanPham").Where(sp => sp.HoaDonId == id);
-            /*var thongtinsanpham = (from sp in _context.SanPham
-                                  join cthd in _context.ChiTietHoaDon on sp.SanPhamId equals cthd.SanPhamId
-                                  where cthd.HoaDonId == id
-                                  select new ThongTinHoaDon
-                                  {
-                                      SanPham = sp,
-                                      ChiTietHoaDon = cthd
-                                  });*/
-            var thongtinhoadon = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.HoaDonId == id);
-            /*var thongtinhoadon = (from hd in _context.HoaDon
-                                  join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
-                                  join ship in _context.PhiShip on hd.PhiShipId equals ship.PhiShipId
-                                  where hd.HoaDonId == id
-                                  select new ThongTinHoaDon
-                                  {
-                                      HoaDon = hd,
-                                      PhiShip = ship,
-                                      KhachHang = kh
-                                  });*/
-            ViewBag.TTHD = thongtinhoadon;
-            ViewBag.TTSP = thongtinsanpham;
-            return View();
-        }
-
-        [HttpPost]
-        public ActionResult Duyet(int id)
-        {
-            var hd = _context.HoaDon.Find(id);
-            hd.TrangThai = "Đã xử lý";
-            hd.ThoiGianDaXuLy = DateTime.Now;
-            _context.Update(hd);
-            _context.SaveChanges();
-            return Json("Hóa đơn này đã duyệt thành công");
-        }
-
-        [HttpPost]
-        public ActionResult DuyetSelected(int[] selected)
-        {
-            foreach (int id in selected)
+            if (id == null)
             {
-                var hd = _context.HoaDon.Find(id);
-                hd.TrangThai = "Đã xử lý";
-                hd.ThoiGianDaXuLy = DateTime.Now;
-                _context.Update(hd);
+                return NotFound();
             }
-            _context.SaveChanges();
-            return Json("Tất cả những hóa đơn được chọn đã duyệt thành công");
+
+            var hoaDon = await _context.HoaDon
+                .Include(h => h.KhachHang)
+                .Include(h => h.NhanVien)
+                .Include(h => h.PhiShip)
+                .FirstOrDefaultAsync(m => m.HoaDonId == id);
+            if (hoaDon == null)
+            {
+                return NotFound();
+            }
+
+            return View(hoaDon);
+        }
+
+        // GET: HoaDon/Create
+        public IActionResult Create()
+        {
+            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId");
+            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId");
+            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId");
+            return View();
+        }
+
+        // POST: HoaDon/Create
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Create([Bind("HoaDonId,PhuongThucThanhToan,SoNha,Quan,PhiShipId,KhachHangId,NhanVienId,TongTien,TongTienThanhToan,GhiChu,TrangThai,ThoiGianChoXuLy,ThoiGianDaXuLy")] HoaDon hoaDon)
+        {
+            if (ModelState.IsValid)
+            {
+                _context.Add(hoaDon);
+                await _context.SaveChangesAsync();
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId", hoaDon.KhachHangId);
+            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId", hoaDon.NhanVienId);
+            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId", hoaDon.PhiShipId);
+            return View(hoaDon);
+        }
+
+        // GET: HoaDon/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var hoaDon = await _context.HoaDon.FindAsync(id);
+            if (hoaDon == null)
+            {
+                return NotFound();
+            }
+            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId", hoaDon.KhachHangId);
+            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId", hoaDon.NhanVienId);
+            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId", hoaDon.PhiShipId);
+            return View(hoaDon);
+        }
+
+        // POST: HoaDon/Edit/5
+        // To protect from overposting attacks, enable the specific properties you want to bind to, for 
+        // more details, see http://go.microsoft.com/fwlink/?LinkId=317598.
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("HoaDonId,PhuongThucThanhToan,SoNha,Quan,PhiShipId,KhachHangId,NhanVienId,TongTien,TongTienThanhToan,GhiChu,TrangThai,ThoiGianChoXuLy,ThoiGianDaXuLy")] HoaDon hoaDon)
+        {
+            if (id != hoaDon.HoaDonId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                try
+                {
+                    _context.Update(hoaDon);
+                    await _context.SaveChangesAsync();
+                }
+                catch (DbUpdateConcurrencyException)
+                {
+                    if (!HoaDonExists(hoaDon.HoaDonId))
+                    {
+                        return NotFound();
+                    }
+                    else
+                    {
+                        throw;
+                    }
+                }
+                return RedirectToAction(nameof(Index));
+            }
+            ViewData["KhachHangId"] = new SelectList(_context.KhachHang, "KhachHangId", "KhachHangId", hoaDon.KhachHangId);
+            ViewData["NhanVienId"] = new SelectList(_context.NhanVien, "NhanVienId", "NhanVienId", hoaDon.NhanVienId);
+            ViewData["PhiShipId"] = new SelectList(_context.PhiShip, "PhiShipId", "PhiShipId", hoaDon.PhiShipId);
+            return View(hoaDon);
+        }
+
+        // GET: HoaDon/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var hoaDon = await _context.HoaDon
+                .Include(h => h.KhachHang)
+                .Include(h => h.NhanVien)
+                .Include(h => h.PhiShip)
+                .FirstOrDefaultAsync(m => m.HoaDonId == id);
+            if (hoaDon == null)
+            {
+                return NotFound();
+            }
+
+            return View(hoaDon);
+        }
+
+        // POST: HoaDon/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var hoaDon = await _context.HoaDon.FindAsync(id);
+            _context.HoaDon.Remove(hoaDon);
+            await _context.SaveChangesAsync();
+            return RedirectToAction(nameof(Index));
+        }
+
+        private bool HoaDonExists(int id)
+        {
+            return _context.HoaDon.Any(e => e.HoaDonId == id);
         }
     }
-
-  
 }
