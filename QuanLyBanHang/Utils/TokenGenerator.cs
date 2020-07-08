@@ -8,7 +8,7 @@ namespace QuanLyBanHang.Utils
 {
     public class TokenGenerator
     {
-        public static string GenerateToken(int size = 32)
+        public static string GenerateToken(int size = 6)
         {
             var crypto = new RNGCryptoServiceProvider();
             byte[] rbytes = new byte[size / 2];
