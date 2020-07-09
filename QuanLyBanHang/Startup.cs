@@ -76,7 +76,7 @@ namespace QuanLyBanHang
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=HoaDon}/{action=Details}/{id?}");
+                    pattern: "{controller=HoaDon}/{action=Index1}/{id?}");
             });
         }
     }

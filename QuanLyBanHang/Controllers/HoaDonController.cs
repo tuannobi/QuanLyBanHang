@@ -137,16 +137,8 @@ namespace QuanLyBanHang.Controllers
             DateTime ngayBatDau = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayBatDauSession"));
             DateTime ngayKetThuc = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayKetThucSession"));
             List<HoaDon> hoaDons = _context.HoaDon.Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
-            //Chỗ này xử lý convert html trả về pdf
+            //
             return View("Index");
-        }
-        public ActionResult InHoaDon(int id)
-        {
-            var thongtinsanpham = _context.ChiTietHoaDon.Include("SanPham").Where(sp => sp.HoaDonId == id);
-            var thongtinhoadon = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.HoaDonId == id);
-            ViewBag.TTHD = thongtinhoadon;
-            ViewBag.TTSP = thongtinsanpham;
-            return View();
         }
     
     }
