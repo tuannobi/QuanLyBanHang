@@ -58,7 +58,7 @@
                         <div class="text-right col-xs-4">
                             <p>Sắp xếp theo: </p>
                             <select class="form-control sort" id='sapxep'>
-                                <option value="" selected disabled hidden>Select</option>
+                                <option value="none" disabled selected>Select</option>
                                 <option value="default-0">Mặc định</option>
                                 <option value="price-asc">Giá tăng dần</option>
                                 <option value="price-desc">Giá giảm dần</option>
@@ -134,7 +134,6 @@
                                         <div class="thuonghieu">
                                             <input type="checkbox" value="@i" name="ThuongHieuCheckbox" class="ThuongHieuCheckbox"/>
                                             <label for="@i">@i</label>
-
                                         </div>
                                         }
                                     </li>
@@ -217,16 +216,21 @@
         var sortby1 = "<?php echo $sort; ?>";
         $(document).ready(function () {
             //Xử lý khi click vào chọn thương hiệu
+            var ThuongHieuList = [];
+            var SapXep = "none";
+            var KhoangGia = 0;
             $('input[name="ThuongHieuCheckbox"]').on('change', function () {
-                $('input:checkbox[name=ThuongHieuCheckbox]:checked').each(function() 
-                {
-                    ThuongHieu=$(this).val()
+                ThuongHieuList=[]
+                $.each($("input[name='ThuongHieuCheckbox']:checked"), function(){
+                    ThuongHieuList.push($(this).val())
                 });
                 $.ajax({
-                url: "/Category/FilterThuongHieu",
-                type: 'get',
+                url: "/Category/Filter",
+                type: 'post',
                     data: {
-                        "ThuongHieu": ThuongHieu
+                        "ThuongHieuList": ThuongHieuList,
+                        "SapXep": SapXep,
+                        "KhoangGia": KhoangGia
                 },
                     success: function (result) {
                         $('#product-display-content').empty()
@@ -267,15 +271,17 @@
 
             //Lọc theo sắp xếp
             $('#sapxep').on('change', function () {
-                LoaiSapXep=$(this).val()
+                SapXep=$(this).val()
                 $.ajax({
-                url: "/Category/FilterThuTu",
-                type: 'get',
+                url: "/Category/Filter",
+                type: 'post',
                     data: {
-                        "SapXep": LoaiSapXep
+                        "ThuongHieuList": ThuongHieuList,
+                        "SapXep": SapXep,
+                        "KhoangGia": KhoangGia
                 },
                     success: function (result) {
-                        $('#product-display-content').empty()
+                     $('#product-display-content').empty()
                         for (var i = 0; i < result.length; i++) {
                                 $('#product-display-content').append('\
                                 <div class="product_single col-xs-6 col-md-3">\
@@ -304,8 +310,7 @@
                                         </div>\
                                     </div>\
                                 </div>');
-                        }
-                        
+                        }   
                 }
                 });
 
@@ -313,12 +318,14 @@
 
             //Lọc theo giá
             $('.MucGia').on('click', function () {
-                MucGia = parseInt($(this).children().val())
+                KhoangGia = parseInt($(this).children().val())
                 $.ajax({
-                url: "/Category/FilterPrice",
-                type: 'get',
+                url: "/Category/Filter",
+                type: 'post',
                     data: {
-                        "MucGia": MucGia
+                        "ThuongHieuList": ThuongHieuList,
+                        "SapXep": SapXep,
+                        "KhoangGia": KhoangGia
                 },
                     success: function (result) {
                         $('#product-display-content').empty()
@@ -351,79 +358,78 @@
                                     </div>\
                                 </div>');
                         }
-                        
-                }
+                    }
                 });
 
             })
 
-            var priceFilter = 0;
-            var brandsList = [];
-            var orderFilter = 0;
-            $(".panel-heading").click(function () {
-                $("#filter_group").toggle();
-            });
+            //var priceFilter = 0;
+            //var brandsList = [];
+            //var orderFilter = 0;
+            //$(".panel-heading").click(function () {
+            //    $("#filter_group").toggle();
+            //});
 
-            $(".widget_links a h4").click(function () {
-                var group = $(this).attr("class");
-                $("#filter_" + group).toggle();
-                $("#filter_" + group).removeClass("filter_list");
-            });
+            //$(".widget_links a h4").click(function () {
+            //    var group = $(this).attr("class");
+            //    $("#filter_" + group).toggle();
+            //    $("#filter_" + group).removeClass("filter_list");
+            //});
 
-            var amountProduct = $(".product").size();
-            $('#amount_product').text("Có " + amountProduct + " sản phẩm");
+            //var amountProduct = $(".product").size();
+            //$('#amount_product').text("Có " + amountProduct + " sản phẩm");
 
-            $('#filter_group_1 :checkbox').change(function () {
-                let el = $(this).val();
-                let elId = brandsList.indexOf(el);
-                if ($(this).is(':checked')) {
-                    if (elId) {
-                        brandsList.push(el);
-                    }
-                } else { //uncheck
-                    if (elId !== -1) {//remove it from list
-                        brandsList.splice(elId, 1);
-                    }
-                }
-                let strBrands = JSON.stringify(brandsList);
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("product-display-content").innerHTML = this.responseText;
-                    }
-                };
-                xmlhttp.open("GET", "filter.php?id=" + id_menu + "&search=" + search + "&sortby=" + (orderFilter ? orderFilter : 'default') + "&loc=" + (brandsList[0] ? brandsList[0] : loc) + "&locgia=" + (priceFilter ? priceFilter : 'all') + "&brands=" + strBrands, true);
-                xmlhttp.send();
-            });
-            //filter by price
-            $('#filter_group_3 :radio').change(function () {
-                priceFilter = $(this).val();
-                let strBrands = JSON.stringify(brandsList);//json from brands list filter
-                //call ajax
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("product-display-content").innerHTML = this.responseText;
-                    }
-                };
-                xmlhttp.open("GET", "filter.php?id=" + id_menu + "&search=" + search + "&sortby=" + (orderFilter ? orderFilter : 'default') + "&loc=" + (brandsList[0] ? brandsList[0] : loc) + "&locgia=" + (priceFilter ? priceFilter : 'all') + "&brands=" + strBrands, true);
-                xmlhttp.send();
-                //console.log(priceFilter);
-            });
+            //$('#filter_group_1 :checkbox').change(function () {
+            //    let el = $(this).val();
+            //    let elId = brandsList.indexOf(el);
+            //    if ($(this).is(':checked')) {
+            //        if (elId) {
+            //            brandsList.push(el);
+            //        }
+            //    } else { //uncheck
+            //        if (elId !== -1) {//remove it from list
+            //            brandsList.splice(elId, 1);
+            //        }
+            //    }
+            //    let strBrands = JSON.stringify(brandsList);
+            //    var xmlhttp = new XMLHttpRequest();
+            //    xmlhttp.onreadystatechange = function () {
+            //        if (this.readyState == 4 && this.status == 200) {
+            //            document.getElementById("product-display-content").innerHTML = this.responseText;
+            //        }
+            //    };
+            //    xmlhttp.open("GET", "filter.php?id=" + id_menu + "&search=" + search + "&sortby=" + (orderFilter ? orderFilter : 'default') + "&loc=" + (brandsList[0] ? brandsList[0] : loc) + "&locgia=" + (priceFilter ? priceFilter : 'all') + "&brands=" + strBrands, true);
+            //    xmlhttp.send();
+            //});
+            ////filter by price
+            //$('#filter_group_3 :radio').change(function () {
+            //    priceFilter = $(this).val();
+            //    let strBrands = JSON.stringify(brandsList);//json from brands list filter
+            //    //call ajax
+            //    var xmlhttp = new XMLHttpRequest();
+            //    xmlhttp.onreadystatechange = function () {
+            //        if (this.readyState == 4 && this.status == 200) {
+            //            document.getElementById("product-display-content").innerHTML = this.responseText;
+            //        }
+            //    };
+            //    xmlhttp.open("GET", "filter.php?id=" + id_menu + "&search=" + search + "&sortby=" + (orderFilter ? orderFilter : 'default') + "&loc=" + (brandsList[0] ? brandsList[0] : loc) + "&locgia=" + (priceFilter ? priceFilter : 'all') + "&brands=" + strBrands, true);
+            //    xmlhttp.send();
+            //    //console.log(priceFilter);
+            //});
 
-            $('#sapxep').on('change', function () {
-                orderFilter = $(this).val();
-                let strBrands = JSON.stringify(brandsList);//json from brands list filter
-                //call ajax
-                var xmlhttp = new XMLHttpRequest();
-                xmlhttp.onreadystatechange = function () {
-                    if (this.readyState == 4 && this.status == 200) {
-                        document.getElementById("product-display-content").innerHTML = this.responseText;
-                    }
-                };
-                xmlhttp.open("GET", "filter.php?id=" + id_menu + "&search=" + search + "&sortby=" + (orderFilter ? orderFilter : 'default') + "&loc=" + (brandsList[0] ? brandsList[0] : loc) + "&locgia=" + (priceFilter ? priceFilter : 'all') + "&brands=" + strBrands, true);
-                xmlhttp.send();
-            });
+            //$('#sapxep').on('change', function () {
+            //    orderFilter = $(this).val();
+            //    let strBrands = JSON.stringify(brandsList);//json from brands list filter
+            //    //call ajax
+            //    var xmlhttp = new XMLHttpRequest();
+            //    xmlhttp.onreadystatechange = function () {
+            //        if (this.readyState == 4 && this.status == 200) {
+            //            document.getElementById("product-display-content").innerHTML = this.responseText;
+            //        }
+            //    };
+            //    xmlhttp.open("GET", "filter.php?id=" + id_menu + "&search=" + search + "&sortby=" + (orderFilter ? orderFilter : 'default') + "&loc=" + (brandsList[0] ? brandsList[0] : loc) + "&locgia=" + (priceFilter ? priceFilter : 'all') + "&brands=" + strBrands, true);
+            //    xmlhttp.send();
+            //});
 
         });
 
