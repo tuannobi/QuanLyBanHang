@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
@@ -22,6 +24,9 @@ namespace QuanLyBanHang.Controllers
         // GET: Admin
         public async Task<IActionResult> Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var quanLyBanHangDbContext = _context.Admin.Include(a => a.TaiKhoan);
             return View(await quanLyBanHangDbContext.ToListAsync());
         }
@@ -29,6 +34,9 @@ namespace QuanLyBanHang.Controllers
         // GET: Admin/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +56,9 @@ namespace QuanLyBanHang.Controllers
         // GET: Admin/Create
         public IActionResult Create()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             ViewData["TaiKhoanId"] = new SelectList(_context.TaiKhoan, "TaiKhoanId", "TaiKhoanId");
             return View();
         }
@@ -75,6 +86,9 @@ namespace QuanLyBanHang.Controllers
         // GET: Admin/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var ad = await _context.Admin
                 .FirstOrDefaultAsync(m => m.Adminid == id);
 

@@ -10,8 +10,7 @@ using Microsoft.VisualStudio.Web.CodeGeneration.Contracts.Messaging;
 using Microsoft.AspNetCore.Http;
 using System.IO;
 using System.Dynamic;
-
-
+using Newtonsoft.Json;
 
 namespace QuanLyBanHang.Controllers
 {
@@ -27,6 +26,9 @@ namespace QuanLyBanHang.Controllers
         // GET: SanPham
         public async Task<IActionResult> Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             return View(await _context.SanPham.ToListAsync());
         }
 
@@ -42,6 +44,9 @@ namespace QuanLyBanHang.Controllers
 
         public IActionResult Create()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             PopulateCategoryDropDownList();
             return View();
         }
@@ -69,6 +74,9 @@ namespace QuanLyBanHang.Controllers
         // GET: SanPham/Edit/5
         public async Task<IActionResult> Edit(int id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var sp = await _context.SanPham
                 .FirstOrDefaultAsync(m => m.SanPhamId == id);
             var hinhAnh = sp.HinhAnh.Split(',');

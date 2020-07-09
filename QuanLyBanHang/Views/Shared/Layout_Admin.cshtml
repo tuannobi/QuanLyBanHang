@@ -39,10 +39,11 @@
             <div class="row login_logout">
                 <a class="login" title="Account" href="#">
                     <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
+                    @ViewBag.UserName
                 </a>
                 
               
-                <a class="logout" title="Logout" href="logout.php ">
+                <a class="logout" title="Logout" href="/AdminLogout">
                     <i class="fa fa-sign-out"></i>
                 </a>
             </div>
@@ -54,21 +55,49 @@
                 <div class="list-group">
                     <ul>
                         <li><a class="list-group-item" href="home.php" title="Homepage"><i class="fa fa-home fa-fw" aria-hidden="true"></i>&nbsp; Trang chủ</a></li>
-                        <li>
-                            <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý tài khoản</a>
-                            <ul class="menu-usesmanagement">
-                                <li><a class="list-group-item users child" asp-controller="TaiKhoan" asp-action="GetAdmin"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Admin</a>
-                                <li><a class="list-group-item users child" asp-controller="TaiKhoan" asp-action="GetNhanVien"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Nhân viên</a>
-                                <li><a class="list-group-item roles child" asp-controller="TaiKhoan" asp-action="GetKhachHang"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý nhân viên và khách hàng</a>
-                            <ul class="menu-usesmanagement">
-                                <li><a class="list-group-item users child" asp-controller="NhanVien" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Nhân viên </a>
-                                <li><a class="list-group-item roles child" asp-controller="KhachHang" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
-                            </ul>
-                        </li>
+                        @if (ViewBag.VaiTroSession ==1)
+                        {
+                            <li>
+                                <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý tài khoản</a>
+                                <ul class="menu-usesmanagement">
+                                    <li><a class="list-group-item users child" asp-controller="TaiKhoan" asp-action="GetAdmin"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Admin</a>
+                                    <li><a class="list-group-item users child" asp-controller="TaiKhoan" asp-action="GetNhanVien"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Nhân viên</a>
+                                    <li><a class="list-group-item roles child" asp-controller="TaiKhoan" asp-action="GetKhachHang"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý tài khoản</a>
+                                <ul class="menu-usesmanagement">
+                                    <li><a class="list-group-item roles child" asp-controller="TaiKhoan" asp-action="GetKhachHang"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (ViewBag.VaiTroSession == 1)
+                        {
+                            <li>
+                                <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý nhân viên và khách hàng</a>
+                                <ul class="menu-usesmanagement">
+
+                                    <li><a class="list-group-item users child" asp-controller="NhanVien" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Nhân viên </a>
+
+                                    <li><a class="list-group-item roles child" asp-controller="KhachHang" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
+                                </ul>
+                            </li>
+                        }
+                        else
+                        {
+                            <li>
+                                <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý nhân viên và khách hàng</a>
+                                <ul class="menu-usesmanagement">
+                                    <li><a class="list-group-item roles child" asp-controller="KhachHang" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Khách hàng </a>
+                                </ul>
+                            </li>
+                        }
+
                         <li>
                             <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý sản phẩm</a>
                             <ul class="menu-usesmanagement">
@@ -86,22 +115,29 @@
                         <li>
                             <a class="list-group-item user-management" asp-controller="KhuyenMai" asp-action="Index"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý khuyến mãi</a>
                         </li>
-                        <li>
-                            <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Lập báo cáo</a>
-                            <ul class="menu-usesmanagement">
-                                <li><a class="list-group-item users child" href="baocaoton.php"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Báo cáo tồn</a>
-                                <li><a class="list-group-item roles child" href="baocaodoanhthu.php?month=all&year=all"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Báo cáo doanh thu</a>
-                                <li><a class="list-group-item roles child" href="baocaocongno.php?id=all"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Báo cáo công nợ</a>
-                            </ul>
-                        </li>
-                        <li>
-                            <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý chung</a>
-                            <ul class="menu-usesmanagement">
-                                <li><a class="list-group-item users child" asp-controller="NhaCungCap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách nhà cung cấp</a>
-                                <li><a class="list-group-item users child" asp-controller="PhieuNhap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách phiếu nhập</a>
-                            </ul>
-                        </li>
-                       
+                        @if (ViewBag.VaiTroSession == 1)
+                        {
+                            <li>
+                                <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Lập báo cáo</a>
+                                <ul class="menu-usesmanagement">
+                                    <li><a class="list-group-item users child" href="baocaoton.php"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Báo cáo tồn</a>
+                                    <li><a class="list-group-item roles child" href="baocaodoanhthu.php?month=all&year=all"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Báo cáo doanh thu</a>
+                                    <li><a class="list-group-item roles child" href="baocaocongno.php?id=all"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Báo cáo công nợ</a>
+                                </ul>
+                            </li>
+                        }
+
+                        @if (ViewBag.VaiTroSession == 1)
+                        {
+                            <li>
+                                <a class="list-group-item user-management" href="#"><i class="fa fa-users fa-fw" aria-hidden="true"></i>&nbsp; Quản lý nhà cung cấp</a>
+                                <ul class="menu-usesmanagement">
+                                    <li><a class="list-group-item users child" asp-controller="NhaCungCap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách nhà cung cấp</a>
+                                    <li><a class="list-group-item users child" asp-controller="PhieuNhap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách phiếu nhập</a>
+                                </ul>
+                            </li>
+                        }
+
                     </ul>
                 </div>
             </div>

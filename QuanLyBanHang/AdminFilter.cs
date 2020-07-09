@@ -33,18 +33,19 @@ namespace QuanLyBanHang
             {
                 TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(context.HttpContext.Session.GetString("sessionUser"));
                 TaiKhoan taiKhoan = _context.TaiKhoan.Include("VaiTro").Where(tk=>tk.Username==taiKhoanSession.Username).FirstOrDefault();
-                if (taiKhoan.VaiTro.VaiTroId == 1 || taiKhoan.VaiTro.VaiTroId == 2)
+                if (taiKhoan.VaiTro.VaiTroId == 1)
                 {
-
+                   
                 }
                 else
                 {
-                    context.HttpContext.Response.StatusCode = 403;
+                    context.Result = new RedirectResult("/Prohibit");
                 }
             }
             else
             {
-                context.HttpContext.Response.StatusCode = 403;
+                context.Result = new RedirectResult("/Prohibit");
+
             }
             
         }

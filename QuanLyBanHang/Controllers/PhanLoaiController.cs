@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
@@ -21,6 +23,9 @@ namespace QuanLyBanHang.Controllers
         // GET: PhanLoai
         public async Task<IActionResult> Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var quanLyBanHangDbContext = _context.PhanLoai.Include(p => p.NhomLoaiNavigation);
             return View(await quanLyBanHangDbContext.ToListAsync());
         }
@@ -28,6 +33,9 @@ namespace QuanLyBanHang.Controllers
         // GET: PhanLoai/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             if (id == null)
             {
                 return NotFound();
@@ -47,6 +55,9 @@ namespace QuanLyBanHang.Controllers
         // GET: PhanLoai/Create
         public IActionResult Create()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             ViewData["NhomLoai"] = new SelectList(_context.PhanLoai, "PhanLoaiId", "PhanLoaiId");
             return View();
         }
@@ -58,6 +69,9 @@ namespace QuanLyBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("PhanLoaiId,Loai,MoTa,NhomLoai")] PhanLoai phanLoai)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             if (ModelState.IsValid)
             {
                 _context.Add(phanLoai);
@@ -71,6 +85,9 @@ namespace QuanLyBanHang.Controllers
         // GET: PhanLoai/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             if (id == null)
             {
                 return NotFound();
@@ -92,6 +109,10 @@ namespace QuanLyBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("PhanLoaiId,Loai,MoTa,NhomLoai")] PhanLoai phanLoai)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id != phanLoai.PhanLoaiId)
             {
                 return NotFound();
@@ -124,6 +145,10 @@ namespace QuanLyBanHang.Controllers
         // GET: PhanLoai/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id == null)
             {
                 return NotFound();

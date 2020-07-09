@@ -580,7 +580,7 @@
                                 $('#phiShipId').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value));
                                 $('#vanChuyen').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(value));
                                 $('#tongTienThanhToanId').text(new Intl.NumberFormat('vi-VN', { style: 'currency', currency: 'VND' }).format(@ViewBag.tongTienTamTinh+value));
-                                $('#tongTienThanhToan').val(@ViewBag.tongTienTamTinh-value);
+                                $('#tongTienThanhToan').val(@ViewBag.tongTienTamTinh+value);
                             }
                         })
                     },

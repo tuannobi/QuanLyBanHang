@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
@@ -78,6 +80,9 @@ namespace QuanLyBanHang.Controllers
         // GET: KhuyenMai
         public async Task<IActionResult> Create()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             PopulateCategoryDropDownList();
             PopulateVendorDropDownList();
             return View();
@@ -86,6 +91,9 @@ namespace QuanLyBanHang.Controllers
         // GET: KhuyenMai/Details/5
         public async Task<IActionResult> Details(int id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var pn = _context.PhieuNhap.Include("NhaCungCap").Where(pn => pn.PhieuNhapId==id);
             var ctpn = (from ct in _context.PhieuNhapSanPham
                         join sp in _context.SanPham on ct.SanPhamId equals sp.SanPhamId
@@ -105,6 +113,8 @@ namespace QuanLyBanHang.Controllers
         // GET: KhuyenMai/Create
         public async Task<IActionResult> Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
             var DSPN = _context.PhieuNhap.Include("NhaCungCap");
             return View(DSPN);
         }

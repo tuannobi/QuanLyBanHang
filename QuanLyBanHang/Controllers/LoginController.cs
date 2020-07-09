@@ -54,12 +54,15 @@ namespace QuanLyBanHang.Controllers
             {
                 case 1:
                     HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
+                    HttpContext.Session.SetInt32("VaiTroSession", tk.VaiTro.VaiTroId);
                     return Redirect("/Admin");
                 case 2:
                     HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
+                    HttpContext.Session.SetInt32("VaiTroSession", tk.VaiTro.VaiTroId);
                     return Redirect("/SanPham");
                 case 3:
                     HttpContext.Session.SetString("sessionUser", JsonConvert.SerializeObject(taiKhoan));
+                    HttpContext.Session.SetInt32("VaiTroSession", tk.VaiTro.VaiTroId);
                     return Redirect("/Homepage");
                 default:
                     return View("/Views/Login/Index.cshtml");

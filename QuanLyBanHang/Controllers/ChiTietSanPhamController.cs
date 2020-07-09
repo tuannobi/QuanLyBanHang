@@ -54,7 +54,10 @@ namespace QuanLyBanHang.Controllers
                 context.SaveChanges();
                 return Json(binhLuan);
             }
-                return Redirect("/ChiTietSanPham?id="+SanPhamId);
+            else
+            {
+                return Json("Đăng nhập để bình luận");
+            }
         }
 
         public IActionResult Reply(string NoiDung, int BinhLuanId)
@@ -73,7 +76,10 @@ namespace QuanLyBanHang.Controllers
                 context.SaveChanges();
                 return Json(reply);
             }
-            return Redirect("/Homepage");
+            else
+            {
+                return Json("Đăng nhập để trả lời bình luận bình luận");
+            }
         }
     }
 }

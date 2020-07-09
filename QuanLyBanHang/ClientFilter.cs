@@ -9,6 +9,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 
+//Kiểm tra đúng là tài khoản của admin và không phải client thì được vào
 namespace QuanLyBanHang
 {
     public class ClientFilter : IActionFilter
@@ -22,7 +23,7 @@ namespace QuanLyBanHang
 
         public void OnActionExecuted(ActionExecutedContext context)
         {
-            
+
         }
 
         public void OnActionExecuting(ActionExecutingContext context)
@@ -31,19 +32,24 @@ namespace QuanLyBanHang
             if (sessionUser != null)
             {
                 TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(context.HttpContext.Session.GetString("sessionUser"));
-                TaiKhoan taiKhoan = _context.TaiKhoan.Include("VaiTro").Where(tk=>tk.Username==taiKhoanSession.Username).FirstOrDefault();
-                if (taiKhoan.VaiTro.VaiTroId != 3)
+                TaiKhoan taiKhoan = _context.TaiKhoan.Include("VaiTro").Where(tk => tk.Username == taiKhoanSession.Username).FirstOrDefault();
+                if (taiKhoan.VaiTro.VaiTroId == 1)
                 {
-                    context.HttpContext.Session.Remove("sessionUser");
+
+                }
+                else
+                {
+                    
                 }
             }
             else
             {
-                
+                context.Result = new RedirectResult("/Login");
+
             }
-            
+
         }
 
-  
+
     }
 }

@@ -391,6 +391,7 @@ else
                     "NoiDung": $('#NoiDungComment').val()
                 },
                  success: function (result) {
+                     
                      $.each(result, function (key, value) {
                         if (key == "thoiGian") {
                             ThoiGian = value;
