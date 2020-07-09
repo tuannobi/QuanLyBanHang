@@ -10,6 +10,7 @@ using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using QuanLyBanHang.Models;
+using Rotativa.AspNetCore;
 
 namespace QuanLyBanHang
 {
@@ -75,7 +76,7 @@ namespace QuanLyBanHang
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=HoaDon}/{action=Details}/{id?}");
+                    pattern: "{controller=HoaDon}/{action=Index1}/{id?}");
             });
         }
     }
