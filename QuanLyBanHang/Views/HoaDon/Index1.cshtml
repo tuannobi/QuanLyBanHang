@@ -11,6 +11,16 @@
     <div class="header-content">
         <h2>Danh sách hóa đơn đã xử lí</h2>
     </div>
+    <form method="post" action="ThongKeHoaDonTheoThoiGian" style="float: left; ">
+        <input type="datetime-local" name="ngayBatDau" class="ngay" id="ngayBatDau" width="" />
+        <input type="datetime-local" name="ngayKetThuc" class="ngay" id="ngayKetThuc" />
+        <input type="submit" value="Thống kê" id="thongke" />
+        <a class="add-user btn" id="inhoadon">
+            <i class="fa fa-print" aria-hidden="true"></i>&nbsp;
+            In hóa đơn
+        </a>
+    </form>
+    <br />
     <div class="content-content vertical-menu">
         <table>
             <tr>
@@ -39,4 +49,11 @@
         </table>
     </div>
 </div>
-
+@section Scripts{
+    <script>
+        $('#inhoadon').on('click', function () {
+           
+            window.location.replace('/HoaDon/InDanhSachHoaDon/');
+        })
+    </script>
+}

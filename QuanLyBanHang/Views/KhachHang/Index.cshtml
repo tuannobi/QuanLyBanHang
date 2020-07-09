@@ -6,8 +6,10 @@
 }
 
 @section Links{
-    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
-   @* <link rel="stylesheet" href="~/admin/css/khachhang.css" />*@
+     <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+    @* <link rel="stylesheet" href="~/admin/css/khachhang.css" />*@
 }
 
 
@@ -26,25 +28,25 @@
         </div>
     </div>
     <div class="content-content">
-        <table class="table table-hover tm-table-small ">
-          
+        <table id="dtBasicExample" class="table table-hover tm-table-small" style="border-collapse: collapse;">
+            <thead>
                 <tr>
-                    <th scope="col"><input type="checkbox" id="checkall" /></th>
-                    <th scope="col">Họ và tên</th>
-                    <th scope="col">Ngày sinh</th>
-                    <th scope="col">Email</th>
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Địa chỉ</th>
-                    <th scope="col">Tài khoản</th>
-                    <th scope="col">Chức năng</th>
-                    
+                    <th class="th-sm" scope="col"><input type="checkbox" id="checkall" /></th>
+                    <th class="th-sm" scope="col">Họ và tên</th>
+                    <th class="th-sm" scope="col">Ngày sinh</th>
+                    <th class="th-sm" scope="col">Email</th>
+                    <th class="th-sm" scope="col">Số điện thoại</th>
+                    <th class="th-sm" scope="col">Địa chỉ</th>
+                    <th class="th-sm" scope="col">Tài khoản</th>
+                    <th class="th-sm" scope="col">Chức năng</th>
+
                 </tr>
-           
-           
+            </thead>
+            <tbody>
                 @foreach (var item in Model)
                 {
                     <tr>
-                        <td scope="row"><input type="checkbox" class="tick" name="listcustom" value="@item.KhachHangId" /></td>
+                        <td style="text-align:center" scope="row"><input type="checkbox" class="tick" name="listcustom" value="@item.KhachHangId" /></td>
                         <td>
                             @item.HoTen
                         </td>
@@ -68,14 +70,14 @@
                             <div>
                                 <a asp-action="Edit" asp-route-id="@item.KhachHangId" class="btn tm-product-delete-link" id="update-staff"><i class="fa fa-pencil-square-o tm-product-delete-icon"></i></a>
                                 <a onclick="Delete(@item.KhachHangId)" class="tm-product-delete-link" id="delete-staff"><i class="fa fa-trash-o tm-product-delete-icon"></i></a>
-                               
+
                             </div>
                         </td>
                     </tr>
 
                 }
 
-           
+            </tbody>
         </table>
     </div>
 
@@ -89,6 +91,14 @@
 
 @section Scripts{
     <script src="~/admin/js/khachhang.js"></script>
-
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
 }
-

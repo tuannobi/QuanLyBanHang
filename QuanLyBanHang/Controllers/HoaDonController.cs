@@ -113,31 +113,66 @@ namespace QuanLyBanHang.Controllers
             return Json("Tất cả những hóa đơn được chọn đã duyệt thành công");
         }
 
-        [HttpGet]
-        public IActionResult ThongKeHoaDonTheoThoiGian()
-        {
-            return View("ThongKeHoaDonTheoThoiGian");
-        }
+       
 
         [HttpPost]
         public IActionResult ThongKeHoaDonTheoThoiGian(DateTime ngayBatDau, DateTime ngayKetThuc)
         {
             Console.WriteLine(ngayBatDau);
             Console.WriteLine(ngayKetThuc);
-            List<HoaDon> hoaDons = _context.HoaDon.Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
+            var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
             ViewBag.TTHD = hoaDons;
             HttpContext.Session.SetString("ngayBatDauSession", JsonConvert.SerializeObject(ngayBatDau));
             HttpContext.Session.SetString("ngayKetThucSession", JsonConvert.SerializeObject(ngayKetThuc));
-            return View("ThongKeHoaDonTheoThoiGian");
+            return View("Index1");
         }
 
         public IActionResult InDanhSachHoaDon()
         {
             DateTime ngayBatDau = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayBatDauSession"));
             DateTime ngayKetThuc = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayKetThucSession"));
-            List<HoaDon> hoaDons = _context.HoaDon.Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
+            var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
             //Chỗ này xử lý convert html trả về pdf
-            return View("Index");
+            MemoryStream workStream = new MemoryStream();
+            iTextSharp.text.Document document = new iTextSharp.text.Document(PageSize.A4, 25, 25, 25, 25);
+            string html = "<html><body> < div style = 'text-align:center;>" +
+                    "<h2 style='font-size:20px'>Shop Beauty</h2>" +
+                    "<p>Kí túc xá khu B DHQG TP.Hồ Chí Minh</p></div>" +
+                    " <table style = 'text-align: center; border-collapse: collapse;' > " +
+            " <tr style = 'border-bottom: 2px solid #2f2d2d42;margin-bottom: 3px;' > " +
+                "<th> Số hóa đơn</th>" +
+                  "<th> Ngày tạo</th>" +
+                    "<th>Khách hàng</th>" +
+                      "<th>Địa chỉ</th>" +
+                        "<th>Phí ship</th>" +
+                          "<th>Tổng tiền</th>" +
+                            "</tr>";
+            string chitiet = "";
+           
+            var doanhthu = 0;
+            foreach (var item in hoaDons)
+            {
+                string html1 = "<tr>" +
+                    "<td>" + item.HoaDonId + "</td>" +
+                    "<td>" + item.ThoiGianChoXuLy + "</td>" +
+                    "<td>" + item.KhachHang.HoTen + "</td>" +
+                    "<td>" + item.SoNha + " - " + item.Quan + "</td>" +
+                    "<td>" + item.PhiShip.ChiPhi + "</td>" +
+                    "<td>" + item.TongTienThanhToan +"</td>" +
+                    "</tr>";
+                
+                doanhthu = (int)(doanhthu + item.TongTienThanhToan);
+                chitiet = chitiet + html1;
+            }
+            Console.WriteLine(doanhthu);
+            string dthu = "<tr><td colspan='5' style='float:right'>Tổng doanh thu:</td><td>" + doanhthu + "</td></tr>";
+            string html3="</table></body></html>";
+            html = html + chitiet + dthu+html3;
+            byte[] byteInfo = GetPDF(html);
+            workStream.Write(byteInfo, 0, byteInfo.Length);
+            workStream.Position = 0;
+
+            return new FileStreamResult(workStream, "application/pdf");
         }
         public ActionResult InHoaDon(int id)
         {
