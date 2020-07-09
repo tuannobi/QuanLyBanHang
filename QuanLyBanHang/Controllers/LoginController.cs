@@ -50,6 +50,7 @@ namespace QuanLyBanHang.Controllers
         public IActionResult Index([Bind("Username,Password,VaiTroId")] TaiKhoan taiKhoan)
         {
             var tk = _context.TaiKhoan.Include("VaiTro").Where(t => t.Username == taiKhoan.Username && t.Password == taiKhoan.Password).FirstOrDefault();
+            
             switch (tk.VaiTro.VaiTroId)
             {
                 case 1:

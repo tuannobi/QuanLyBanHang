@@ -149,7 +149,6 @@ namespace QuanLyBanHang.Controllers
 
             return Json(sanPhams);
         }
-
         
 
     }

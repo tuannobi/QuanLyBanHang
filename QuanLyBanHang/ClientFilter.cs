@@ -33,7 +33,7 @@ namespace QuanLyBanHang
             {
                 TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(context.HttpContext.Session.GetString("sessionUser"));
                 TaiKhoan taiKhoan = _context.TaiKhoan.Include("VaiTro").Where(tk => tk.Username == taiKhoanSession.Username).FirstOrDefault();
-                if (taiKhoan.VaiTro.VaiTroId == 1)
+                if (taiKhoan.VaiTro.VaiTroId == 3)
                 {
 
                 }
