@@ -39,7 +39,8 @@ namespace QuanLyBanHang
                 }
                 else
                 {
-                    
+                    context.HttpContext.Session.Remove("sessionUser");
+                    context.Result = new RedirectResult("/Login");
                 }
             }
             else

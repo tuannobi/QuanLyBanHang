@@ -11,6 +11,7 @@ namespace QuanLyBanHang.Controllers
         public IActionResult Index()
         {
             HttpContext.Session.Remove("sessionUser");
+            HttpContext.Session.Remove("VaiTroSession");
             return Redirect("/Login");
         }
     }

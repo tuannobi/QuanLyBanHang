@@ -33,6 +33,7 @@ namespace QuanLyBanHang.Controllers
         }
 
         //Get:TaiKhoan/Admin-NhanVien
+        [ServiceFilter(typeof(AdminFilter))]
         public IActionResult GetNhanVien(string id)
         {
             TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
@@ -100,6 +101,7 @@ namespace QuanLyBanHang.Controllers
             return View(quanlykhachhang);
         }
         //Get: TaiKhoan/Admin
+        [ServiceFilter(typeof(AdminFilter))]
         public IActionResult GetAdmin(string SearchString)
         {
             TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));

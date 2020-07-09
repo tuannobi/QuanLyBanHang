@@ -14,6 +14,7 @@ using Microsoft.AspNetCore.Http;
 
 namespace QuanLyBanHang.Controllers
 {
+    [ServiceFilter(typeof(AdminLoginFilter))]
     public class KhuyenMaiController : Controller
     {
         private readonly QuanLyBanHangDbContext _context;

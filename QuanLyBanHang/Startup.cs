@@ -37,8 +37,7 @@ namespace QuanLyBanHang
             //Filters
             services.AddScoped<ClientFilter>();
             services.AddScoped<AdminFilter>();
-            services.AddScoped<EmployeeFilter>();
-            services.AddScoped<AdminEmployeeFilter>();
+            services.AddScoped<AdminLoginFilter>();
             //
             services.AddDistributedMemoryCache(); // Adds a default in-memory implementation of IDistributedCache
             services.AddSession();
