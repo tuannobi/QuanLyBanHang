@@ -3,18 +3,12 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
-using iTextSharp.text;
-using iTextSharp.text.html;
-using iTextSharp.text.html.simpleparser;
-using iTextSharp.text.pdf;
-using iTextSharp.tool.xml;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using QuanLyBanHang.Models;
-using Rotativa.AspNetCore;
 
 namespace QuanLyBanHang.Controllers
 {
