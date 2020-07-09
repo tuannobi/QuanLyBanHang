@@ -14,45 +14,49 @@
 <div class="container">
     <div class="header-content">
         <h2>Danh sách phiếu nhập</h2>
-        <a class="add-user" onclick="DeleteSelected()">
-            <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
-            Xóa phiếu nhập
-        </a>
-        <a class="add-user" href="/PhieuNhap/Create">
-            <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
-            Thêm phiếu nhập
-        </a>
+        <div class="header-event">
+
+            <a class="add-user" href="/PhieuNhap/Create">
+                <i class="fa fa-plus" aria-hidden="true"></i>&nbsp;
+                Thêm phiếu nhập
+            </a>
+            <a class="add-user" onclick="DeleteSelected()">
+                <i class="fa fa-minus" aria-hidden="true"></i>&nbsp;
+                Xóa phiếu nhập
+            </a>
+        </div>
+        </div>
+        <div>
+            <table id="dtBasicExample" class="table table-hover tm-table-small" style="border-collapse: collapse;">
+                <thead>
+                    <tr>
+                        <th class="th-sm" scope="col"><input type="checkbox" id="checkall" /></th>
+                        <th class="th-sm" scope="col">Mã phiếu nhập</th>
+                        <th class="th-sm" scope="col">Nhà cung cấp</th>
+                        <th class="th-sm" scope="col">Ngày nhập</th>
+                        <th class="th-sm" scope="col">Tổng tiền</th>
+                        <th class="th-sm" scope="col">Chức năng</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    @foreach (var item in Model)
+                    {
+                        <tr>
+                            <td style="text-align: center;"><input type="checkbox" class="tick" name="listproduct" value="@item.PhieuNhapId" /></td>
+                            <td style="text-align: center;">@item.PhieuNhapId</td>
+                            <td style="text-align: center;">@item.NhaCungCap.TenNhaCungCap</td>
+                            <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.NgayTao)</td>
+                            <td style="text-align: center;">@String.Format(info, "{0:C0}", item.TongTien)</td>
+                            <td style="text-align: center;">
+                                <a asp-action="Details" asp-route-id="@item.PhieuNhapId" title="Chi tiết khuyến mãi"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                                <a onclick="Delete(@item.PhieuNhapId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
+                            </td>
+                        </tr>
+                    }
+                </tbody>
+            </table>
+        </div>
     </div>
-    <div >
-        <table id="dtBasicExample" class="table table-hover tm-table-small" style="border-collapse: collapse;">
-            <thead>
-                <tr>
-                    <th class="th-sm" scope="col"><input type="checkbox" id="checkall" /></th>
-                    <th class="th-sm" scope="col">Mã phiếu nhập</th>
-                    <th class="th-sm" scope="col">Nhà cung cấp</th>
-                    <th class="th-sm" scope="col">Ngày nhập</th>
-                    <th class="th-sm" scope="col">Tổng tiền</th>
-                    <th class="th-sm" scope="col">Chức năng</th>
-                </tr>
-            </thead><tbody>
-    @foreach (var item in Model)
-    {
-        <tr>
-            <td style="text-align: center;"><input type="checkbox" class="tick" name="listproduct" value="@item.PhieuNhapId" /></td>
-            <td style="text-align: center;">@item.PhieuNhapId</td>
-            <td style="text-align: center;">@item.NhaCungCap.TenNhaCungCap</td>
-            <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.NgayTao)</td>
-            <td style="text-align: center;">@String.Format(info, "{0:C0}", item.TongTien)</td>
-            <td style="text-align: center;">
-                <a asp-action="Details" asp-route-id="@item.PhieuNhapId" title="Chi tiết khuyến mãi"><i class="fa fa-eye" aria-hidden="true"></i></a>
-                <a onclick="Delete(@item.PhieuNhapId)"><i class="fa fa-trash-o" aria-hidden="true"></i></a>
-            </td>
-        </tr>
-    }
-</tbody>
-        </table>
-    </div>
-</div>
 @section Scripts {
    
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>

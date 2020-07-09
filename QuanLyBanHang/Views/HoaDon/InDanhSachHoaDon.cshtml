@@ -28,6 +28,9 @@
             height: 600px;
             overflow-y: auto;
         }
+        th {
+            text-align: center;
+        }
     </style>
 </head>
 <body>
@@ -57,7 +60,7 @@
      @foreach(var item in ViewBag.TTHD)
      {
 
-         doanhthu = (int)(doanhthu + item.TongTienThanhToan);
+         doanhthu = (int)(doanhthu + item.TongTienThanhToan+item.PhiShip.ChiPhi);
          <tr>
              <td style = "text-align: center;" > @item.HoaDonId </td >
              <td style = "text-align: center;" > @String.Format("{0:dd/MM/yyyy}", @item.ThoiGianChoXuLy) </td >

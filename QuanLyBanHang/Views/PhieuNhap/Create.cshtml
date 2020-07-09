@@ -1,13 +1,14 @@
 ﻿@model QuanLyBanHang.Models.PhieuNhap
 
 @{
-        ViewData["Title"] = "Create";
-        Layout = "~/Views/Shared/Layout_Admin.cshtml";
-        var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
+    ViewData["Title"] = "Create";
+    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+    var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
 
-    @section Links{
-    <link rel="stylesheet" href="~/admin/css/product.css" />
+@section Links{
+    <link rel="stylesheet" href="~/admin/css/khuyenmai.css" />
+    <link rel="stylesheet" href="~/admin/custom/admin_adduser.css" />
 }
 
 <div class="container">
@@ -16,69 +17,72 @@
     </div>
     <div class="content-content">
         <div class="row">
-            <div class="col-xs-6">
-                <label>Nhà cung cấp</label>
-                <select id="ncc" style="width:272px" asp-items="ViewBag.NhaCungCapId">
+            <div class="col-6">
+                <label class="col-4">Nhà cung cấp</label>
+                <select class="col-6" id="ncc" style="width:272px" asp-items="ViewBag.NhaCungCapId">
                     <option value="">Chọn nhà cung cấp</option>
                 </select>
             </div>
-            <div class="col-xs-6 ">
-                <label>Ngày nhập</label>
-                <input type="date" id="ngnhap" required="">
+            <div class="col-6 ">
+                <label class="col-4">Ngày nhập</label>
+                <input class="col-6" type="date" id="ngnhap" required="">
             </div>
         </div>
         <div class="row">
-            <div class="col-xs-6">
-                <label>Loại sản phẩm</label>
-                <select id="loaisp" style="width:272px" asp-items="ViewBag.PhanLoaiId">
+            <div class="col-6">
+                <label class="col-4">Loại sản phẩm</label>
+                <select class="col-6" id="loaisp" style="width:270px" asp-items="ViewBag.PhanLoaiId">
                     <option value="">Chọn loại sản phẩm</option>
                 </select>
+
             </div>
-            <div class="col-xs-6 ">
-                <label>Sản phẩm</label>
-                <select id="spham" style="width:272px">
+            <div class="col-6 ">
+                <label class="col-4">Sản phẩm</label>
+                <select class="col-6" id="spham" style="width:270px">
                     <option value="">Chọn sản phẩm</option>
                 </select>
             </div>
         </div>
-        <div class="row">
-            <div class="col-xs-6">
-                <label>Số lượng</label>
-                <input type="number" id="sl" required="">
+      
+            <div class="row">
+                <div class="col-6">
+                    <label class="col-4">Số lượng</label>
+                    <input class="col-6" type="number" id="sl" required="">
+                </div>
+                <div class="col-6 ">
+                    <label class="col-4">Giá nhập</label>
+                    <input class="col-6" type="number" id="gia" required="">
+                </div>
             </div>
-            <div class="col-xs-6 ">
-                <label>Giá nhập</label>
-                <input type="number" id="gia" required="">
+
+            <div class="row event">
+                <button id="bt" class="btn eventadd" value="Create">Thêm</button>
             </div>
-        </div>
-        <div class="row" style="text-align: center;">
-            <button id="bt" class="btn btn-success" value="Create">Thêm</button>
-        </div>
-        <br />
-        <div class="tablechitietkm">
-            <h4 style="text-align: center;"><b>CHI TIẾT PHIẾU NHẬP</b></h4>
-            <table id="tb">
-                <tr>
-                    <th>&nbsp;</th>
-                    <th>Tên sản phẩm</th>
-                    <th>Số lượng</th>
-                    <th>Giá nhập</th>
-                </tr>
-                <tr id = "tt">
-                    <td></td>
-                    <td></td>
-                    <td><center><b>Tổng tiền:</b></center></td>
-                    <td><center><b id="tongtien">@String.Format(info, "{0:C0}", 0)</b></center></td>
-                </tr>
-            </table>
+            <br />
+            <br />
+            <div class="tablechitietkm">
+                <div class="content-content">
+                    <h4 style="text-align: center;"><b>CHI TIẾT PHIẾU NHẬP</b></h4>
+                    <table id="tb" class="table table-hover tm-table-small ">
+                        <tr>
+                            <th>&nbsp;</th>
+                            <th>Tên sản phẩm</th>
+                            <th>Số lượng</th>
+                            <th>Giá nhập</th>
+                        </tr>
+
+                    </table>
+                </div>
+            </div>
+
+            <div class="row add_cancel" style="text-align: right;">
+                <button id="themkm" class="btn">Add</button>
+                <button type="button" class="btn">Cancel</button>
+            </div>
         </div>
 
-        <div class="row add_cancel" style="text-align: right;">
-            <button id="themkm" class="btn btn-success">Add</button>
-            <button type="button" class="btn btn-danger">Cancel</button>
-        </div>
+
     </div>
-</div>
 @section Scripts {
     <script>
         $(document).ready(function (e) {
