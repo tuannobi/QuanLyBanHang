@@ -47,7 +47,7 @@ header h2{
 }
 .login_logout {
 	float: right;
-	margin: 20px 30px 17px 0;
+	margin: 2% 4% !important;
 }
 /* <========== End header style ==========>*/
 .menu {

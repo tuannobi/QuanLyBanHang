@@ -108,22 +108,18 @@ namespace QuanLyBanHang.Controllers
             return Json("Tất cả những hóa đơn được chọn đã duyệt thành công");
         }
 
-        [HttpGet]
-        public IActionResult ThongKeHoaDonTheoThoiGian()
-        {
-            return View("ThongKeHoaDonTheoThoiGian");
-        }
+       
 
         [HttpPost]
         public IActionResult ThongKeHoaDonTheoThoiGian(DateTime ngayBatDau, DateTime ngayKetThuc)
         {
             Console.WriteLine(ngayBatDau);
             Console.WriteLine(ngayKetThuc);
-            List<HoaDon> hoaDons = _context.HoaDon.Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
+            var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
             ViewBag.TTHD = hoaDons;
             HttpContext.Session.SetString("ngayBatDauSession", JsonConvert.SerializeObject(ngayBatDau));
             HttpContext.Session.SetString("ngayKetThucSession", JsonConvert.SerializeObject(ngayKetThuc));
-            return View("ThongKeHoaDonTheoThoiGian");
+            return View("Index1");
         }
 
         public IActionResult InDanhSachHoaDon()
@@ -133,6 +129,7 @@ namespace QuanLyBanHang.Controllers
             List<HoaDon> hoaDons = _context.HoaDon.Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
             //
             return View("Index");
+
         }
     
     }
