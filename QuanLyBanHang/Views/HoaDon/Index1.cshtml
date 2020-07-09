@@ -32,11 +32,13 @@
                     <td style="text-align: center;">@item.PhiShip.ChiPhi</td>
                     <td style="text-align: center;">@item.TongTienThanhToan</td>
                     <td style="text-align: center;">
-                        <a asp-action="Details" asp-route-id="@item.HoaDonId" title="Chi tiết hóa đơn"><i class="fa fa-eye" aria-hidden="true"></i></a>
+                        @*<a asp-action="Details" asp-route-id="@item.HoaDonId" title="Chi tiết hóa đơn"><i class="fa fa-eye" aria-hidden="true"></i></a>*@
+                        <a href="/HoaDon/Details/@item.HoaDonId" target="_blank"><i class="fa fa-eye" aria-hidden="true"></i>Chi tiết hóa đơn</a>
                     </td>
                 </tr>
             }
         </table>
     </div>
 </div>
+
 
