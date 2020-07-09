@@ -38,6 +38,7 @@ namespace QuanLyBanHang.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(AdminFilter))]
         public IActionResult Index1()
         {
             var thongtinhoadon = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.TrangThai == "Đã xử lý");

@@ -39,12 +39,12 @@ namespace QuanLyBanHang
                 }
                 else
                 {
-                    throw new Exception("Phải là quyền Admin mới được truy cập");
+                    context.HttpContext.Response.StatusCode = 403;
                 }
             }
             else
             {
-                
+                context.HttpContext.Response.StatusCode = 403;
             }
             
         }
