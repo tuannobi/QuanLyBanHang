@@ -37,41 +37,41 @@
                         <li>
                             <a href="#" class="dropdown-toggle" data-toggle="dropdown">SẢN PHẨM <b class="caret"></b></a>
                             <ul class="dropdown-menu category">
-                                <li><a href="#" itemprop="111">Sản phẩm nổi bật</a></li>
+                                <li><a href="/Category/NhomSanPham/111" itemprop="111">Sản phẩm nổi bật</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#" itemprop="111">Sản phẩm mới</a></li>
+                                <li><a href="/Category/NhomSanPham/222" itemprop="222">Sản phẩm mới</a></li>
                                 <li class="divider"></li>
-                                <li><a href="#" itemprop="Sản phẩm khuyến mãi">Sản phẩm khuyến mãi</a></li>
+                                <li><a href="/Category/NhomSanPham/333" itemprop="333">Sản phẩm khuyến mãi</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">TRANG ĐIỂM <b class="caret"></b></a>
                             <ul class="dropdown-menu category">
-                                <li><a href="" itemprop="1">Tất cả</a></li>
+                                <li><a href="/Category/NhomLoai?id=2" itemprop="2">Tất cả</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/Category?id=9" itemprop="4">Son môi</a></li>
+                                <li><a href="/Category?id=9" itemprop="9">Son môi</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/Category?id=10" itemprop="5">Trang điểm mắt</a></li>
+                                <li><a href="/Category?id=10" itemprop="10">Trang điểm mắt</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/Category?id=11" itemprop="6">Trang điểm mặt</a></li>
+                                <li><a href="/Category?id=11" itemprop="11">Trang điểm mặt</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">CHĂM SÓC DA <b class="caret"></b></a>
                             <ul class="dropdown-menu category">
-                                <li><a href="" itemprop="2">Tất cả</a></li>
+                                <li><a href="/Category/NhomLoai?id=3" itemprop="3">Tất cả</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/Category?id=12" itemprop="7">Mặt nạ</a></li>
+                                <li><a href="/Category?id=12" itemprop="12">Mặt nạ</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/Category?id=13" itemprop="8">Xịt khoáng</a></li>
+                                <li><a href="/Category?id=13" itemprop="13">Xịt khoáng</a></li>
                                 <li class="divider"></li>
-                                <li><a href="/Category?id=14" itemprop="9">Kem chống nắng</a></li>
+                                <li><a href="/Category?id=14" itemprop="14">Kem chống nắng</a></li>
                             </ul>
                         </li>
                         <li>
                             <a href="" class="dropdown-toggle" data-toggle="dropdown">NƯỚC HOA <b class="caret"></b></a>
                             <ul class="dropdown-menu category">
-                                <li><a href="" itemprop="3">Tất cả</a></li>
+                                <li><a href="/Category/NhomLoai?id=4" itemprop="4">Tất cả</a></li>
                                 <li class="divider"></li>
                                 <li><a href="/Category?id=15" itemprop="10">Nước hoa nữ</a></li>
                                 <li class="divider"></li>
@@ -244,13 +244,9 @@
                 window.location.replace("/GioHang/Details");
             });
 
-            /*$('#search').on('change', function () {
-                var nd = $(this).val();
-                var sort = 'default';
-                var loc = 'all';
-                var locgia = 'all';
-                window.location.replace('category.php?id=all&sortby=' + sort + '&loc=' + loc + '&locgia=' + locgia + '&search=' + nd);
-            });*/
+            $('#search').on('change', function () {
+                window.location.replace("/Homepage/TimKiem?keyword=" + $(this).val());
+            });
         });
     </script>
     @RenderSection("scripts", required: false)

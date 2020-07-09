@@ -10,6 +10,7 @@ using Newtonsoft.Json;
 
 using QuanLyBanHang.Models;
 using Microsoft.CodeAnalysis.CSharp.Syntax;
+using Microsoft.AspNetCore.Http;
 
 namespace QuanLyBanHang.Controllers
 {
@@ -23,12 +24,15 @@ namespace QuanLyBanHang.Controllers
 
         private void PopulateCategoryDropDownList(object selectedCategory = null)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
             var CategoryQuery = from d in _context.PhanLoai
                                 where d.NhomLoai != null && d.NhomLoai > 1 && d.NhomLoai < 5
                                 orderby d.PhanLoaiId
                                 select d;
             ViewBag.PhanLoaiId = new SelectList(CategoryQuery.AsNoTracking(), "PhanLoaiId", "Loai", selectedCategory);
         }
+
         public ActionResult GetProduct(int id)
         {
             var listProduct = from d in _context.SanPham
@@ -64,12 +68,19 @@ namespace QuanLyBanHang.Controllers
         // GET: KhuyenMai
         public async Task<IActionResult> Create()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             PopulateCategoryDropDownList();
             return View();
         }
         // GET: KhuyenMai/Details/5
         public async Task<IActionResult> Details(int id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var km = from d in _context.KhuyenMai
                        where d.KhuyenMaiId == id
                        select d;
@@ -90,6 +101,9 @@ namespace QuanLyBanHang.Controllers
         // GET: KhuyenMai/Create
         public async Task<IActionResult> Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             return View(await _context.KhuyenMai.ToListAsync());
         }
         // GET: KhuyenMai/Edit/5

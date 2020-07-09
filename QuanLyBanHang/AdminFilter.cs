@@ -33,18 +33,19 @@ namespace QuanLyBanHang
             {
                 TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(context.HttpContext.Session.GetString("sessionUser"));
                 TaiKhoan taiKhoan = _context.TaiKhoan.Include("VaiTro").Where(tk=>tk.Username==taiKhoanSession.Username).FirstOrDefault();
-                if (taiKhoan.VaiTro.VaiTroId == 1 || taiKhoan.VaiTro.VaiTroId == 2)
+                if (taiKhoan.VaiTro.VaiTroId == 1)
                 {
-
+                   
                 }
                 else
                 {
-                    throw new Exception("Phải là quyền Admin mới được truy cập");
+                    context.Result = new RedirectResult("/Prohibit");
                 }
             }
             else
             {
-                
+                context.Result = new RedirectResult("/Prohibit");
+
             }
             
         }

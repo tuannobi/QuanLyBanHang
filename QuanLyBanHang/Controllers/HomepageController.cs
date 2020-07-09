@@ -11,7 +11,6 @@ using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
 {
-    [ServiceFilter(typeof(ClientFilter))]
     public class HomepageController : Controller
     {
 
@@ -65,6 +64,19 @@ namespace QuanLyBanHang.Controllers
             ViewBag.chamSocDaSanPhams = chamSocDaSanPhams;
             ViewBag.nuocHoaSanPhams = nuocHoaSanPhams;
             return View();
+        }
+
+        public IActionResult TimKiem(string keyword)
+        {
+            List<SanPham> sanPhams = context.SanPham.Where(sp => sp.TenSanPham.Contains(keyword)).ToList();
+            HttpContext.Session.SetString("sanPhamListSession", JsonConvert.SerializeObject(sanPhams));
+            //
+            var ThuongHieuList = context.SanPham.Select(sp => sp.ThuongHieu).Distinct().ToList();
+            Console.WriteLine(ThuongHieuList.Count());
+            var productList = sanPhams;
+            ViewBag.productList = productList;
+            ViewBag.ThuongHieuList = ThuongHieuList;
+            return View("/Views/Category/Index.cshtml");
         }
     }
 }

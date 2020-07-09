@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
@@ -23,6 +25,9 @@ namespace QuanLyBanHang.Controllers
         // GET: TaiKhoan
         public async Task<IActionResult> Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var quanLyBanHangDbContext = _context.TaiKhoan.Include(t => t.VaiTro);
             return View(await quanLyBanHangDbContext.ToListAsync());
         }
@@ -30,6 +35,9 @@ namespace QuanLyBanHang.Controllers
         //Get:TaiKhoan/Admin-NhanVien
         public IActionResult GetNhanVien(string id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             List<TaiKhoan> taikhoan = _context.TaiKhoan.ToList();
             List<VaiTro> vaitro = _context.VaiTro.ToList();
             List<NhanVien> nhanvien = _context.NhanVien.ToList();
@@ -62,6 +70,9 @@ namespace QuanLyBanHang.Controllers
         //Get:TaiKhoan/KhachHang
         public IActionResult GetKhachHang(string SearchString)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             List<TaiKhoan> taikhoan = _context.TaiKhoan.ToList();
             List<VaiTro> vaitro = _context.VaiTro.ToList();
             List<KhachHang> khachhang = _context.KhachHang.ToList();
@@ -91,7 +102,10 @@ namespace QuanLyBanHang.Controllers
         //Get: TaiKhoan/Admin
         public IActionResult GetAdmin(string SearchString)
         {
-            
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             List<TaiKhoan> taikhoan = _context.TaiKhoan.ToList();
             List<VaiTro> vaitro = _context.VaiTro.ToList();
             List<Admin> admin = _context.Admin.ToList();
@@ -125,6 +139,10 @@ namespace QuanLyBanHang.Controllers
         // GET: TaiKhoan/Edit/5
         public async Task<IActionResult> EditAdmin(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id == null)
             {
                 return NotFound();
@@ -146,6 +164,11 @@ namespace QuanLyBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditAdmin(int id, [Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
         {
+
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id != taiKhoan.TaiKhoanId)
             {
                 return NotFound();
@@ -180,6 +203,10 @@ namespace QuanLyBanHang.Controllers
         // GET: TaiKhoan/Edit/5
         public async Task<IActionResult> EditNhanVien(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id == null)
             {
                 return NotFound();
@@ -201,6 +228,10 @@ namespace QuanLyBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditNhanVien(int id, [Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id != taiKhoan.TaiKhoanId)
             {
                 return NotFound();
@@ -237,6 +268,10 @@ namespace QuanLyBanHang.Controllers
         // GET: TaiKhoan/Edit/5
         public async Task<IActionResult> EditKhachHang(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id == null)
             {
                 return NotFound();
@@ -258,6 +293,10 @@ namespace QuanLyBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> EditKhachHang(int id, [Bind("TaiKhoanId,Username,Password,NgayTao,VaiTroId")] TaiKhoan taiKhoan)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id != taiKhoan.TaiKhoanId)
             {
                 return NotFound();
@@ -293,6 +332,10 @@ namespace QuanLyBanHang.Controllers
         // GET: TaiKhoan/Delete/5
         public async Task<IActionResult> Delete(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id == null)
             {
                 return NotFound();

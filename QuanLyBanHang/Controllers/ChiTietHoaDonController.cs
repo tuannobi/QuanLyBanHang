@@ -2,9 +2,11 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
+using Newtonsoft.Json;
 using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
@@ -21,6 +23,9 @@ namespace QuanLyBanHang.Controllers
         // GET: ChiTietHoaDon
         public async Task<IActionResult> Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var quanLyBanHangDbContext = _context.ChiTietHoaDon.Include(c => c.HoaDon).Include(c => c.SanPham);
             return View(await quanLyBanHangDbContext.ToListAsync());
         }
@@ -28,6 +33,9 @@ namespace QuanLyBanHang.Controllers
         // GET: ChiTietHoaDon/Details/5
         public async Task<IActionResult> Details(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             if (id == null)
             {
                 return NotFound();
@@ -48,6 +56,9 @@ namespace QuanLyBanHang.Controllers
         // GET: ChiTietHoaDon/Create
         public IActionResult Create()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             ViewData["HoaDonId"] = new SelectList(_context.HoaDon, "HoaDonId", "HoaDonId");
             ViewData["SanPhamId"] = new SelectList(_context.SanPham, "SanPhamId", "SanPhamId");
             return View();
@@ -60,6 +71,10 @@ namespace QuanLyBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Create([Bind("HoaDonId,SanPhamId,SoLuong,TienKhuyenMai,TongTien")] ChiTietHoaDon chiTietHoaDon)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (ModelState.IsValid)
             {
                 _context.Add(chiTietHoaDon);
@@ -74,6 +89,10 @@ namespace QuanLyBanHang.Controllers
         // GET: ChiTietHoaDon/Edit/5
         public async Task<IActionResult> Edit(int? id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id == null)
             {
                 return NotFound();
@@ -96,6 +115,10 @@ namespace QuanLyBanHang.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Edit(int id, [Bind("HoaDonId,SanPhamId,SoLuong,TienKhuyenMai,TongTien")] ChiTietHoaDon chiTietHoaDon)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
+
             if (id != chiTietHoaDon.HoaDonId)
             {
                 return NotFound();

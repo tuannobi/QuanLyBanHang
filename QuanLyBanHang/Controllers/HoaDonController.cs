@@ -24,6 +24,9 @@ namespace QuanLyBanHang.Controllers
         // GET: HoaDon
         public IActionResult Index()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var thongtinhoadon = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.TrangThai == "Chờ xử lý");
             /*var thongtinhoadon = (from hd in _context.HoaDon
                                  join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
@@ -39,8 +42,12 @@ namespace QuanLyBanHang.Controllers
             return View();
         }
 
+        [ServiceFilter(typeof(AdminFilter))]
         public IActionResult Index1()
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var thongtinhoadon = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.TrangThai == "Đã xử lý");
             /*var thongtinhoadon = (from hd in _context.HoaDon
                                   join kh in _context.KhachHang on hd.KhachHangId equals kh.KhachHangId
@@ -58,6 +65,9 @@ namespace QuanLyBanHang.Controllers
 
         public IActionResult Details(int id)
         {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            ViewBag.UserName = taiKhoanSession.Username;
+            ViewBag.VaiTroSession = HttpContext.Session.GetInt32("VaiTroSession");
             var thongtinsanpham = _context.ChiTietHoaDon.Include("SanPham").Where(sp => sp.HoaDonId == id);
             /*var thongtinsanpham = (from sp in _context.SanPham
                                   join cthd in _context.ChiTietHoaDon on sp.SanPhamId equals cthd.SanPhamId
@@ -108,7 +118,7 @@ namespace QuanLyBanHang.Controllers
             return Json("Tất cả những hóa đơn được chọn đã duyệt thành công");
         }
 
-       
+     
 
         [HttpPost]
         public IActionResult ThongKeHoaDonTheoThoiGian(DateTime ngayBatDau, DateTime ngayKetThuc)
