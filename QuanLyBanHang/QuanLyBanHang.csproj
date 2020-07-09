@@ -53,6 +53,18 @@
   </ItemGroup>
 
   <ItemGroup>
+    <None Include="wwwroot\admin\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\admin\css\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\admin\css\bootstrap.css.map" />
+    <None Include="wwwroot\admin\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\admin\js\admin.js" />
+    <None Include="wwwroot\admin\js\bootstrap.js" />
+    <None Include="wwwroot\admin\js\bootstrap.min.js" />
+    <None Include="wwwroot\admin\js\jquery-3.2.1.min.js" />
+    <None Include="wwwroot\admin\js\khachhang.js" />
+    <None Include="wwwroot\admin\js\nhanvien.js" />
+    <None Include="wwwroot\admin\js\npm.js" />
+    <None Include="wwwroot\admin\js\upload.js" />
     <None Include="wwwroot\admin\prohibit\css\fonts\fontawesome\fontawesome-webfont.svg" />
     <None Include="wwwroot\admin\prohibit\css\fonts\fontawesome\fontawesome-webfont.woff2" />
     <None Include="wwwroot\admin\prohibit\css\fonts\glyphicons.filetypes.pro\glyphicons-filetypes-regular.svg" />
@@ -353,6 +365,24 @@
     <None Include="wwwroot\admin\prohibit\less\themes\spring.less" />
     <None Include="wwwroot\admin\prohibit\less\themes\waterlily.less" />
     <None Include="wwwroot\admin\prohibit\less\variables.less" />
+    <None Include="wwwroot\client\css\bootstrap-theme.css.map" />
+    <None Include="wwwroot\client\css\bootstrap-theme.min.css.map" />
+    <None Include="wwwroot\client\css\bootstrap.css.map" />
+    <None Include="wwwroot\client\css\bootstrap.min.css.map" />
+    <None Include="wwwroot\client\fonts\glyphicons-halflings-regular.svg" />
+    <None Include="wwwroot\client\fonts\glyphicons-halflings-regular.woff2" />
+    <None Include="wwwroot\client\images\chitietsanpham-chinhsach-hdbq.docx" />
+    <None Include="wwwroot\client\images\sản phẩm.docx" />
+    <None Include="wwwroot\client\images\TAPCHI SO1.docx" />
+    <None Include="wwwroot\client\images\tapchi so2.docx" />
+    <None Include="wwwroot\client\images\tapchi so3.docx" />
+    <None Include="wwwroot\client\js\bootstrap.js" />
+    <None Include="wwwroot\client\js\bootstrap.min.js" />
+    <None Include="wwwroot\client\js\cart.js" />
+    <None Include="wwwroot\client\js\header.js" />
+    <None Include="wwwroot\client\js\jquery-3.2.1.min.js" />
+    <None Include="wwwroot\client\js\npm.js" />
+    <None Include="wwwroot\client\js\product.js" />
   </ItemGroup>
 
 
