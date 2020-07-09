@@ -37,7 +37,7 @@
             margin-right: 70px;
             margin: 20px 70px;
         }
-        .dropdown {
+        .dropbtn {
             position: relative;
             display: inline-block;
         }
@@ -45,13 +45,29 @@
             display: none;
             position: absolute;
             background-color: #f1f1f1;
-            min-width: 160px;
+            min-width: 140px;
             overflow: auto;
             box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
             z-index: 1;
+           
         }
         .show {
             display: block;
+            padding: 3px 20px;
+            clear: both;
+            font-weight: 400;
+            line-height: 1.42857143;
+            color: #333;
+            white-space: nowrap;
+        }
+        .dropdown-content li > a {
+            color: black;
+            margin-bottom: 4px;
+            text-decoration: none;
+            background-color: transparent;
+        }
+        .dropdown-content > li :hover {
+            background-color: #33333373;
         }
     </style>
 </head>
@@ -59,17 +75,22 @@
     <header class="container-fluid">
         <div class="row envent_login_logout">
             <h2>Trang chủ</h2>
-            <div class="row login_logout">
-                <a class="login" title="Account" href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-                    @ViewBag.UserName
-                </a>
-                
-              
-                <a class="logout" title="Logout" href="/AdminLogout">
-                    <i class="fa fa-sign-out"></i>
-                </a>
+            <div class="row ">
+                <ul class="infor">
+                    <li>
+                        <div class="dropdown" style="margin-right: 25px;">
+                            <button onclick="myFunction()" class="dropbtn" title="Account" href="#" style="background-color:#272C3C; color:#4AFFFF ; border: 1px solid #1cdcdc; padding: 5px 16px; border-radius: 8px !important;width: auto;">
+                                <i class="fa fa-user" aria-hidden="true"></i>&nbsp;@ViewBag.UserName
+                            </button>
+                            <ul id="myDropdown" class="dropdown-content">
+                                <li><a href="/">Cập nhật thông tin</a></li>
+                                <li><a title="Logout" href="/AdminLogout">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
+            
         </div>
     </header>
     <div class="container-fluid">

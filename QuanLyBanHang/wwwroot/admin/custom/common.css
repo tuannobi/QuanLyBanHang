@@ -54,6 +54,7 @@ header h2{
 	background-color: #2B3142;
 	height: auto;
 	box-sizing: border-box;
+	min-height:1014px;
 }
 .content {
 	height: 800px;
