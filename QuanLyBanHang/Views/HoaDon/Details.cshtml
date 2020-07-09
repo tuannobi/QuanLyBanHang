@@ -27,19 +27,37 @@
             width: 100%;
             height: 600px;
             overflow-y: auto;
+        
+        }
+        .add-user {
+            background-color: black;
+            border-radius: 4px;
+            color: white !important;
+            float: right;
+            height: 32px;
+            text-align: center;
+            padding: 3px 5px;
+            margin-top: 2%;
+            color:white;
         }
     </style>
 </head>
 <body>
 
     <div class="container">
-        <div class="header-content">
-            <h2>Phiếu bán hàng</h2>
-            <a id="inhoadonbutton" class="add-user btn" style="color:white">
+        <div style="display:flex; justify-content:space-between;">
+            <div>
+                <h2>Shop Beauty</h2>
+                <p>Kí túc xá khu B DHQG TP.Hồ CHí Minh</p>
+            </div>
+            <a id="inhoadonbutton" class="add-user btn" >
                 <i class="fa fa-print" aria-hidden="true"></i>&nbsp;
                 In hóa đơn
             </a>
         </div>
+        <h2 style="text-align:center">Phiếu bán hàng</h2>
+
+        <div style="float:right">Ngày tạo:@String.Format("{0:dd/MM/yyyy}", @DateTime.Now)</div>
         <div class="content-content vertical-menu">
             @foreach (var item1 in ViewBag.TTHD)
             {
@@ -128,6 +146,8 @@
     <script src="~/admin/js/bootstrap.min.js"></script>
     <script>
         $('#inhoadonbutton').on('click', function () {
+            var myobj = document.getElementById("inhoadonbutton");
+            myobj.remove();
             window.print();
         })
     </script>

@@ -29,6 +29,29 @@
             width: 100%;
             height: 600px;
             overflow-y: auto;
+            
+        }
+        .infor {
+            width: auto;
+            height: 32px;
+            margin-right: 70px;
+            margin: 20px 70px;
+        }
+        .dropdown {
+            position: relative;
+            display: inline-block;
+        }
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background-color: #f1f1f1;
+            min-width: 160px;
+            overflow: auto;
+            box-shadow: 0px 8px 16px 0px rgba(0,0,0,0.2);
+            z-index: 1;
+        }
+        .show {
+            display: block;
         }
     </style>
 </head>
@@ -36,15 +59,20 @@
     <header class="container-fluid">
         <div class="row envent_login_logout">
             <h2>Trang chủ</h2>
-            <div class="row login_logout">
-                <a class="login" title="Account" href="#">
-                    <i class="fa fa-user" aria-hidden="true"></i>&nbsp;
-                </a>
-                
-              
-                <a class="logout" title="Logout" href="logout.php ">
-                    <i class="fa fa-sign-out"></i>
-                </a>
+            <div class="row ">
+                <ul class="infor">
+                    <li>
+                        <div class="dropdown">
+                            <button onclick="myFunction()" class="dropbtn" title="Account" href="#" style="background-color:#272C3C; color:#4AFFFF ; border: 1px solid #1cdcdc; padding: 5px 16px; border-radius: 8px !important;width: auto;">
+                                <i class="fa fa-user" aria-hidden="true"></i>&nbsp;Văn dsfA
+                            </button>
+                            <ul id="myDropdown" class="dropdown-content">
+                                <li><a>Cập nhật thông tin</a></li>
+                                <li><a href="/Logout">Đăng xuất</a></li>
+                            </ul>
+                        </div>
+                    </li>
+                </ul>
             </div>
         </div>
     </header>
@@ -101,7 +129,7 @@
                                 <li><a class="list-group-item users child" asp-controller="PhieuNhap" asp-action="Index"><i class="fa fa-genderless fa-fw" aria-hidden="true"></i>&nbsp; Danh sách phiếu nhập</a>
                             </ul>
                         </li>
-                       
+
                     </ul>
                 </div>
             </div>
@@ -113,6 +141,25 @@
     <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
     <script src="~/admin/js/bootstrap.min.js"></script>
+    <script>
+        function myFunction() {
+            document.getElementById("myDropdown").classList.toggle("show");
+    }
+
+    // Close the dropdown if the user clicks outside of it
+    window.onclick = function(event) {
+        if (!event.target.matches('.dropbtn')) {
+            var dropdowns = document.getElementsByClassName("dropdown-content");
+    var i;
+    for (i = 0; i < dropdowns.length; i++) {
+    var openDropdown = dropdowns[i];
+    if (openDropdown.classList.contains('show')) {
+    openDropdown.classList.remove('show');
+    }
+    }
+    }
+    }
+    </script>
     @RenderSection("Scripts", required: false)
 </body>
 </html>

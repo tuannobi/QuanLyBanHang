@@ -1,0 +1,86 @@
+﻿@model QuanLyBanHang.Models.HoaDon;
+@{
+    ViewData["Title"] = "Index1";
+    Layout = "";
+}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.2.1.min.js">
+    <title>Quản lý bán hàng</title>
+
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+
+    @*<link rel="stylesheet" href="~/admin/custom/admin_users.css" />*@
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+
+    <link rel="stylesheet" type="text/css" href="~/admin/custom/common.css">
+    <style type="text/css" media="screen">
+        .vertical-menu {
+            width: 100%;
+            height: 600px;
+            overflow-y: auto;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <h4>Shop Beauty</h4>
+        <p>Kí túc xá khu B DHQG TP.Hồ CHí Minh</p>
+        <div class="header-content">
+            <h2 style="text-align:center">Thống kê hóa đơn theo thời gian</h2>
+        </div>
+        <div style="float:right">
+            Ngày tạo: @String.Format("{0:dd/MM/yyyy}", @DateTime.Now )
+            
+            </div >
+
+  <div class="content-content vertical-menu">
+ <table id = "dtBasicExample" class="table table-hover tm-table-small" style="border-collapse: collapse;">
+     <tr>
+         <th>Số hóa đơn</th>
+         <th>Ngày tạo</th>
+         <th>Khách hàng</th>
+         <th>Địa chỉ</th>
+         <th>Phí ship</th>
+         <th>Tổng tiền</th>
+     </tr>
+     @{ var doanhthu = 0; }
+     @foreach(var item in ViewBag.TTHD)
+     {
+
+         doanhthu = (int)(doanhthu + item.TongTienThanhToan);
+         <tr>
+             <td style = "text-align: center;" > @item.HoaDonId </td >
+             <td style = "text-align: center;" > @String.Format("{0:dd/MM/yyyy}", @item.ThoiGianChoXuLy) </td >
+             <td style = "text-align: center;" > @item.KhachHang.HoTen </td >
+             <td style = "text-align: center;" > @item.SoNha, @item.Quan </td >
+             <td style = "text-align: center;" > @item.PhiShip.ChiPhi </td >
+             <td style = "text-align: center;" > @item.TongTienThanhToan </td >
+             
+    
+            </tr>
+            }
+            <tr>
+                <td colspan="5" style="text-align:end">Tổng doanh thu: </td>
+                <td>@doanhthu</td>
+            </tr>
+            </table>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            window.print();
+        });
+    </script>
+</body>
+</html>

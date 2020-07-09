@@ -52,7 +52,7 @@ header h2{
 /* <========== End header style ==========>*/
 .menu {
 	background-color: #2B3142;
-	height: 800px;
+	height: auto;
 	box-sizing: border-box;
 }
 .content {

@@ -124,11 +124,25 @@ namespace QuanLyBanHang.Controllers
 
         public IActionResult InDanhSachHoaDon()
         {
-            DateTime ngayBatDau = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayBatDauSession"));
-            DateTime ngayKetThuc = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayKetThucSession"));
-            List<HoaDon> hoaDons = _context.HoaDon.Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
+            var ngayBatDau = HttpContext.Session.GetString("ngayBatDauSession");
+            var ngayKetThuc = HttpContext.Session.GetString("ngayKetThucSession");
+              if(ngayBatDau==null || ngayKetThuc == null)
+            {
+                var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").ToList();
+                ViewBag.TTHD = hoaDons;
+            }
+            else
+            {
+                DateTime ngayBatDau1 = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayBatDauSession"));
+                DateTime ngayKetThuc1 = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayKetThucSession"));
+
+                var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau1 && hd.ThoiGianDaXuLy <= ngayKetThuc1).ToList();
+                ViewBag.TTHD = hoaDons;
+            }
+            HttpContext.Session.Remove("ngayBatDauSession");
+            HttpContext.Session.Remove("ngayKetThucSession");
             //
-            return View("Index");
+            return View();
 
         }
     
