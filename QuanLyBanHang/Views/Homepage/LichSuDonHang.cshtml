@@ -1,0 +1,86 @@
+﻿@model QuanLyBanHang.Models.KhachHang
+@{
+    ViewData["Title"] = "LichSuDonHang";
+    Layout = "~/Views/Shared/LayoutClient.cshtml";
+
+}
+
+@section links{
+    <link rel="stylesheet" type="text/css" href="~/client/custom/shopbeauty.css">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdn.datatables.net/1.10.21/css/jquery.dataTables.min.css">
+}
+<div class="container">
+    <div class="infor" style="width:40%">
+        <img src="~/client/images/download.jpg" width="80%" />
+        <form>
+            <label asp-for="HoTen">Họ và tên</label>
+            <input type="text" id="hoten" required="" asp-for="HoTen" value="@ViewBag.KhachHang.HoTen">
+
+            <label asp-for="NgaySinh">Ngày sinh</label>
+            <input asp-for="NgaySinh" type="datetime-local" id="ngaysinh" required="" value="@ViewBag.NgaySinh">
+
+            <label asp-for="Email">Email</label>
+            <input asp-for="Email" type="email" id="email" required="" value="@ViewBag.KhachHang.Email">
+
+            <label asp-for="Sdt">Số điện thoại</label>
+            <input asp-for="Sdt" type="tel" id="sdt" required="" value="@ViewBag.KhachHang.Sdt" pattern="(\+84|0)\d{9,10}" title="Số điện không hợp lệ">
+
+            <label asp-for="DiaChi">Địa chỉ</label>
+            <input asp-for="DiaChi" type="text" required="" id="diachi" value="@ViewBag.KhachHang.DiaChi">
+            <label asp-for="TaiKhoan.Username">Tên đăng nhập</label>
+            <input asp-for="TaiKhoan.Username" type="text" id="username" required="" value="@ViewBag.TaiKhoan.Username" readonly>
+
+            <label asp-for="TaiKhoan.Password">Mật khẩu</label>
+            <input asp-for="TaiKhoan.Password" type="password" id="matkhau" required="" value="@ViewBag.TaiKhoan.Password">
+            <div class="row add_cancel" style="float: right;">
+                <input type="submit" value="Cập nhật" id="btnadd" style="margin-right:3px">
+                <a class="btn btncancel" id="cancel-button">Hủy bỏ</a>
+            </div>
+        </form>
+    </div>
+    <div class="history" style="width:70%">
+        <table id="dtBasicExample" class="table table-hover tm-table-small" style="border-collapse: collapse;">
+            <thead>
+                <tr>
+                    <th class="th-sm" scope="col">Số hóa đơn</th>
+                    <th class="th-sm" scope="col">Ngày tạo</th>
+                    <th class="th-sm" scope="col">Khách hàng</th>
+                    <th class="th-sm" scope="col">Địa chỉ</th>
+                    <th class="th-sm" scope="col">Phí ship</th>
+                    <th class="th-sm" scope="col">Tổng tiền</th>
+
+                </tr>
+            </thead>
+            <tbody>
+                @foreach (var item in ViewBag.TTHD)
+                {
+                <tr>
+                    <td style="text-align: center;">@item.HoaDonId</td>
+                    <td style="text-align: center;">@String.Format("{0:dd/MM/yyyy}", @item.ThoiGianChoXuLy)</td>
+                    <td style="text-align: center;">@item.KhachHang.HoTen</td>
+                    <td style="text-align: center;">@item.SoNha, @item.Quan</td>
+                    <td style="text-align: center;">@item.PhiShip.ChiPhi</td>
+                    <td style="text-align: center;">@item.TongTienThanhToan</td>
+                </tr>
+
+                }
+
+            </tbody>
+        </table>
+    </div>
+</div>
+
+@section Scripts{
+   
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.min.js" integrity="sha384-OgVRvuATP1z7JjHLkuOU7Xw704+h835Lr+6QL9UvYjZE3Ipu6Tp75j7Bh/kR0JKI" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.0/js/bootstrap.bundle.min.js" integrity="sha384-1CmrxMRARb6aLqgBO7yyAxTOQE2AKb9GfXnEo760AUcUmFx3ibVJJAzGytlQcNXd" crossorigin="anonymous"></script>
+    <script src="https://cdn.datatables.net/1.10.21/js/jquery.dataTables.min.js"></script>
+    <script>
+        $(document).ready(function () {
+            $('#dtBasicExample').DataTable();
+            $('.dataTables_length').addClass('bs-select');
+        });
+    </script>
+}

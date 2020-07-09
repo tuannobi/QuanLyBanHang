@@ -5,7 +5,7 @@
 	display: flex;
 	justify-content: space-between;
 
-	margin: 20px 0 30px 0;
+	margin: 20px 0 10px 0;
 	border-bottom: solid 2px black;
 	padding-bottom: 8px;
 }
@@ -54,10 +54,9 @@ tr {
 	border-bottom: solid 1px #C6C6C6;
 }
 
-	tr:nth-child(1) {
-		background-color: black !important;
-		color: white;
-	}
+th {
+	color: #797979!important;
+}
 
 	tr:hover {
 		background-color: #dddddd;
@@ -106,5 +105,38 @@ td li {
 	color: black;
 	background-color: #f5f5f5;
 }
-/* <========== End Content style ==========>*/
+.ngay {
+	
+	background-color: #F5F1F2;
+	border: 1px solid #ccc;
+	margin-bottom: 3%;
+}
+table.dataTable thead .sorting:after,
+table.dataTable thead .sorting:before,
+table.dataTable thead .sorting_asc:after,
+table.dataTable thead .sorting_asc:before,
+table.dataTable thead .sorting_asc_disabled:after,
+table.dataTable thead .sorting_asc_disabled:before,
+table.dataTable thead .sorting_desc:after,
+table.dataTable thead .sorting_desc:before,
+table.dataTable thead .sorting_desc_disabled:after,
+table.dataTable thead .sorting_desc_disabled:before {
+	bottom: .5em;
+}
+
+input[type=search] {
+	border-color: #6c757d59;
+	border-radius: 4px;
+}
+
+table.dataTable thead th, table.dataTable thead td {
+	padding: 10px 18px;
+	border-bottom: 1px solid #1111111f !important;
+}
+select {
+	border-radius: 4px;
+	border-color: #0000002c !important;
+}
+
+	/* <========== End Content style ==========>*/
 

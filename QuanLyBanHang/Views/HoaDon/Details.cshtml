@@ -2,100 +2,154 @@
 
 @{
     ViewData["Title"] = "Details";
-    Layout = "~/Views/Shared/Layout_Admin.cshtml";
+    Layout = "";
     var info = System.Globalization.CultureInfo.GetCultureInfo("vi-VN");
 }
 
-@section Links{
-    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
-}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" type="text/css" href="https://code.jquery.com/jquery-3.2.1.min.js">
+    <title>Quản lý bán hàng</title>
 
-<div class="container">
-    <div class="header-content">
-        <h2>Phiếu bán hàng</h2>
-        <a class="add-user btn" style="color:white">
-            <i class="fa fa-print" aria-hidden="true"></i>&nbsp;
-            In hóa đơn
-        </a>
-    </div>
-    <div class="content-content vertical-menu">
-        @foreach (var item1 in ViewBag.TTHD)
-        {
-            <div class="">
-                <span class="span1">Số hóa đơn: </span>
-                <span class="span2">@item1.HoaDonId</span>
-            </div>
-            <div class="">
-                <span class="span1">Ngày:</span>
-                <span class="span2">@String.Format("{0:dd/MM/yyyy}", @item1.ThoiGianChoXuLy)</span>
-            </div>
-            <div class="">
-                <span class="span1">Khách hàng: </span>
-                <span class="span2">@item1.KhachHang.HoTen</span>
-            </div>
-            <div class="">
-                <span class="span1">Địa chỉ: </span>
-                <span class="span2">@item1.SoNha, @item1.Quan</span>
-            </div>
-            <div class="">
-                <span class="span1">Số điện thoại: </span>
-                <span class="span2">@item1.KhachHang.Sdt</span>
-            </div>
-            <div class="">
-                <span class="span1"> Chi tiết hóa đơn:</span>
-            </div>
-            <br />
+    <!-- Bootstrap -->
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap.min.css">
+    <link rel="stylesheet" type="text/css" href="~/admin/css/bootstrap-theme.css">
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
+    <link rel="stylesheet" href="~/admin/custom/admin_users.css" />
+
+    <link rel="stylesheet" type="text/css" href="~/admin/custom/common.css">
+    <style type="text/css" media="screen">
+        .vertical-menu {
+            width: 100%;
+            height: 600px;
+            overflow-y: auto;
+        
         }
-        <table>
-            <tr>
-                <th>Số thứ tự</th>
-                <th>Tên sản phẩm</th>
-                <th>Số lượng</th>
-                <th>Đơn giá</th>
-                <th>Thành tiền</th>
-                <th>Tiền khuyến mãi</th>
-                <th>Tổng tiền</th>
-            </tr>
-            @{var i = 1; }
-            @foreach (var item in ViewBag.TTSP)
+        .add-user {
+            background-color: black;
+            border-radius: 4px;
+            color: white !important;
+            float: right;
+            height: 32px;
+            text-align: center;
+            padding: 3px 5px;
+            margin-top: 2%;
+            color:white;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="container">
+        <div style="display:flex; justify-content:space-between;">
+            <div>
+                <h2>Shop Beauty</h2>
+                <p>Kí túc xá khu B DHQG TP.Hồ CHí Minh</p>
+            </div>
+            <a id="inhoadonbutton" class="add-user btn" >
+                <i class="fa fa-print" aria-hidden="true"></i>&nbsp;
+                In hóa đơn
+            </a>
+        </div>
+        <h2 style="text-align:center">Phiếu bán hàng</h2>
+
+        <div style="float:right">Ngày tạo:@String.Format("{0:dd/MM/yyyy}", @DateTime.Now)</div>
+        <div class="content-content vertical-menu">
+            @foreach (var item1 in ViewBag.TTHD)
             {
-                var thanhtien = item.TongTien - item.TienKhuyenMai;
-                var dongia = thanhtien / item.SoLuong;
-                <tr>
-                    <td style="text-align: center;">@i</td>
-                    <td style="text-align: center;">@item.SanPham.TenSanPham</td>
-                    <td style="text-align: center;">@item.SoLuong</td>
-                    <td style="text-align: center;">@dongia</td>
-                    <td style="text-align: center;">@item.TongTien</td>
-                    <td style="text-align: center;">@item.TienKhuyenMai</td>
-                    <td style="text-align: center;">@thanhtien</td>
-                </tr>
-                i = i + 1;
+                <div class="">
+                    <span class="span1">Số hóa đơn: </span>
+                    <span id="sohoadon" class="span2">@item1.HoaDonId</span>
+                </div>
+                <div class="">
+                    <span class="span1">Ngày:</span>
+                    <span class="span2">@String.Format("{0:dd/MM/yyyy}", @item1.ThoiGianChoXuLy)</span>
+                </div>
+                <div class="">
+                    <span class="span1">Khách hàng: </span>
+                    <span class="span2">@item1.KhachHang.HoTen</span>
+                </div>
+                <div class="">
+                    <span class="span1">Địa chỉ: </span>
+                    <span class="span2">@item1.SoNha, @item1.Quan</span>
+                </div>
+                <div class="">
+                    <span class="span1">Số điện thoại: </span>
+                    <span class="span2">@item1.KhachHang.Sdt</span>
+                </div>
+                <div class="">
+                    <span class="span1"> Chi tiết hóa đơn:</span>
+                </div>
+                <br />
             }
-            @foreach (var item in ViewBag.TTHD)
-            {
+            <table>
                 <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="2"><center><b>Tổng tiền:</b></center></td>
-                    <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.TongTien)</b></center></td>
+                    <th>Số thứ tự</th>
+                    <th>Tên sản phẩm</th>
+                    <th>Số lượng</th>
+                    <th>Đơn giá</th>
+                    <th>Thành tiền</th>
+                    <th>Tiền khuyến mãi</th>
+                    <th>Tổng tiền</th>
                 </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="2"><center><b>Phí Ship:</b></center></td>
-                    <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.PhiShip.ChiPhi)</b></center></td>
-                </tr>
-                <tr>
-                    <td></td>
-                    <td></td>
-                    <td></td>
-                    <td colspan="2"><center><b>Tổng tiền thanh toán:</b></center></td>
-                    <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.TongTienThanhToan)</b></center></td>
-                </tr>
-            }
-        </table>
+                @{var i = 1; }
+                @foreach (var item in ViewBag.TTSP)
+                {
+                    var thanhtien = item.TongTien - item.TienKhuyenMai;
+                    var dongia = thanhtien / item.SoLuong;
+                    <tr>
+                        <td style="text-align: center;">@i</td>
+                        <td style="text-align: center;">@item.SanPham.TenSanPham</td>
+                        <td style="text-align: center;">@item.SoLuong</td>
+                        <td style="text-align: center;">@dongia</td>
+                        <td style="text-align: center;">@thanhtien</td>
+                        <td style="text-align: center;">@item.TienKhuyenMai</td>
+
+                        <td style="text-align: center;">@item.TongTien</td>
+                    </tr>
+                    i = i + 1;
+                }
+                @foreach (var item in ViewBag.TTHD)
+                {
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2"><center><b>Tổng tiền:</b></center></td>
+                        <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.TongTien)</b></center></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2"><center><b>Phí Ship:</b></center></td>
+                        <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.PhiShip.ChiPhi)</b></center></td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td></td>
+                        <td></td>
+                        <td colspan="2"><center><b>Tổng tiền thanh toán:</b></center></td>
+                        <td colspan="2"><center><b>@String.Format(info, "{0:C0}", item.TongTienThanhToan)</b></center></td>
+                    </tr>
+                }
+            </table>
+        </div>
     </div>
-</div>
+
+    <!-- jQuery (necessary for Bootstrap's JavaScript plugins) -->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/1.12.4/jquery.min.js"></script>
+    <script src="~/admin/js/bootstrap.min.js"></script>
+    <script>
+        $('#inhoadonbutton').on('click', function () {
+            var myobj = document.getElementById("inhoadonbutton");
+            myobj.remove();
+            window.print();
+        })
+    </script>
+</body>
+</html>

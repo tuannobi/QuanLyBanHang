@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Http;
@@ -117,7 +118,47 @@ namespace QuanLyBanHang.Controllers
             return Json("Tất cả những hóa đơn được chọn đã duyệt thành công");
         }
 
+     
+
+        [HttpPost]
+        public IActionResult ThongKeHoaDonTheoThoiGian(DateTime ngayBatDau, DateTime ngayKetThuc)
+        {
+            Console.WriteLine(ngayBatDau);
+            Console.WriteLine(ngayKetThuc);
+            var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau && hd.ThoiGianDaXuLy <= ngayKetThuc).ToList();
+            ViewBag.TTHD = hoaDons;
+            HttpContext.Session.SetString("ngayBatDauSession", JsonConvert.SerializeObject(ngayBatDau));
+            HttpContext.Session.SetString("ngayKetThucSession", JsonConvert.SerializeObject(ngayKetThuc));
+            return View("Index1");
+        }
+
+        public IActionResult InDanhSachHoaDon()
+        {
+            var ngayBatDau = HttpContext.Session.GetString("ngayBatDauSession");
+            var ngayKetThuc = HttpContext.Session.GetString("ngayKetThucSession");
+              if(ngayBatDau==null || ngayKetThuc == null)
+            {
+                var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").ToList();
+                ViewBag.TTHD = hoaDons;
+            }
+            else
+            {
+                DateTime ngayBatDau1 = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayBatDauSession"));
+                DateTime ngayKetThuc1 = JsonConvert.DeserializeObject<DateTime>(HttpContext.Session.GetString("ngayKetThucSession"));
+
+                var hoaDons = _context.HoaDon.Include("KhachHang").Include("PhiShip").Where(hd => hd.ThoiGianDaXuLy >= ngayBatDau1 && hd.ThoiGianDaXuLy <= ngayKetThuc1).ToList();
+                ViewBag.TTHD = hoaDons;
+            }
+            HttpContext.Session.Remove("ngayBatDauSession");
+            HttpContext.Session.Remove("ngayKetThucSession");
+            //
+            return View();
+
+        }
+    
     }
 
-  
+   
+
+
 }

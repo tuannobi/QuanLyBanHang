@@ -45,6 +45,8 @@ namespace QuanLyBanHang
             //
             services.AddSingleton<IEmailConfiguration>(Configuration.GetSection("EmailConfiguration").Get<EmailConfiguration>());
             services.AddTransient<IEmailService, EmailService>();
+            //
+           
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
@@ -77,7 +79,7 @@ namespace QuanLyBanHang
             {
                 endpoints.MapControllerRoute(
                     name: "default",
-                    pattern: "{controller=HomePage}/{action=Index}/{id?}");
+                    pattern: "{controller=Homepage}/{action=Index}/{id?}");
             });
         }
     }
