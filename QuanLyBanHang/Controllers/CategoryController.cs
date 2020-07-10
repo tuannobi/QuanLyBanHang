@@ -103,13 +103,8 @@ namespace QuanLyBanHang.Controllers
                     sanPhams = sanPhams.Where(sp => sp.ThuongHieu == item).ToList();
                 }
             }
-            //var productList = sanPhams.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
-            sanPhams = sanPhams.Where(sp => sp.ThuongHieu == ThuongHieu).ToList();
-            HttpContext.Session.SetString("sanPhamListSession", JsonConvert.SerializeObject(sanPhams));
-            return Json(sanPhams);
-        }
 
-            if (SapXep.Equals("none")==false)
+            if (SapXep.Equals("none") == false)
             {
                 switch (SapXep)
                 {
@@ -131,7 +126,7 @@ namespace QuanLyBanHang.Controllers
 
             }
 
-            if (KhoangGia!=0)
+            if (KhoangGia != 0)
             {
                 switch (KhoangGia)
                 {
@@ -152,7 +147,9 @@ namespace QuanLyBanHang.Controllers
                         break;
                 }
             }
-
+            //var productList = sanPhams.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
+            //sanPhams = sanPhams.Where(sp => sp.ThuongHieu == ThuongHieu).ToList();
+            //HttpContext.Session.SetString("sanPhamListSession", JsonConvert.SerializeObject(sanPhams));
             return Json(sanPhams);
         }
         
