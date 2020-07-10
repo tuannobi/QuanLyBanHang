@@ -11,6 +11,7 @@ using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
 {
+    [ServiceFilter(typeof(AdminLoginFilter))]
     public class PhieuNhapController : Controller
     {
         private readonly QuanLyBanHangDbContext _context;

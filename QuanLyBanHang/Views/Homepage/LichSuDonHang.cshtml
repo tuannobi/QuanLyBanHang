@@ -13,26 +13,28 @@
 <div class="container">
     <div class="infor" style="width:40%">
         <img src="~/client/images/download.jpg" width="80%" />
-        <form>
+        <form action="/Homepage/LichSuDonHang" method="post">
+            <input type="hidden" id="KhachHangId" asp-for="KhachHangId" value="@ViewBag.KhachHang.KhachHangId" />
             <label asp-for="HoTen">Họ và tên</label>
             <input type="text" id="hoten" required="" asp-for="HoTen" value="@ViewBag.KhachHang.HoTen">
 
             <label asp-for="NgaySinh">Ngày sinh</label>
-            <input asp-for="NgaySinh" type="datetime-local" id="ngaysinh" required="" value="@ViewBag.NgaySinh">
+            <input asp-for="NgaySinh" type="datetime-local" id="ngaysinh" required="" value="@ViewBag.KhachHang.NgaySinh">
 
             <label asp-for="Email">Email</label>
-            <input asp-for="Email" type="email" id="email" required="" value="@ViewBag.KhachHang.Email">
+            <input asp-for="Email" id="email" required="" value="@ViewBag.KhachHang.Email">
 
             <label asp-for="Sdt">Số điện thoại</label>
-            <input asp-for="Sdt" type="tel" id="sdt" required="" value="@ViewBag.KhachHang.Sdt" pattern="(\+84|0)\d{9,10}" title="Số điện không hợp lệ">
+            <input asp-for="Sdt"  type="tel" id="sdt" required="" value="@ViewBag.KhachHang.Sdt" pattern="(\+84|0)\d{9,10}" title="Số điện không hợp lệ">
 
             <label asp-for="DiaChi">Địa chỉ</label>
             <input asp-for="DiaChi" type="text" required="" id="diachi" value="@ViewBag.KhachHang.DiaChi">
             <label asp-for="TaiKhoan.Username">Tên đăng nhập</label>
-            <input asp-for="TaiKhoan.Username" type="text" id="username" required="" value="@ViewBag.TaiKhoan.Username" readonly>
+            <input asp-for="TaiKhoan.Username" type="text" id="username" required="" value="@ViewBag.KhachHang.TaiKhoan.Username" readonly>
 
             <label asp-for="TaiKhoan.Password">Mật khẩu</label>
-            <input asp-for="TaiKhoan.Password" type="password" id="matkhau" required="" value="@ViewBag.TaiKhoan.Password">
+            <input asp-for="TaiKhoan.Password" type="password" id="matkhau" required="" value="@ViewBag.KhachHang.TaiKhoan.Password">
+
             <div class="row add_cancel" style="float: right;">
                 <input type="submit" value="Cập nhật" id="btnadd" style="margin-right:3px">
                 <a class="btn btncancel" id="cancel-button">Hủy bỏ</a>

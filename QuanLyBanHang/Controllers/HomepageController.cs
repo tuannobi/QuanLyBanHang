@@ -78,5 +78,31 @@ namespace QuanLyBanHang.Controllers
             ViewBag.ThuongHieuList = ThuongHieuList;
             return View("/Views/Category/Index.cshtml");
         }
+
+        [ServiceFilter(typeof(ClientFilter))]
+        public IActionResult LichSuDonHang()
+        {
+            TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            KhachHang khachHang = context.KhachHang.Include("TaiKhoan").Where(kh => kh.TaiKhoan.Username == taiKhoanSession.Username).FirstOrDefault();
+            List<HoaDon> hoaDons = context.HoaDon.Include("PhiShip").Where(hd=>hd.TrangThai=="Đã xử lý" && hd.KhachHangId==7).ToList();
+            ViewBag.KhachHang = khachHang;
+            ViewBag.TTHD = hoaDons;
+            return View();
+        }
+        [HttpPost]
+        public IActionResult LichSuDonHang(KhachHang khachHang)
+        {
+            //TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));
+            //KhachHang khachHangTemp = context.KhachHang.Include("TaiKhoan").Where(kh => kh.TaiKhoan.Username == taiKhoanSession.Username).FirstOrDefault();
+            //khachHang.TaiKhoanId = khachHangTemp.TaiKhoan.TaiKhoanId;
+            KhachHang khach = context.KhachHang.Include("TaiKhoan").Where(kh => kh.KhachHangId == khachHang.KhachHangId).FirstOrDefault();
+            khach.HoTen = khachHang.HoTen;
+            khach.Sdt = khachHang.Sdt;
+            khach.DiaChi = khachHang.DiaChi;
+            khach.NgaySinh = khachHang.NgaySinh;
+            khach.TaiKhoan.Password = khachHang.TaiKhoan.Password;
+            context.SaveChanges();
+            return Redirect("/Homepage");
+        }
     }
 }

@@ -44,7 +44,7 @@ namespace QuanLyBanHang
             }
             else
             {
-                context.Result = new RedirectResult("/Prohibit");
+                context.Result = new RedirectResult("/Login");
 
             }
             

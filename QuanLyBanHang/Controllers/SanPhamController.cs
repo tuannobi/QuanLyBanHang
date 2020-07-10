@@ -14,6 +14,7 @@ using Newtonsoft.Json;
 
 namespace QuanLyBanHang.Controllers
 {
+    [ServiceFilter(typeof(AdminLoginFilter))]
     public class SanPhamController : Controller
     {
         private readonly QuanLyBanHangDbContext _context;

@@ -12,6 +12,7 @@ using QuanLyBanHang.Models;
 
 namespace QuanLyBanHang.Controllers
 {
+    [ServiceFilter(typeof(AdminLoginFilter))]
     public class HoaDonController : Controller
     {
         private readonly QuanLyBanHangDbContext _context;
@@ -42,7 +43,7 @@ namespace QuanLyBanHang.Controllers
             return View();
         }
 
-        [ServiceFilter(typeof(AdminFilter))]
+
         public IActionResult Index1()
         {
             TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(HttpContext.Session.GetString("sessionUser"));

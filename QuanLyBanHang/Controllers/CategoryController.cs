@@ -62,6 +62,7 @@ namespace QuanLyBanHang.Controllers
             return View("Index");
         }
 
+
         public IActionResult NhomLoai(int? id)
         {
             //Tạo session list sản phẩm
@@ -91,13 +92,16 @@ namespace QuanLyBanHang.Controllers
 
     }
 
-        public IActionResult FilterThuongHieu(string ThuongHieu)
+        [HttpPost]
+        public IActionResult Filter(List<string> ThuongHieuList, string SapXep, int KhoangGia)
         {
-            var sanPhamListSession = HttpContext.Session.GetString("sanPhamListSession");
-            List<SanPham> sanPhams = null;
-            if (sanPhamListSession != null)
+            List<SanPham> sanPhams = JsonConvert.DeserializeObject<List<SanPham>>(HttpContext.Session.GetString("sanPhamListSession"));
+            if (ThuongHieuList.Count > 0)
             {
-                sanPhams = JsonConvert.DeserializeObject<List<SanPham>>(sanPhamListSession);
+                foreach (string item in ThuongHieuList.ToList())
+                {
+                    sanPhams = sanPhams.Where(sp => sp.ThuongHieu == item).ToList();
+                }
             }
             //var productList = sanPhams.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
             sanPhams = sanPhams.Where(sp => sp.ThuongHieu == ThuongHieu).ToList();
@@ -105,17 +109,10 @@ namespace QuanLyBanHang.Controllers
             return Json(sanPhams);
         }
 
-        public IActionResult FilterThuTu(string SapXep)
-        {
-            var sanPhamListSession = HttpContext.Session.GetString("sanPhamListSession");
-            List<SanPham> sanPhams = null;
-            if (sanPhamListSession != null)
+            if (SapXep.Equals("none")==false)
             {
-                sanPhams = JsonConvert.DeserializeObject<List<SanPham>>(sanPhamListSession);
-            }
-            if (SapXep != null)
-            {
-                switch (SapXep){
+                switch (SapXep)
+                {
                     case "default-0":
                         break;
                     case "price-asc":
@@ -131,41 +128,34 @@ namespace QuanLyBanHang.Controllers
                         sanPhams = sanPhams.OrderByDescending(sp => sp.TenSanPham).ToList();
                         break;
                 }
-            }
-            HttpContext.Session.SetString("sanPhamListSession", JsonConvert.SerializeObject(sanPhams));
-            return Json(sanPhams);
-        }
 
-        public IActionResult FilterPrice(int MucGia)
-        {
-            var sanPhamListSession = HttpContext.Session.GetString("sanPhamListSession");
-            List<SanPham> sanPhams = null;
-            if (sanPhamListSession != null)
-            {
-                sanPhams = JsonConvert.DeserializeObject<List<SanPham>>(sanPhamListSession);
             }
-            //
-            switch (MucGia)
+
+            if (KhoangGia!=0)
             {
-                case 1:
-                    sanPhams = sanPhams.Where(sp => sp.GiaBanLe<100000).ToList();
-                    break;
-                case 2:
-                    sanPhams = sanPhams.Where(sp => sp.GiaBanLe >= 100000 && sp.GiaBanLe<300000).ToList();
-                    break;
-                case 3:
-                    sanPhams = sanPhams.Where(sp => sp.GiaBanLe >= 300000 && sp.GiaBanLe < 500000).ToList();
-                    break;
-                case 4:
-                    sanPhams = sanPhams.Where(sp => sp.GiaBanLe >= 500000 && sp.GiaBanLe < 1000000).ToList();
-                    break;
-                case 5:
-                    sanPhams = sanPhams.Where(sp => sp.GiaBanLe >=1000000).ToList();
-                    break;
+                switch (KhoangGia)
+                {
+                    case 1:
+                        sanPhams = sanPhams.Where(sp => sp.GiaBanLe < 100000).ToList();
+                        break;
+                    case 2:
+                        sanPhams = sanPhams.Where(sp => sp.GiaBanLe >= 100000 && sp.GiaBanLe < 300000).ToList();
+                        break;
+                    case 3:
+                        sanPhams = sanPhams.Where(sp => sp.GiaBanLe >= 300000 && sp.GiaBanLe < 500000).ToList();
+                        break;
+                    case 4:
+                        sanPhams = sanPhams.Where(sp => sp.GiaBanLe >= 500000 && sp.GiaBanLe < 1000000).ToList();
+                        break;
+                    case 5:
+                        sanPhams = sanPhams.Where(sp => sp.GiaBanLe >= 1000000).ToList();
+                        break;
+                }
             }
-            HttpContext.Session.SetString("sanPhamListSession", JsonConvert.SerializeObject(sanPhams));
+
             return Json(sanPhams);
         }
+        
 
     }
 }

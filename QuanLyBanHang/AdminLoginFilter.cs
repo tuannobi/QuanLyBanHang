@@ -12,11 +12,11 @@ using System.Threading.Tasks;
 //Kiểm tra đúng là tài khoản của admin và không phải client thì được vào
 namespace QuanLyBanHang
 {
-    public class EmployeeFilter : IActionFilter
+    public class AdminLoginFilter : IActionFilter
     {
         private readonly QuanLyBanHangDbContext _context;
 
-        public EmployeeFilter(QuanLyBanHangDbContext context)
+        public AdminLoginFilter(QuanLyBanHangDbContext context)
         {
             _context = context;
         }
@@ -31,20 +31,11 @@ namespace QuanLyBanHang
             var sessionUser = context.HttpContext.Session.GetString("sessionUser");
             if (sessionUser != null)
             {
-                TaiKhoan taiKhoanSession = JsonConvert.DeserializeObject<TaiKhoan>(context.HttpContext.Session.GetString("sessionUser"));
-                TaiKhoan taiKhoan = _context.TaiKhoan.Include("VaiTro").Where(tk=>tk.Username==taiKhoanSession.Username).FirstOrDefault();
-                if (taiKhoan.VaiTro.VaiTroId == 2)
-                {
-                   
-                }
-                else
-                {
-                    context.Result = new RedirectResult("/Prohibit");
-                }
+                
             }
             else
             {
-                context.Result = new RedirectResult("/Prohibit");
+                context.Result = new RedirectResult("/Login");
 
             }
             
