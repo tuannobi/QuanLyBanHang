@@ -21,6 +21,7 @@ namespace QuanLyBanHang.Controllers
         public IActionResult Index(int? id)
         {
             //Tạo session list sản phẩm
+            //var productList = context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoaiId == id && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("PhanLoai").Include("ChiTietKhuyenMai").Where(sp => sp.PhanLoai.PhanLoaiId == id && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
             List<SanPham> sanPhams = context.SanPham.Where(sp => sp.PhanLoaiId == id).ToList();
             HttpContext.Session.SetString("sanPhamListSession", JsonConvert.SerializeObject(sanPhams));
             //
@@ -65,7 +66,7 @@ namespace QuanLyBanHang.Controllers
         public IActionResult NhomLoai(int? id)
         {
             //Tạo session list sản phẩm
-            Console.WriteLine(id);
+            //Console.WriteLine(id);
             List<SanPham> sanPhams = null;
             switch (id)
             {
@@ -102,6 +103,11 @@ namespace QuanLyBanHang.Controllers
                     sanPhams = sanPhams.Where(sp => sp.ThuongHieu == item).ToList();
                 }
             }
+            //var productList = sanPhams.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.All(km => km.KhuyenMai.NgayBatDau <= DateTime.Now && km.KhuyenMai.NgayKetThuc >= DateTime.Now)).Union(context.SanPham.Include("ChiTietKhuyenMai").Where(sp => sp.ThuongHieu == ThuongHieu && sp.ChiTietKhuyenMai.Any(km => km.KhuyenMai.NgayBatDau >= DateTime.Now || km.KhuyenMai.NgayKetThuc <= DateTime.Now)));
+            sanPhams = sanPhams.Where(sp => sp.ThuongHieu == ThuongHieu).ToList();
+            HttpContext.Session.SetString("sanPhamListSession", JsonConvert.SerializeObject(sanPhams));
+            return Json(sanPhams);
+        }
 
             if (SapXep.Equals("none")==false)
             {
