@@ -58,8 +58,8 @@
                         <div class="text-right col-xs-4">
                             <p>Sắp xếp theo: </p>
                             <select class="form-control sort" id='sapxep'>
-                                <option value="" selected disabled hidden>Select</option>
-                                <option value="default-0">Mặc định</option>
+                                @*<option value="" selected disabled hidden>Select</option>*@
+                                <option value="default-0" selected>Mặc định</option>
                                 <option value="price-asc">Giá tăng dần</option>
                                 <option value="price-desc">Giá giảm dần</option>
                                 <option value="name-asc">Từ A-Z</option>
@@ -90,7 +90,18 @@
                                             <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>
                                             <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>
                                         </div>
-                                        <div class="sale-flash">-<?=$sale?>%</div>
+                                        @{var i = 1; }
+                                        @foreach (var obj in item.ChiTietKhuyenMai)
+                                        {
+                                            if (i < 2)
+                                            {
+                                                var pt = obj.PhanTramGiam * 100;
+
+                                                <div class="sale-flash">-@pt%</div>
+                                            }
+                                            i = i + 1;
+
+                                        }
                                     </div>
                                     <div class="product-desc">
                                         <div class="product-title">
@@ -131,11 +142,15 @@
                                     <li class="product-filter-item product-filter-item--check-box ">
                                         @foreach (var i in ViewBag.ThuongHieuList)
                                         {
-                                        <div class="thuonghieu">
-                                            <input type="checkbox" value="@i" name="ThuongHieuCheckbox" class="ThuongHieuCheckbox"/>
-                                            <label for="@i">@i</label>
 
-                                        </div>
+                                            if (i != null)
+                                            {
+                                                <div class="thuonghieu">
+                                                    <input type="checkbox" value="@i" name="ThuongHieuCheckbox" class="ThuongHieuCheckbox" />
+                                                    <label for="@i">@i</label>
+
+                                                </div>
+                                            }
                                         }
                                     </li>
 
@@ -242,8 +257,7 @@
                                                 <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>\
                                                 <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>\
                                             </div>\
-                                            <div class="sale-flash"></div>\
-                                        </div>\
+                                            </div>\
                                         <div class="product-desc">\
                                             <div class="product-title">\
                                                 <h3>\
@@ -288,8 +302,7 @@
                                                 <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>\
                                                 <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>\
                                             </div>\
-                                            <div class="sale-flash"></div>\
-                                        </div>\
+                                            </div>\
                                         <div class="product-desc">\
                                             <div class="product-title">\
                                                 <h3>\
@@ -334,8 +347,7 @@
                                                 <a href="" title="Lựa chọn" class="btn-shopping-cart"><i class="fa fa-shopping-cart"></i></a>\
                                                 <a href="" itemprop="<?=$image_id?>" title="Xem nhanh" class="btn-quicklook"><i class="fa fa-eye"></i></a>\
                                             </div>\
-                                            <div class="sale-flash"></div>\
-                                        </div>\
+                                           </div>\
                                         <div class="product-desc">\
                                             <div class="product-title">\
                                                 <h3>\
